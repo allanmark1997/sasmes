@@ -7,9 +7,12 @@ const props = defineProps([
   "search",
   "office_id",
   "unit_id",
+  "role",
+  "office",
+  "service",
   "category",
-  "date_from",
-  "date_to",
+  "from",
+  "to",
   "filter",
 ]);
 
@@ -37,6 +40,24 @@ const unit_url = computed(() =>
     : ""
 );
 
+const role_url = computed(() =>
+  props.role != "" && props.role != undefined
+    ? "&role=" + props.role
+    : ""
+);
+
+const office_url2 = computed(() =>
+  props.office != "" && props.office != undefined
+    ? "&office=" + props.office
+    : ""
+);
+
+const service_url = computed(() =>
+  props.service != "" && props.service != undefined
+    ? "&service=" + props.service
+    : ""
+);
+
 const category_url = computed(() =>
   props.category != "" && props.category != undefined
     ? "&category=" + props.category
@@ -44,11 +65,11 @@ const category_url = computed(() =>
 );
 
 const delivery_url = computed(() =>
-  props.date_from != "" &&
-  props.date_from != undefined &&
-  props.date_to != "" &&
-  props.date_to != undefined
-    ? "&date_from=" + props.date_from + "&date_to=" + props.date_to
+  props.from != "" &&
+  props.from != undefined &&
+  props.to != "" &&
+  props.to != undefined
+    ? "&from=" + props.from + "&to=" + props.to
     : ""
 );
 
@@ -72,7 +93,7 @@ onMounted(() => {});
           'bg-orange-400': link.active,
           'ml-auto': links.length === key + 1,
         }"
-        :href="link.url + search_url + category_url + delivery_url + filter_url + office_url + unit_url"
+        :href="link.url + search_url + category_url + delivery_url + filter_url + office_url + unit_url + role_url + office_url2 + service_url"
       >
         <span v-html="link.label"></span>
       </Link>
