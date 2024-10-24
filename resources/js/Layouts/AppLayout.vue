@@ -7,6 +7,8 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
+import Icon from "@/CustomComponents/Icon.vue"
+
 
 defineProps({
     title: String,
@@ -59,7 +61,7 @@ const logout = () => {
                         </li>
                         <li>
                             <a :href="route('office.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('office.index') || route().current('unit.index') ? 'bg-[#f9b418]' : ''">
+                                :class="route().current('office.index') || route().current('unit.index') || route().current('unit_service.index') ? 'bg-[#f9b418]' : ''">
                                 <svg fill="#FFFFFF" class="w-5 h-5 text-white transition duration-75"
                                     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                     <path
@@ -87,6 +89,22 @@ const logout = () => {
 	l13.81-15.73l39.1,34.41l-13.81,15.73l-15.63-13.78l-9.83,11.62L136.06,206.81z" />
                                 </svg>
                                 <span class="ms-3">Services Management</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a :href="route('client.index')" class="flex items-center p-2 text-white rounded-lg group"
+                                :class="route().current('client.index') ? 'bg-[#f9b418]' : ''">
+                                <Icon icon="user" />
+                                <span class="ms-3">Client Management</span>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a :href="route('record.index')" class="flex items-center p-2 text-white rounded-lg group"
+                                :class="route().current('record.index') ? 'bg-[#f9b418]' : ''">
+                                <Icon icon="docs" />
+                                <span class="ms-3">Client Records</span>
                             </a>
                         </li>
                     </ul>

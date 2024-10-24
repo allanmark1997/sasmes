@@ -71,7 +71,7 @@ const get_class = () => {
       :size="props.config?.maxlength"
       :type="type"
       :class="get_class().input"
-      class="block px-2 w-full text-gray-900 rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-yellow-500 peer"
+      class="block px-2 w-full text-gray-500 rounded-lg border-1 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-yellow-500 peer"
       placeholder=" "
       :value="modelValue"
       @input="updateValue"

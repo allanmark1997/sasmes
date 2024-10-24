@@ -4,15 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\ClientRecords;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ClientRecordsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $search = $request->search ?? '';
+        $records = ClientRecords::with("client")->has("client")->with("office")->has("office")->with("service")->has("service")->orderBy("created_at", "desc")->paginate(8);
+        return Inertia::render('ClientRecord/Index', [
+            "client_record" => $records,
+            "search" => $search,
+        ]);
     }
 
     /**

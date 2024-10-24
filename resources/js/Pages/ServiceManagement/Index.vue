@@ -100,7 +100,7 @@ const search_remove = () => {
 }
 </script>
 <template>
-    <AppLayout title="services">
+    <AppLayout title="Services">
         <template #header>
             <h2 class="font-semibold text-lg text-white leading-tight">
                 Services

@@ -1,27 +1,22 @@
 <script setup>
-import AppLayout from '@/Layouts/AppLayout.vue';
-import ServiceLists from '@/Pages/UnitServices/ServiceLists.vue';
+import Icon from "@/CustomComponents/Icon.vue"
+import default_image from "@/CustomComponents/images/sasmes_logo.png"
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import JetDialogModal from "@/Components/DialogModal.vue";
 import SecondaryButton from "@/Components/SecondaryButton.vue";
 import Input from "@/CustomComponents/Input.vue";
 import JetInputError from "@/Components/InputError.vue";
-import Icon from "@/CustomComponents/Icon.vue"
-
-import { Head, Link, useForm, router } from '@inertiajs/vue3';
+import ConfirmDialogModal from "@/Components/ConfirmationModal.vue";
+import Pagination from "@/CustomComponents/Pagination2.vue";
+import { Head, Link, useForm } from '@inertiajs/vue3';
 import { onMounted, ref } from "vue";
 
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
+import moment from 'moment';
 
-const props = defineProps(["unit_services", "unit", "search", "office_id", "office", "services", "unit_id", "service", "clients"])
-const form = useForm({
-    office_id: props.office_id,
-    unit_id: props.unit_id,
-    selected: []
-})
-
-const form_register = useForm({
+const props = defineProps(["clients", "search"])
+const form_update = useForm({
     name: null,
     sex: null,
     birthday: null,
@@ -29,58 +24,46 @@ const form_register = useForm({
     type: null,
     role: null,
     photo: [],
-    id_photo: []
+    id_photo: [],
+    client: null
 })
 
-const add_modal = ref(false);
-const register_modal = ref(false);
+const update_modal = ref(false);
+const details_modal = ref(false);
 const client_photo_error = ref("");
 const id_photo_error = ref("");
 const post_image = ref([]);
 const post_image_id = ref([]);
 
-const search = ref(props.search);
-
-const open_modal = () => {
-    form.reset()
-    add_modal.value = !add_modal.value
-}
-
-const open_register_modal = () => {
-    form_register.reset()
+const open_update_modal = (client) => {
+    form_update.reset()
     post_image.value = []
     post_image_id.value = []
-    register_modal.value = !register_modal.value
+
+    form_update.client = client
+    form_update.name = client.name
+    form_update.sex = client.sex
+    form_update.birthday = client.birthday
+    form_update.address = client.address
+    form_update.type = client.type
+    form_update.role = client.role
+    post_image.value.push(client.photo)
+    post_image_id.value.push(client.id_photo)
+    update_modal.value = !update_modal.value
 }
 
-const add_unit_service = () => {
-    form.post(route("unit_service.store"), {
+const update_client = () => {
+    form_update.post(route("client.update", { client: form_update.client }), {
         preserveScroll: true,
         onSuccess: () => {
-            form.reset();
-            toast.success("Service has been successfully added!", {
+            form_update.reset();
+            toast.success("Client has been successfully updated!", {
                 autoClose: 1000,
                 transition: toast.TRANSITIONS.FLIP,
                 position: toast.POSITION.TOP_RIGHT,
             });
-            form.reset()
-            add_modal.value = !add_modal.value
-        }
-    });
-}
-
-const register_client = () => {
-    form_register.post(route("client.store"), {
-        preserveScroll: true,
-        onSuccess: () => {
-            form_register.reset();
-            toast.success("Client has been successfully registered!", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-            form_register.reset()
-            register_modal.value = !register_modal.value
+            form_update.reset()
+            update_modal.value = !update_modal.value
         }
     });
 }
@@ -92,7 +75,7 @@ const openFile = () => {
     hidden.onchange = (e) => {
         for (let index = 0; index < e.target.files.length; index++) {
             post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_register.photo = e.target.files[0];
+            form_update.photo = e.target.files[0];
         }
     };
 };
@@ -107,14 +90,14 @@ const dragFile = (e) => {
         for (const file of e.dataTransfer.files) {
             var objectURL = URL.createObjectURL(file);
             post_image.value.push(objectURL);
-            form_register.photo = file;
+            form_update.photo = file;
         }
     }
 };
 
 const remove_image = (key) => {
     post_image.value.splice(key, 1);
-    form_register.photo = null;
+    form_update.photo = null;
     toast.warn("Image remove", {
         autoClose: 1000,
         transition: toast.TRANSITIONS.FLIP,
@@ -129,7 +112,7 @@ const openFileId = () => {
     hidden.onchange = (e) => {
         for (let index = 0; index < e.target.files.length; index++) {
             post_image_id.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_register.id_photo = e.target.files[0];
+            form_update.id_photo = e.target.files[0];
         }
     };
 };
@@ -144,14 +127,14 @@ const dragFileId = (e) => {
         for (const file of e.dataTransfer.files) {
             var objectURL = URL.createObjectURL(file);
             post_image_id.value.push(objectURL);
-            form_register.id_photo = file;
+            form_update.id_photo = file;
         }
     }
 };
 
 const remove_imageId = (key) => {
     post_image_id.value.splice(key, 1);
-    form_register.id_photo = null;
+    form_update.id_photo = null;
     toast.warn("Image remove", {
         autoClose: 1000,
         transition: toast.TRANSITIONS.FLIP,
@@ -159,93 +142,58 @@ const remove_imageId = (key) => {
     });
 };
 
-const search_ = () => {
-    router.get(
-        route("unit_service.index", { search: search.value, office_id: props.office.id, unit_id: props.unit_id })
-    );
-};
+const open_modal_details = (client) => {
+    form_update.client = client
+    details_modal.value = !details_modal.value
+}
 
-const search_remove = () => {
-    search.value = "";
-    router.get(
-        route("unit_service.index", { search: search.value, office_id: props.office.id, unit_id: props.unit_id })
-    );
+const date = (date) => {
+    return moment(date).format('MMMM Do YYYY');
 }
 </script>
+
 <template>
-    <AppLayout title="Services">
-        <template #header>
-            <h2 class="font-semibold text-lg text-white leading-tight">
-                <a class="hover:underline" :href="route('office.index')">Offices</a> > <a class="hover:underline"
-                    :href="route('unit.index', { office_id: props.office.id })">{{ props.office.name }} </a> > {{
-                    props.unit.name }} > Services
-            </h2>
-        </template>
+    <div v-if="clients.data.length == 0">
+        <p class="text-center font-bold text-[5vmin] mt-12">
+            No Clients!
+        </p>
+    </div>
+    <div class="grid grid-cols-12 gap-2">
+        <template v-for="(client, key) in clients.data" :key="key">
+            <div class="col-span-3">
+                <div
+                    class="w-full h-[40vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
+                        <button @click="open_modal_details(client)" class="bg-green-500 rounded-md p-1 mr-1">
+                            <Icon icon="docs" />
+                        </button>
+                        <button @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
+                            <Icon icon="pencil" />
+                        </button>
 
-        <div class="py-4">
-            <div class="flex justify-between">
-                <div class="flex gap-2 ml-8">
-                    <Input v-model="search" class="rounded-lg mb-2 w-[30vmin]" type="text" label="Search Service"
-                        @keyup.enter="search_" />
-                    <button v-if="search" class="h-10 my-auto mt-5" @click="search_remove">
-                        <Icon icon="close_icon" size="sm" />
-                    </button>
-                </div>
-                <div>
-                    <PrimaryButton @click="open_modal()" class=" mb-2 mr-2 h-10 mt-5">
-                        Add Service
-                    </PrimaryButton>
-                    <PrimaryButton @click="open_register_modal()" class=" mb-2 mr-12 h-10 mt-5">
-                        Register Client
-                    </PrimaryButton>
-                </div>
-            </div>
-
-            <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                    <ServiceLists :unit_services="props.unit_services" :search="props.search"
-                        :office_id="props.office_id" :unit_id="props.unit_id" :clients="props.clients" />
-                </div>
-            </div>
-        </div>
-    </AppLayout>
-
-    <JetDialogModal :show="add_modal" @close="add_modal = false" maxWidth="2xl">
-        <template #title>Add Service here!</template>
-        <template #content>
-            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[20vmin] overflow-y-auto">
-                <template v-for="(service, key) in props.services" :key="key">
-                    <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
-                        <input id="bordered-checkbox-1" type="checkbox" :value="service.id" v-model="form.selected"
-                            name="bordered-checkbox"
-                            class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
-                        <label for="bordered-checkbox-1" class="w-full py-1 ms-2 text-sm font-medium text-gray-700">
-                            {{ service.name }}
-                        </label>
                     </div>
-                </template>
-            </div>
-            <div>
-                <JetInputError :message="form.errors.services" class="mt-2" />
+                    <img class="object-obtain p-8 h-[30vmin] w-[30vmin] mx-auto rounded-full" :src="client.photo"
+                        :onerror="`this.src='${default_image}'`" alt="Client image" />
+                    <div class="px-5 pb-5">
+                        <div>
+                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 text-center">{{ client.name }}
+                            </h5>
+                            <small>{{ client.abbrevation }}</small>
+                        </div>
+                    </div>
+                </div>
             </div>
         </template>
-        <template #footer>
-            <SecondaryButton @click="add_modal = false" class="mr-2 hover:bg-red-500">
-                Cancel
-            </SecondaryButton>
-            <PrimaryButton :class="{ 'opacity-25': form.processing }" :disabled="form.processing"
-                class="hover:bg-green-300" @click="add_unit_service">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                </svg>&nbsp;Submit
-            </PrimaryButton>
-        </template>
-    </JetDialogModal>
+    </div>
+    <div class="flex items-center justify-between bottom-1 fixed">
+        <Pagination :links="props.clients.links" :search="props.search" />
+        <p class="mt-6 text-sm text-gray-500">
+            Showing {{ clients.data.length }} Clients
+        </p>
+    </div>
 
-    <JetDialogModal :show="register_modal" @close="register_modal = false" maxWidth="2xl">
-        <template #title>Register New Client here!</template>
+    <JetDialogModal :show="update_modal" @close="update_modal = false" maxWidth="2xl">
+        <template #title>Update Client here!</template>
         <template #content>
             <div class="grid grid-cols-12 gap-2">
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
@@ -286,34 +234,34 @@ const search_remove = () => {
                             class="hidden" />
                     </label>
                 </div>
-                <JetInputError :message="form_register.errors.photo || client_photo_error" class="mt-2 col-span-full" />
+                <JetInputError :message="form_update.errors.photo || client_photo_error" class="mt-2 col-span-full" />
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Client Name" v-model="form_register.name" />
-                <JetInputError :message="form_register.errors.name" class="mt-2" />
+                <Input type="text" label="Client Name" v-model="form_update.name" />
+                <JetInputError :message="form_update.errors.name" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <select
                     class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                    v-model="form_register.sex">
+                    v-model="form_update.sex">
                     <option :value=null disabled>Select Client Sex</option>
                     <option value="male">Male</option>
                     <option value="female">Female</option>
                 </select>
-                <JetInputError :message="form_register.errors.sex" class="mt-2" />
+                <JetInputError :message="form_update.errors.sex" class="mt-2" />
             </div>
             <div class="col-span-full">
-                <Input type="date" label="Client Birthday" v-model="form_register.birthday" />
-                <JetInputError :message="form_register.errors.birthday" class="mt-2" />
+                <Input type="date" label="Client Birthday" v-model="form_update.birthday" />
+                <JetInputError :message="form_update.errors.birthday" class="mt-2" />
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Client Address" v-model="form_register.address" />
-                <JetInputError :message="form_register.errors.address" class="mt-2" />
+                <Input type="text" label="Client Address" v-model="form_update.address" />
+                <JetInputError :message="form_update.errors.address" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <select
                     class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                    v-model="form_register.role">
+                    v-model="form_update.role">
                     <option :value=null disabled>Select Client Role</option>
                     <option value="student">Student</option>
                     <option value="employee">Employee</option>
@@ -321,18 +269,18 @@ const search_remove = () => {
                     <option value="guardian">Guardian</option>
                     <option value="others">Others</option>
                 </select>
-                <JetInputError :message="form_register.errors.role" class="mt-2" />
+                <JetInputError :message="form_update.errors.role" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <select
                     class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                    v-model="form_register.type">
+                    v-model="form_update.type">
                     <option :value=null disabled>Select Client Type</option>
                     <option value="citizen">Citizen</option>
                     <option value="business">Business</option>
                     <option value="government">Government</option>
                 </select>
-                <JetInputError :message="form_register.errors.role" class="mt-2" />
+                <JetInputError :message="form_update.errors.role" class="mt-2" />
             </div>
             <div class="grid grid-cols-12 gap-2 mt-2">
                 <div v-if="post_image_id.length != 0" class="col-span-12 mx-auto">
@@ -371,22 +319,68 @@ const search_remove = () => {
                         </div>
                         <input id="id_photo" type="file" accept="image/png, image/gif, image/jpeg" class="hidden" />
                     </label>
-                    <JetInputError :message="form_register.errors.id_photo || id_photo_error" class="mt-2" />
+                    <JetInputError :message="form_update.errors.id_photo || id_photo_error" class="mt-2" />
                 </div>
             </div>
         </template>
         <template #footer>
-            <SecondaryButton @click="register_modal = false" class="mr-2 hover:bg-red-500">
+            <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">
                 Cancel
             </SecondaryButton>
-            <PrimaryButton :class="{ 'opacity-25': form_register.processing }" :disabled="form_register.processing"
-                class="hover:bg-green-300" @click="register_client">
+            <PrimaryButton :class="{ 'opacity-25': form_update.processing }" :disabled="form_update.processing"
+                class="hover:bg-green-300" @click="update_client">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-                </svg>&nbsp;Register
+                </svg>&nbsp;Update
             </PrimaryButton>
+        </template>
+    </JetDialogModal>
+
+    <JetDialogModal :show="details_modal" @close="details_modal = false" maxWidth="2xl">
+        <template #title>Client's details of ({{ form_update.client?.name }})</template>
+        <template #content>
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-12">
+                    <div class="flex-shrink-0">
+                        <img class="w-[40vmin] h-[30vmin] rounded-lg mx-auto object-scale-down"
+                            :src="form_update.client?.id_photo" />
+                    </div>
+                </div>
+            </div>
+            <div class="grid grid-cols-12 gap-1 mt-4">
+                <div class="col-span-6 flex text-left">
+                    <Icon icon="birthday" /><span class="text-sm text-gray-500">{{
+        date(form_update.client?.birthday) }}</span>
+                </div>
+                <div class="col-span-6 flex  text-left">
+                    <Icon icon="sex" /><span class="text-sm text-gray-500 uppercase">{{
+        form_update.client?.sex }}</span>
+                </div>
+                <div class="col-span-6 flex text-left">
+                    <Icon icon="location" /><span class="text-sm text-gray-500">{{
+        form_update.client?.address
+    }}</span>
+                </div>
+                <div class="col-span-6 flex text-left">
+                    <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
+            form_update.client?.type }}</span>
+                </div>
+                <div class="col-span-6 flex text-left">
+                    <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
+        form_update.client?.role }}</span>
+                </div>
+                <div class="col-span-6 flex text-left">
+                    <Icon icon="calendar" /><span class="text-sm text-gray-500 uppercase">{{ date(
+                        form_update.client?.created_at) }}</span>
+                </div>
+            </div>
+        </template>
+        <template #footer>
+            <SecondaryButton @click="details_modal = false" class="mr-2 hover:bg-red-500">
+                Close
+            </SecondaryButton>
         </template>
     </JetDialogModal>
 </template>
