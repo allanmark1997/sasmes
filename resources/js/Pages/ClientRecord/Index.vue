@@ -14,19 +14,29 @@ import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["client_record", "search"])
+const props = defineProps(["client_record", "offices", "services", "search", "role", "office", "service", "from", "to"])
 const search = ref(props.search);
+const role = ref(props.role);
+const office = ref(props.office);
+const service = ref(props.service);
+const from = ref(props.from);
+const to = ref(props.to);
 
 const search_ = () => {
     router.get(
-        route("record.index", { search: search.value })
+        route("record.index", { search: search.value, role: role.value, office:office.value, service:service.value, from:from.value, to:to.value })
     );
 };
 
 const search_remove = () => {
     search.value = "";
+    role.value = "";
+    office.value = "";
+    service.value = "";
+    from.value = "";
+    to.value = "";
     router.get(
-        route("record.index", { search: search.value })
+        route("record.index", { search: search.value, role: role.value, office:office.value, service:service.value, from:from.value, to:to.value })
     );
 }
 </script>
@@ -41,9 +51,44 @@ const search_remove = () => {
         <div class="py-4">
             <div class="flex justify-between">
                 <div class="flex gap-2 ml-8">
-                    <Input v-model="search" class="rounded-lg mb-2 w-[30vmin]" type="text" label="Search Office"
+                    <div>
+                        <select v-model="role" @change="search_"
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            <option value="" disabled>Select Client Role</option>
+                            <option value="student">Student</option>
+                            <option value="employee">Employee</option>
+                            <option value="alumni">Alumni</option>
+                            <option value="guardian">Guardian</option>
+                            <option value="others">Others</option>
+                        </select>
+                    </div>
+                    <div>
+                        <select v-model="office" @change="search_"
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            <option value="" disabled>Select Office</option>
+                            <template v-for="(office, key) in props.offices"  :key="key">
+                                <option :value="office.id">{{ office.abbrevation }}</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div>
+                        <select v-model="service" @change="search_"
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            <option value="" disabled>Select Service</option>
+                            <template v-for="(service, key) in props.services"  :key="key">
+                                <option :value="service.id">{{ service.name }}</option>
+                            </template>
+                        </select>
+                    </div>
+                    <div>
+                        <Input v-model="from" class="rounded-lg mb-2 w-[30vmin]" type="date" label="From date" />
+                    </div>
+                    <div>
+                        <Input v-model="to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date" @keyup.enter="search_" />
+                    </div>
+                    <Input v-model="search" class="rounded-lg mb-2 w-[30vmin]" type="text" label="Search Client"
                         @keyup.enter="search_" />
-                    <button v-if="search" class="h-10 my-auto mt-5" @click="search_remove">
+                    <button v-if="search || role || office || service || from || to" class="h-10 my-auto mt-5" @click="search_remove">
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>

@@ -53,73 +53,73 @@ const date_time = (date) => {
                 </div>
             </div>
         </template>
-    </div> -->
-    <div class="relative overflow-x-auto overflow-y-auto rounded-lg">
-    <table class="w-full text-sm text-left rtl:text-right text-gray-700">
-        <thead class="text-xs text-white uppercase bg-yellow-500 ">
-            <tr >
-                <th scope="col" class="px-6 py-3">
-                    Client Name
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Gender
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Type
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Role
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Appointment Type
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Office
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Service
-                </th>
-                <th scope="col" class="px-6 py-3">
-                    Date & Time
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <template v-for="(record, key) in client_record.data" :key="key">
-            <tr class="odd:bg-white even:bg-gray-200 border-b">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                   {{ record.client.name }}
-                </th>
-                <td class="px-6 py-4">
-                    {{ record.client.gender == "male" ? "Male":"Female" }}
-                </td>
-                <td class="px-6 py-4 uppercase">
-                    {{ record.client.type }}
-                </td>
-                <td class="px-6 py-4 uppercase">
-                    {{ record.client.role }}
-                </td>
-                <td class="px-6 py-4 uppercase">
-                    {{ record.appointment_type }}
-                </td>
-                <td class="px-6 py-4 ">
-                    {{ record.office.name }}
-                </td>
-                <td class="px-6 py-4 ">
-                    {{ record.service.unit_service.name }}
-                </td>
-                <td class="px-6 py-4 ">
-                    {{ date_time(record.created_at) }}
-                </td>
-            </tr>
-        </template>
-        </tbody>
-    </table>
-</div>
+</div> -->
+    <div v-else class="relative overflow-x-auto overflow-y-auto rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-700">
+            <thead class="text-xs text-white uppercase bg-yellow-500 ">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Client Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Gender
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Type
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Role
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Appointment Type
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Office
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Service
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date & Time
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="(record, key) in client_record.data" :key="key">
+                    <tr class="odd:bg-white even:bg-gray-200 border-b">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            {{ record.client.name }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ record.client.gender == "male" ? "Male" : "Female" }}
+                        </td>
+                        <td class="px-6 py-4 uppercase">
+                            {{ record.client.type }}
+                        </td>
+                        <td class="px-6 py-4 uppercase">
+                            {{ record.client.role }}
+                        </td>
+                        <td class="px-6 py-4 uppercase">
+                            {{ record.appointment_type }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{ record.office.name }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{ record.service.unit_service.name }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{ date_time(record.created_at) }}
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
     <div class="flex items-center justify-between bottom-1 fixed">
         <Pagination :links="props.client_record.links" :search="props.search" />
         <p class="mt-6 text-sm text-gray-500">
-            Showing {{ client_record.data.length }} Offices                                                       
+            Showing {{ client_record.data.length }} Offices
         </p>
     </div>
 </template>
