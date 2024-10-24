@@ -20,11 +20,12 @@ const form = useForm({
     abbrevation: null,
     image: [],
     office_id: props.office_id,
-    selected:[]
+    selected: []
 })
 
 const add_modal = ref(false);
 const post_image = ref([]);
+const unit_photo_error = ref("");
 const search = ref(props.search);
 
 const open_modal = () => {
@@ -51,20 +52,31 @@ const add_unit = () => {
 }
 
 const openFile = () => {
+    unit_photo_error.value = ""
+
     let hidden = document.getElementById("profile_photo");
     hidden.click();
     hidden.onchange = (e) => {
-        post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
-        form.image = e.target.files[0];
+        for (let index = 0; index < e.target.files.length; index++) {
+            post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
+            form.image = e.target.files[0];
+        }
     };
 };
 
 const dragFile = (e) => {
+    unit_photo_error.value = ""
+
     e.preventDefault();
-    for (const file of e.dataTransfer.files) {
-        var objectURL = URL.createObjectURL(file);
-        post_image.value.push(objectURL);
-        form.image = file;
+    if (e.dataTransfer.files.length > 1) {
+        unit_photo_error.value = "Only 1 image can be selected";
+    }
+    else {
+        for (const file of e.dataTransfer.files) {
+            var objectURL = URL.createObjectURL(file);
+            post_image.value.push(objectURL);
+            form.image = file;
+        }
     }
 };
 
@@ -162,7 +174,7 @@ const search_remove = () => {
                         <input id="profile_photo" type="file" accept="image/png, image/gif, image/jpeg"
                             class="hidden" />
                     </label>
-                    <JetInputError :message="form.errors.image" class="mt-2" />
+                    <JetInputError :message="form.errors.image || unit_photo_error" class="mt-2" />
                 </div>
             </div>
             <div class="grid grid-cols-12 gap-1">
@@ -204,7 +216,8 @@ const search_remove = () => {
             <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[20vmin] overflow-y-auto">
                 <template v-for="(service, key) in props.services" :key="key">
                     <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
-                        <input id="bordered-checkbox-1" type="checkbox" :value="service.id" v-model="form.selected" name="bordered-checkbox"
+                        <input id="bordered-checkbox-1" type="checkbox" :value="service.id" v-model="form.selected"
+                            name="bordered-checkbox"
                             class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
                         <label for="bordered-checkbox-1" class="w-full py-1 ms-2 text-sm font-medium text-gray-700">
                             {{ service.name }}

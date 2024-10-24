@@ -22,6 +22,7 @@ const form = useForm({
 })
 
 const add_modal = ref(false);
+const office_photo_error = ref("");
 const post_image = ref([]);
 const search = ref(props.search);
 
@@ -49,21 +50,31 @@ const add_office = () => {
 }
 
 const openFile = () => {
+    office_photo_error.value = ""
     let hidden = document.getElementById("profile_photo");
     hidden.click();
     hidden.onchange = (e) => {
-        post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
-        form.image = e.target.files[0];
+        for (let index = 0; index < e.target.files.length; index++) {
+            post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
+            form.image = e.target.files[0];
+        }
     };
 };
 
 const dragFile = (e) => {
+    office_photo_error.value = ""
     e.preventDefault();
-    for (const file of e.dataTransfer.files) {
-        var objectURL = URL.createObjectURL(file);
-        post_image.value.push(objectURL);
-        form.image = file;
+    if (e.dataTransfer.files.length > 1) {
+        office_photo_error.value = "Only 1 image can be selected";
     }
+    else {
+        for (const file of e.dataTransfer.files) {
+            var objectURL = URL.createObjectURL(file);
+            post_image.value.push(objectURL);
+            form.image = file;
+        }
+    }
+
 };
 
 const remove_image = (key) => {
@@ -113,7 +124,7 @@ const search_remove = () => {
 
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                    <OfficeLists :offices="props.offices" :search="props.search" /> 
+                    <OfficeLists :offices="props.offices" :search="props.search" />
                 </div>
             </div>
         </div>
@@ -161,7 +172,7 @@ const search_remove = () => {
                         <input id="profile_photo" type="file" accept="image/png, image/gif, image/jpeg"
                             class="hidden" />
                     </label>
-                    <JetInputError :message="form.errors.image" class="mt-2" />
+                    <JetInputError :message="form.errors.image || office_photo_error" class="mt-2" />
                 </div>
             </div>
             <div class="grid grid-cols-12 gap-1">

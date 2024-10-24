@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Office;
 use App\Models\Service;
 use App\Models\Unit;
 use App\Models\UnitService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class UnitServiceController extends Controller
@@ -26,7 +28,9 @@ class UnitServiceController extends Controller
                 $query2->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
             }]);
         })->orderBy("created_at", "asc")->paginate(8);
-        $services = Service::get();
+        $except_already_exist_service = collect(UnitService::whereUnitId($request->unit_id)->get())->pluck("service_id")->toArray();
+        $services = Service::whereNotIn("id", $except_already_exist_service)->get();
+        $clients = Client::get();
         return Inertia::render('UnitServices/Index', [
             "unit_services" => $unit_services,
             "search" => $search,
@@ -34,7 +38,8 @@ class UnitServiceController extends Controller
             "office" => $office,
             "unit_id" => $request->unit_id,
             "unit" => $unit,
-            "services" => $services
+            "services" => $services,
+            "clients" => $clients
         ]);
     }
 
@@ -59,7 +64,21 @@ class UnitServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if ($request->selected == null) {
+            throw ValidationException::withMessages([
+                'services' => "Please select service atleast 1.",
+            ]);
+        }
+
+        foreach ($request->selected as $key => $service) {
+            UnitService::create([
+                "service_id" => $service,
+                "unit_id" => $request->unit_id,
+                "status" => true
+            ]);
+        }
+
+        return back();
     }
 
     /**

@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ClientRecordsController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UnitController;
@@ -44,9 +46,7 @@ Route::middleware([
     Route::prefix('unit_services')->name('unit_service.')->group(function () {
         Route::get('/unit_service_lists', [UnitServiceController::class, 'index'])->name('index');
         Route::post('/add_unit_service', [UnitServiceController::class, 'store'])->name('store');
-        Route::post('/update_unit_service/{unitService}', [UnitServiceController::class, 'update'])->name('update');
         Route::put('/delete_unit_service/{unitService}', [UnitServiceController::class, 'status'])->name('status');
-        Route::delete('/delete_unit_service/{unitService}', [UnitServiceController::class, 'destroy'])->name('destroy');
     });
 
     Route::prefix('services')->name('service.')->group(function () {
@@ -54,5 +54,17 @@ Route::middleware([
         Route::post('/add_service', [ServiceController::class, 'store'])->name('store');
         Route::post('/update_service/{service}', [ServiceController::class, 'update'])->name('update');
         Route::delete('/delete_service/{service}', [ServiceController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('clients')->name('client.')->group(function () {
+        Route::get('/client_lists', [ClientController::class, 'index'])->name('index');
+        Route::post('/add_client', [ClientController::class, 'store'])->name('store');
+        Route::post('/update_client/{client}', [ClientController::class, 'update'])->name('update');
+        Route::delete('/delete_client/{client}', [ClientController::class, 'destroy'])->name('destroy');
+    });
+
+    Route::prefix('client_records')->name('record.')->group(function () {
+        Route::get('/record_lists', [ClientRecordsController::class, 'index'])->name('index');
+        Route::post('/add_record', [ClientRecordsController::class, 'store'])->name('store');
     });
 });

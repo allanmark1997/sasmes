@@ -28,7 +28,19 @@ class ClientRecordsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'client' => ["required"],
+            'appointment_type' => ["required"],
+        ]);
+
+        ClientRecords::create([
+            "client_id" => $request->client["id"],
+            "appointment_type" => $request->appointment_type,
+            "office_id" => $request->office_id,
+            "unit_id" => $request->unit_id,
+            "unit_services_id" => $request->unit_services_id,
+            "status" => true,
+        ]);
     }
 
     /**

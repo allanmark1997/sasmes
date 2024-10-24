@@ -12,10 +12,17 @@ class Client extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
-    public static function initStorage()
+    public static function initStorageProfile()
     {
-        if (!Storage::exists('images/clients')) {
-            Storage::makeDirectory('images/clients');
+        if (!Storage::exists('images/clients/profile')) {
+            Storage::makeDirectory('images/clients/profile');
+        }
+    }
+
+    public static function initStorageId()
+    {
+        if (!Storage::exists('images/clients/id')) {
+            Storage::makeDirectory('images/clients/id');
         }
     }
 }
