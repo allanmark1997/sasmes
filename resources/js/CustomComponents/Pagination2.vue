@@ -9,6 +9,7 @@ const props = defineProps([
   "unit_id",
   "role",
   "office",
+  "position",
   "service",
   "category",
   "from",
@@ -58,6 +59,12 @@ const service_url = computed(() =>
     : ""
 );
 
+const position_url = computed(() =>
+  props.position != "" && props.position != undefined
+    ? "&position=" + props.position
+    : ""
+);
+
 const category_url = computed(() =>
   props.category != "" && props.category != undefined
     ? "&category=" + props.category
@@ -93,7 +100,7 @@ onMounted(() => {});
           'bg-orange-400': link.active,
           'ml-auto': links.length === key + 1,
         }"
-        :href="link.url + search_url + category_url + delivery_url + filter_url + office_url + unit_url + role_url + office_url2 + service_url"
+        :href="link.url + search_url + category_url + delivery_url + filter_url + office_url + unit_url + role_url + office_url2 + service_url + position_url"
       >
         <span v-html="link.label"></span>
       </Link>

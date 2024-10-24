@@ -27,7 +27,7 @@ class UnitServiceController extends Controller
             })->with(['unit_service' => function ($query2) use ($search) {
                 $query2->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
             }]);
-        })->orderBy("created_at", "asc")->paginate(8);
+        })->orderBy("created_at", "asc")->paginate(12);
         $except_already_exist_service = collect(UnitService::whereUnitId($request->unit_id)->get())->pluck("service_id")->toArray();
         $services = Service::whereNotIn("id", $except_already_exist_service)->get();
         $clients = Client::get();

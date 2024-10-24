@@ -62,8 +62,11 @@ const date_time = (date) => {
             <tbody>
                 <template v-for="(record, key) in client_record.data" :key="key">
                     <tr class="odd:bg-white even:bg-gray-200 border-b">
-                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
-                            {{ record.client.name }}
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
+                            <img :src="record.client.photo" class="w-12 h-12 rounded-full" alt="">
+                            <p class="my-auto ml-2">
+                                {{ record.client.name }}
+                            </p>
                         </th>
                         <td class="px-6 py-4">
                             {{ record.client.gender == "male" ? "Male" : "Female" }}
@@ -92,9 +95,10 @@ const date_time = (date) => {
         </table>
     </div>
     <div class="flex items-center justify-between bottom-1 fixed">
-        <Pagination :links="props.client_record.links" :search="props.search" :role="props.role" :office="props.office" :service="props.service" :from="props.from" :to="props.to" />
+        <Pagination :links="props.client_record.links" :search="props.search" :role="props.role" :office="props.office"
+            :service="props.service" :from="props.from" :to="props.to" />
         <p class="mt-6 text-sm text-gray-500">
-            Showing {{ client_record.data.length }} Offices
+            Showing {{ client_record.data.length }} Clients
         </p>
     </div>
 </template>

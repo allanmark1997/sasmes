@@ -6,6 +6,7 @@ use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UnitServiceController;
+use App\Http\Controllers\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -66,5 +67,12 @@ Route::middleware([
     Route::prefix('client_records')->name('record.')->group(function () {
         Route::get('/record_lists', [ClientRecordsController::class, 'index'])->name('index');
         Route::post('/add_record', [ClientRecordsController::class, 'store'])->name('store');
+    });
+
+    Route::prefix('users')->name('user.')->group(function () {
+        Route::get('/user_lists', [UserController::class, 'index'])->name('index');
+        Route::post('/add_user', [UserController::class, 'store'])->name('store');
+        Route::post('/update_user/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/delete_user/{user}', [UserController::class, 'destroy'])->name('destroy');
     });
 });

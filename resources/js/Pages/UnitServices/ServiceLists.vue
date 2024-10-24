@@ -120,7 +120,7 @@ const date = (date) => {
                             <small>{{ service.unit_service.abbrevation }}</small>
                         </div>
                         <div>
-                            <p class="text-xs p-1 text-center text-white rounded-lg font-bold"
+                            <p class="text-xs p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto"
                                 :class="service.status == 1 ? 'bg-green-500' : 'bg-red-500'">{{ service.status == 1 ?
         'Active' : 'Deactivated' }}</p>
                         </div>

@@ -107,6 +107,14 @@ const logout = () => {
                                 <span class="ms-3">Client Records</span>
                             </a>
                         </li>
+
+                        <li>
+                            <a :href="route('user.index')" class="flex items-center p-2 text-white rounded-lg group"
+                                :class="route().current('user.index') ? 'bg-[#f9b418]' : ''">
+                                <Icon icon="users" />
+                                <span class="ms-3">User Management</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </aside>

@@ -45,6 +45,7 @@ const icons = {
   gold_medal: "gold_medal",
   silver_medal: "silver_medal",
   bronze_medal: "bronze_medal",
+  users: "users",
 };
 
 const size = computed(() => {
@@ -56,6 +57,12 @@ const size = computed(() => {
 });
 </script>
 <template>
+  <svg v-if="icon_default === icons.users" :class="size" viewBox="0 0 1024 1024" class="icon" version="1.1"
+    xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M806.838857 516.388571c37.302857 13.970286 72.411429 34.157714 103.570286 59.830858 58.660571 48.274286 92.964571 110.006857 111.908571 183.808 5.412571 20.626286-2.340571 43.300571-22.674285 48.566857-19.017143 3.876571-40.521143-11.337143-42.934858-28.891429-18.724571-133.705143-133.485714-216.137143-255.780571-220.672l-1.974857-0.073143-1.609143 0.365715c-7.094857 0.877714-14.628571 1.170286-22.089143 1.170285-6.363429 0-14.628571-0.731429-20.699428-1.170285-21.065143-1.682286-35.401143-15.506286-33.645715-36.864a38.4 38.4 0 0 1 41.252572-35.401143c8.777143 0.731429 18.285714 0.731429 27.062857-0.146286 80.237714-7.753143 152.868571-75.044571 152.868571-156.525714 0-86.747429-81.92-164.352-167.497143-164.352-21.065143 0-36.937143-13.750857-36.937142-35.108572 0-21.284571 15.872-36.425143 36.937142-35.254857 127.780571 6.729143 231.643429 105.325714 231.643429 234.642286 0 58.733714-24.137143 115.419429-64.146286 156.745143a214.820571 214.820571 0 0 1-35.254857 29.403428z m-503.588571 52.224A261.924571 261.924571 0 0 1 147.309714 328.411429c0-144.091429 115.638857-261.412571 258.048-261.412572S663.405714 184.32 663.405714 328.411429a262.070857 262.070857 0 0 1-153.234285 238.884571 428.982857 428.982857 0 0 1 312.685714 310.564571c5.412571 20.626286-0.438857 35.84-20.772572 41.179429-20.406857 5.412571-39.789714-4.754286-44.982857-25.380571-40.228571-156.525714-185.197714-278.528-344.941714-278.528-159.963429 0-309.906286 121.929143-349.915429 278.528a35.108571 35.108571 0 0 1-40.594285 25.380571c-20.333714-5.339429-24.868571-20.553143-19.675429-41.179429 39.643429-154.916571 155.062857-271.140571 301.348572-309.248z m102.107428-436.809142c-107.081143 0-194.121143 88.283429-194.121143 196.608 0 108.397714 87.04 196.754286 194.121143 196.754285s194.121143-88.356571 194.121143-196.754285c0-108.324571-87.04-196.608-194.121143-196.608z"
+      fill="#ffff" />
+  </svg>
   <svg v-if="icon_default === icons.cart" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
     stroke-width="1.5" stroke="currentColor" :class="size">
     <path stroke-linecap="round" stroke-linejoin="round"
@@ -140,8 +147,9 @@ const size = computed(() => {
     </g>
   </svg>
 
-  <svg v-if="icon_default === icons.birthday" :class="size" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+  <svg v-if="icon_default === icons.birthday" :class="size" version="1.1" id="Layer_1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512"
+    xml:space="preserve">
     <g>
       <path style="fill: #eaa0e3" d="M164.231,72.333h-11.134c-5.969,0-10.807,4.838-10.807,10.807v105.628h32.748V83.141
 		C175.038,77.172,170.2,72.333,164.231,72.333z" />
@@ -439,8 +447,8 @@ const size = computed(() => {
     </g>
   </svg>
 
-  <svg v-if="icon_default === icons.tag" :class="size" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-    stroke-width="1.5" stroke="currentColor">
+  <svg v-if="icon_default === icons.tag" :class="size" xmlns="http://www.w3.org/2000/svg" fill="none"
+    viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
     <path stroke-linecap="round" stroke-linejoin="round"
       d="M9.568 3H5.25A2.25 2.25 0 003 5.25v4.318c0 .597.237 1.17.659 1.591l9.581 9.581c.699.699 1.78.872 2.607.33a18.095 18.095 0 005.223-5.223c.542-.827.369-1.908-.33-2.607L11.16 3.66A2.25 2.25 0 009.568 3z" />
     <path stroke-linecap="round" stroke-linejoin="round" d="M6 6h.008v.008H6V6z" />
@@ -453,11 +461,11 @@ const size = computed(() => {
     xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" viewBox="0 0 30 30" version="1.1" id="svg822"
     inkscape:version="0.92.4 (f8dce91, 2019-08-02)" sodipodi:docname="admin.svg">
     <defs id="defs816" />
-    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0" inkscape:pageopacity="0.0"
-      inkscape:pageshadow="2" inkscape:zoom="12.610071" inkscape:cx="13.690863" inkscape:cy="14.709664"
-      inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="true" units="px" inkscape:window-width="1366"
-      inkscape:window-height="713" inkscape:window-x="0" inkscape:window-y="0" inkscape:window-maximized="1"
-      showguides="false" inkscape:snap-global="false">
+    <sodipodi:namedview id="base" pagecolor="#ffffff" bordercolor="#666666" borderopacity="1.0"
+      inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:zoom="12.610071" inkscape:cx="13.690863"
+      inkscape:cy="14.709664" inkscape:document-units="px" inkscape:current-layer="layer1" showgrid="true" units="px"
+      inkscape:window-width="1366" inkscape:window-height="713" inkscape:window-x="0" inkscape:window-y="0"
+      inkscape:window-maximized="1" showguides="false" inkscape:snap-global="false">
       <inkscape:grid type="xygrid" id="grid816" />
     </sodipodi:namedview>
     <metadata id="metadata819">
@@ -676,7 +684,8 @@ const size = computed(() => {
     </g>
   </svg>
   <svg v-if="icon_default === icons.logout" :class="size" version="1.1" id="图层_1" xmlns="http://www.w3.org/2000/svg"
-    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 40 40" enable-background="new 0 0 40 40"
+    xml:space="preserve">
     <g>
       <g>
         <g>
