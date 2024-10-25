@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientRecords;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -13,8 +14,12 @@ class DashboardController extends Controller
      */
     public function index()
     {
+        $month_today = date("Y-m");
+        // dd($month_today);
         $client_chart = [];
-        $clients = Client::get();
+        $clients_record = ClientRecords::where("created_at", "LIKE", "%{$month_today}%")->with("client")->with("office")->with("client")->with("service")->get();
+
+        // dd($clients_record);
         return Inertia::render('Dashboard', [
             "client_chart" => $client_chart
         ]);
