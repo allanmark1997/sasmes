@@ -119,10 +119,10 @@ const confirm_delete = () => {
                 <div
                     class="w-full h-[40vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
-                        <button @click="open_modal(office)" class="bg-orange-500 rounded-md p-1 mr-1">
+                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'" @click="open_modal(office)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
-                        <button @click="open_modal_delete(office)" class="bg-red-500 rounded-md p-1">
+                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'" @click="open_modal_delete(office)" class="bg-red-500 rounded-md p-1">
                             <Icon icon="trash" />
                         </button>
                     </div>

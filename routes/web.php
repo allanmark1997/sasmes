@@ -3,6 +3,7 @@
 use App\Http\Controllers\AccessControlController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientRecordsController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UnitController;
@@ -27,9 +28,12 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('/dashboard', function () {
-        return Inertia::render('Dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+
+    //     // return Inertia::render('Dashboard');
+    // })->name('dashboard');
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::prefix('offices')->name('office.')->group(function () {
         Route::get('/offices_lists', [OfficeController::class, 'index'])->name('index');

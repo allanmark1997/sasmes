@@ -35,7 +35,7 @@ class JetstreamServiceProvider extends ServiceProvider
         Vite::prefetch(concurrency: 3);
 
         Fortify::authenticateUsing(function (Request $request) {
-            $user = User::where('email', $request->email)->first();
+            $user = User::where('email', $request->email)->with("access_control")->first();
             if ($user == null) {
                 throw ValidationException::withMessages([
                     'custom' => "Sorry! looks like the email you entered is not in the system",

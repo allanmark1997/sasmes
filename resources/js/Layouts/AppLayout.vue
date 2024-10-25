@@ -71,7 +71,8 @@ const logout = () => {
                             </a>
                         </li>
 
-                        <li>
+                        <li
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
                             <a :href="route('service.index')" class="flex items-center p-2 text-white rounded-lg group"
                                 :class="route().current('service.index') ? 'bg-[#f9b418]' : ''">
                                 <svg fill="#FFFFFF" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
@@ -92,7 +93,8 @@ const logout = () => {
                             </a>
                         </li>
 
-                        <li>
+                        <li
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
                             <a :href="route('client.index')" class="flex items-center p-2 text-white rounded-lg group"
                                 :class="route().current('client.index') ? 'bg-[#f9b418]' : ''">
                                 <Icon icon="user" />
@@ -108,7 +110,8 @@ const logout = () => {
                             </a>
                         </li>
 
-                        <li>
+                        <li
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
                             <a :href="route('user.index')" class="flex items-center p-2 text-white rounded-lg group"
                                 :class="route().current('user.index') ? 'bg-[#f9b418]' : ''">
                                 <Icon icon="users" />
