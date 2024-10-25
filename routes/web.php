@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccessControlController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientRecordsController;
 use App\Http\Controllers\OfficeController;
@@ -72,7 +73,12 @@ Route::middleware([
     Route::prefix('users')->name('user.')->group(function () {
         Route::get('/user_lists', [UserController::class, 'index'])->name('index');
         Route::post('/add_user', [UserController::class, 'store'])->name('store');
-        Route::post('/update_user/{user}', [UserController::class, 'update'])->name('update');
+        Route::put('/update_user/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/delete_user/{user}', [UserController::class, 'destroy'])->name('destroy');
+        Route::put('/user_status/{user}', [UserController::class, 'status'])->name('status');
+    });
+
+    Route::prefix('access_control')->name('access.')->group(function () {
+        Route::put('/add_access/{accessControl}', [AccessControlController::class, 'update'])->name('update');
     });
 });

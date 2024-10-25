@@ -328,9 +328,6 @@ const date = (date) => {
             form_status.service.unit_service.name
             }})?</template>
         <template #content>
-            <p class="text-red-500">
-                This action can update the system and this is not reversible!
-            </p>
         </template>
         <template #footer>
             <SecondaryButton @click="status_modal = false" class="mr-2">

@@ -71,7 +71,7 @@ const submit = () => {
                     required
                     autocomplete="current-password"
                 />
-                <InputError class="mt-2" :message="form.errors.password" />
+                <InputError class="mt-2 break-words" :message="form.errors.password || form.errors.custom" />
             </div>
 
             <div class="flex justify-between mt-4">

@@ -55,6 +55,7 @@ const search_remove = () => {
                         <select v-model="role" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
                             <option value="" disabled>Select Client Role</option>
+                            <option value="">All Roles</option>
                             <option value="student">Student</option>
                             <option value="employee">Employee</option>
                             <option value="alumni">Alumni</option>
@@ -66,6 +67,7 @@ const search_remove = () => {
                         <select v-model="office" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
                             <option value="" disabled>Select Office</option>
+                            <option value="">All Offices</option>
                             <template v-for="(office, key) in props.offices"  :key="key">
                                 <option :value="office.id">{{ office.abbrevation }}</option>
                             </template>
@@ -75,6 +77,7 @@ const search_remove = () => {
                         <select v-model="service" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
                             <option value="" disabled>Select Service</option>
+                            <option value="">All Services</option>
                             <template v-for="(service, key) in props.services"  :key="key">
                                 <option :value="service.id">{{ service.name }}</option>
                             </template>
