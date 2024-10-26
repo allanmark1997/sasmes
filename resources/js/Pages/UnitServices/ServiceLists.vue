@@ -110,7 +110,7 @@ const date = (date) => {
                             <Icon v-else icon="check" />
                         </button>
                     </div>
-                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg"
+                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg -mt-6"
                         :src="service.unit_service.photo" :onerror="`this.src='${default_image}'`"
                         alt="Service image" />
                     <div class="px-5 pb-5">

@@ -124,7 +124,7 @@ const confirm_delete = () => {
                             <Icon icon="trash" />
                         </button>
                     </div>
-                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg"
+                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg -mt-6"
                         :src="unit.photo" :onerror="`this.src='${default_image}'`" alt="Unit image" />
                     <div class="px-5 pb-5">
                         <a :href="route('unit_service.index', { office_id:props.office_id, unit_id:unit.id })">
