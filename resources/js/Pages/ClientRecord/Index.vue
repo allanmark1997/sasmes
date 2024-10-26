@@ -53,7 +53,7 @@ const search_remove = () => {
                 <div class="flex gap-2 ml-8">
                     <div>
                         <select v-model="role" @change="search_"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
                             <option value="" disabled>Select Client Role</option>
                             <option value="">All Roles</option>
                             <option value="student">Student</option>
@@ -65,29 +65,29 @@ const search_remove = () => {
                     </div>
                     <div>
                         <select v-model="office" @change="search_"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
                             <option value="" disabled>Select Office</option>
                             <option value="">All Offices</option>
                             <template v-for="(office, key) in props.offices"  :key="key">
-                                <option :value="office.id">{{ office.abbrevation }}</option>
+                                <option  :value="office.id">{{ office.abbrevation }}</option>
                             </template>
                         </select>
                     </div>
                     <div>
                         <select v-model="service" @change="search_"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[10vmin] h-10 mt-5 w-full">
                             <option value="" disabled>Select Service</option>
                             <option value="">All Services</option>
                             <template v-for="(service, key) in props.services"  :key="key">
-                                <option :value="service.id">{{ service.name }}</option>
+                                <option class="break-words ml-1" :value="service.id">{{ service.name }} fsdfsdfsdfsdf</option>
                             </template>
                         </select>
                     </div>
                     <div>
-                        <Input v-model="from" class="rounded-lg mb-2 w-[15vmin]" type="date" label="From date" />
+                        <Input v-model="from" class="rounded-lg mb-2 w-[20vmin]" type="date" label="From date" />
                     </div>
                     <div>
-                        <Input v-model="to" class="rounded-lg mb-2 w-[15vmin]" type="date" label="To date" @keyup.enter="search_" />
+                        <Input v-model="to" class="rounded-lg mb-2 w-[20vmin]" type="date" label="To date" @keyup.enter="search_" />
                     </div>
                     <Input v-model="search" class="rounded-lg mb-2 w-[20vmin]" type="text" label="Search Client"
                         @keyup.enter="search_" />
