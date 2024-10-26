@@ -115,7 +115,7 @@ const confirm_delete = () => {
         <template v-for="(unit, key) in units.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(unit)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
@@ -128,7 +128,7 @@ const confirm_delete = () => {
                         :src="unit.photo" :onerror="`this.src='${default_image}'`" alt="Unit image" />
                     <div class="px-5 pb-5">
                         <a :href="route('unit_service.index', { office_id:props.office_id, unit_id:unit.id })">
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ unit.name }}</h5>
+                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ unit.name }}</h5>
                             <small>{{ unit.abbrevation }}</small>
                         </a>
                     </div>

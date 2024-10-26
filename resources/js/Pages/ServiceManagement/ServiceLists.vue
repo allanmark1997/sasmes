@@ -115,7 +115,7 @@ const confirm_delete = () => {
         <template v-for="(service, key) in services.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(service)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />

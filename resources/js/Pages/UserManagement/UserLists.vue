@@ -128,7 +128,7 @@ const access_control = () => {
         <template v-for="(user, key) in users.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button
                             v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin') && $page.props.auth.user.id != user.id"
