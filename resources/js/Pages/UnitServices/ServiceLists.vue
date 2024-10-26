@@ -158,11 +158,10 @@ const date = (date) => {
                 </div>
                 <div class="col-span-full grid grid-cols-6 gap-1">
                     <div class="col-span-5">
-                        <Input :disabled="search_results_client_to_add != true" type="text" label="Search Client name"
+                        <Input type="text" label="Search Client name"
                             v-model="form_admission.name" />
                     <JetInputError :message="form_admission.errors.client" class="mt-2" />
-
-                        <div v-if="search_results_client_to_add == true"
+                        <div v-if="form_admission.name && !form_admission.client"
                             class="absolute z-50 w-60 bg-white rounded shadow">
                             <ul class="overflow-y-auto py-1 h-[20vmin] text-gray-700"
                                 aria-labelledby="dropdownUsersButton">
@@ -204,14 +203,14 @@ const date = (date) => {
         ">
                             <Icon icon="close_icon" size="sm" />
                         </button>
-                        <button @click="open_search_product"
+                        <!-- <button @click="open_search_product"
                             class="bg-yellow-400 text-sm lg:text-xs font-bold rounded-lg p-2 hover:bg-yellow-500 flex gap-2 item-center justify-center mt-4">
                             <Icon icon="search_icon" size="sm" />
-                        </button>
+                        </button> -->
                     </div>
                 </div>
 
-                <div v-if="form_admission.name != ''" class="mt-6">
+                <div v-if="form_admission.client" class="mt-6">
                     <div class="w-full mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                         <div class="flex flex-col items-center pb-10">
                             <img class="w-24 h-24 mb-3 rounded-full shadow-lg mt-4" :src="form_admission.client?.photo"

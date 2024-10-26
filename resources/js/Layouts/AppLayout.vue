@@ -37,7 +37,7 @@ const logout = () => {
         <Banner />
 
         <div class="min-h-screen bg-gray-100 flex">
-            <aside class=" top-0 left-0 w-[25vmin]   transition-transform -translate-x-full translate-x-0"
+            <aside class=" top-0 left-0 w-[35vmin]   transition-transform -translate-x-full translate-x-0"
                 aria-label="Sidebar">
                 <div class="h-full px-3 py-4 bg-[#070d31]">
                     <div class="relative flex left-4 lg:left-4">
@@ -94,7 +94,7 @@ const logout = () => {
                         </li>
 
                         <li
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
                             <a :href="route('client.index')" class="flex items-center p-2 text-white rounded-lg group"
                                 :class="route().current('client.index') ? 'bg-[#f9b418]' : ''">
                                 <Icon icon="user" />
