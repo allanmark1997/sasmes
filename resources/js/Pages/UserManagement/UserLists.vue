@@ -128,7 +128,7 @@ const access_control = () => {
         <template v-for="(user, key) in users.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[40vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button
                             v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin') && $page.props.auth.user.id != user.id"
@@ -150,7 +150,7 @@ const access_control = () => {
                         :src="user.profile_photo_url" :onerror="`this.src='${default_image}'`" alt="User image" />
                     <div class="px-2 pb-2">
                         <div>
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900 text-center -mt-4">{{
+                            <h5 class="text-lg font-semibold tracking-tight text-gray-900 text-center -mt-4">{{
                                 user.name }}
                             </h5>
                             <p class="text-center mx-auto text-xs">{{ user.email }}</p>

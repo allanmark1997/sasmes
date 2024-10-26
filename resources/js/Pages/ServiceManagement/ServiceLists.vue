@@ -115,7 +115,7 @@ const confirm_delete = () => {
         <template v-for="(service, key) in services.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[40vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(service)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
@@ -124,11 +124,11 @@ const confirm_delete = () => {
                             <Icon icon="trash" />
                         </button>
                     </div>
-                    <img class="object-scale-down p-8 rounded-t-lg h-[30vmin] w-[30vmin] mx-auto rounded-lg"
+                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg"
                         :src="service.photo" :onerror="`this.src='${default_image}'`" alt="Service image" />
                     <div class="px-5 pb-5">
                         <div>
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ service.name }}</h5>
+                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ service.name }}</h5>
                             <small>{{ service.abbrevation }}</small>
                         </div>
                     </div>

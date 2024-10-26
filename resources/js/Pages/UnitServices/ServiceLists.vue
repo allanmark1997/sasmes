@@ -98,7 +98,7 @@ const date = (date) => {
         <template v-for="(service, key) in unit_services.data" :key="key">
             <div class="col-span-3">
                 <div
-                    class="w-full h-[40vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
+                    class="w-full h-[35vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button v-if="service.status == 1" @click="open_modal(service)"
                             class="bg-orange-500 rounded-md p-1 mr-1">
@@ -110,12 +110,12 @@ const date = (date) => {
                             <Icon v-else icon="check" />
                         </button>
                     </div>
-                    <img class="object-scale-down p-8 rounded-t-lg h-[30vmin] w-[30vmin] mx-auto rounded-lg"
+                    <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg"
                         :src="service.unit_service.photo" :onerror="`this.src='${default_image}'`"
                         alt="Service image" />
                     <div class="px-5 pb-5">
                         <div>
-                            <h5 class="text-xl font-semibold tracking-tight text-gray-900">{{ service.unit_service.name
+                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ service.unit_service.name
                                 }}</h5>
                             <small>{{ service.unit_service.abbrevation }}</small>
                         </div>
