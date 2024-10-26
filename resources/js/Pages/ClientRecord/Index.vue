@@ -65,7 +65,7 @@ const search_remove = () => {
                     </div>
                     <div>
                         <select v-model="office" @change="search_"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[10vmin] h-10 mt-5 p-1">
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 p-1">
                             <option value="" disabled>Select Office</option>
                             <option value="">All Offices</option>
                             <template v-for="(office, key) in props.offices"  :key="key">
