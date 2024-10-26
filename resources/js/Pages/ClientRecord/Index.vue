@@ -79,7 +79,7 @@ const search_remove = () => {
                             <option value="" disabled>Select Service</option>
                             <option value="">All Services</option>
                             <template v-for="(service, key) in props.services"  :key="key">
-                                <option class="break-words ml-1" :value="service.id">{{ service.name }} fsdfsdfsdfsdf</option>
+                                <option class="break-words ml-1" :value="service.id">{{ service.name }}</option>
                             </template>
                         </select>
                     </div>
