@@ -2,12 +2,30 @@
 import AppLayout from '@/Layouts/AppLayout.vue';
 import Welcome from '@/Components/Welcome.vue';
 import Input from "@/CustomComponents/Input.vue";
-import { useForm } from '@inertiajs/vue3';
+import { router, useForm } from '@inertiajs/vue3';
+import Icon from '@/CustomComponents/Icon.vue';
+
+const props = defineProps(["client_chart", "from", "to", "filter", "offices", "units"])
 
 const form = useForm({
-    from:null,
-    to:null,
+    from: props.from,
+    to: props.to,
+    filter:props.filter
 })
+
+const search_ = () => {
+    form.get(
+        route("dashboard")
+    );
+};
+
+const search_remove = () => {
+    form.from = "";
+    form.to = "";
+    form.get(
+        route("dashboard")
+    );
+};
 </script>
 
 <template>
@@ -22,12 +40,22 @@ const form = useForm({
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex gap-2 ">
                     <div>
-                        <Input v-model="from" class="rounded-lg mb-2 w-[30vmin]" type="date" label="From date" />
+                        <select v-model="form.filter" @change="search_"
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            <option value="" disabled>Select Filter type</option>
+                            <option value="office">Offices</option>
+                            <option value="units">Units</option>
+                        </select>
                     </div>
                     <div>
-                        <Input v-model="to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date"
-                             />
+                        <Input v-model="form.from" class="rounded-lg mb-2 w-[30vmin]" type="month" label="From date" />
                     </div>
+                    <div>
+                        <Input v-model="form.to" class="rounded-lg mb-2 w-[30vmin]" type="month" label="To date" @keyup.enter="search_" />
+                    </div>
+                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
+                        <Icon icon="close_icon" size="sm" />
+                    </button>
                 </div>
                 <p class="m-2 text-2xl font-bold">
                     Quantity of clients

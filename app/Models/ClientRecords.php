@@ -25,4 +25,9 @@ class ClientRecords extends Model
     {
         return $this->belongsTo(UnitService::class, "unit_services_id", "id")->with("unit_service")->has("unit_service");
     }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 }

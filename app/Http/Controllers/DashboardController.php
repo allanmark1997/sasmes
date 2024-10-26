@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientRecords;
+use App\Models\Office;
+use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,16 +15,49 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $from = $request->from ?? date("Y-m");
+        $to = $request->to ?? date("Y-m");
+        $filter = $request->filter ?? "office";
         $month_today = date("Y-m");
-        // dd($month_today);
+        // dd($month_today, $from, $to);
         $client_chart = [];
-        $clients_record = ClientRecords::where("created_at", "LIKE", "%{$month_today}%")->with("client")->with("office")->with("client")->with("service")->get();
+        $offices = Office::get();
+        $units = Unit::whereStatus(1)->get();
+        $office_ids = collect($offices)->pluck("id")->toArray();
+        $unit_ids = collect($units)->pluck("id")->toArray();
 
-        // dd($clients_record);
+        $filtered_records = collect(ClientRecords::with("office")->with("client")->with("service")->with("unit")->get())->whereBetween('created_at', [$from, Carbon::parse($to)->addMonths(1)->format("Y-m")]);
+
+        $office_counter = 0;
+        foreach ($filtered_records as $key => $record) {
+            $client_chart[] = (object)array(
+                "name" => $record->office->name
+            );
+        }
+
+        $office_sample = collect($offices)->map(function ($office) use ($filtered_records) {
+            $office = (object)array(
+                "chart" => array(
+                    "name" => $office->name,
+                    "data" => array()
+                )
+                
+
+                // count(collect($filtered_records)->where("office_id", $office->id))
+            );
+            return $office;
+        })->toArray();
+        // dd($client_chart, $office_sample);
+
         return Inertia::render('Dashboard', [
-            "client_chart" => $client_chart
+            "client_chart" => $filtered_records,
+            "from" => $from,
+            "offices" => $offices,
+            "units" => $units,
+            "to" => $to,
+            "filter" => $filter,
         ]);
     }
 
