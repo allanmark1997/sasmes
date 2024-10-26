@@ -76,7 +76,7 @@ const create_user = () => {
             <div class="flex justify-between">
                 <div class="flex gap-2 ml-8">
                     
-                    <div>
+                    <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin')">
                         <select v-model="office" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
                             <option value="" disabled>Select Office</option>
@@ -86,7 +86,7 @@ const create_user = () => {
                             </template>
                         </select>
                     </div>
-                    <div>
+                    <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin')">
                         <select v-model="position" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
                             <option value="" disabled>Select User Position</option>
