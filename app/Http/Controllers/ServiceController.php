@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Office;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +20,11 @@ class ServiceController extends Controller
         $services = Service::when($search != null || $search != "", function($query) use ($search){
             $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
         })->orderBy("name", "asc")->paginate(8);
+        $offices = Office::get();
         return Inertia::render('ServiceManagement/Index', [
             "services" => $services,
             "search" => $search,
+            "offices" => $offices,
         ]);
     }
 
@@ -39,9 +42,10 @@ class ServiceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ["required", "unique:services"],
+            'name' => ["required"],
             'abbrevation' => ["required", "unique:services"],
             'image' => ['required', 'max:1024'],
+            'office_id' => ['required'],
         ]);
 
         $imageName = $request->input('image');
@@ -56,7 +60,8 @@ class ServiceController extends Controller
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
             "photo" => env('APP_URL') . '/storage/images/services/' . $imageName,
-            "user_id" => Auth::user()->id
+            "user_id" => Auth::user()->id,
+            "office_id" => $request->office_id,
         ]);
 
         return back();

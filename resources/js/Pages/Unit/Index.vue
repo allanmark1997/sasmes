@@ -120,7 +120,7 @@ const search_remove = () => {
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>
-                <PrimaryButton @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
+                <PrimaryButton v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
                     Add Unit
                 </PrimaryButton>
             </div>
@@ -213,7 +213,7 @@ const search_remove = () => {
                 </div>
             </div> -->
 
-            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[20vmin] overflow-y-auto">
+            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[40vmin] overflow-y-auto">
                 <template v-for="(service, key) in props.services" :key="key">
                     <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
                         <input id="bordered-checkbox-1" type="checkbox" :value="service.id" v-model="form.selected"

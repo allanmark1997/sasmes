@@ -10,6 +10,7 @@ use App\Models\Unit;
 use App\Models\UnitService;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
@@ -27,17 +28,34 @@ class UserController extends Controller
         $search = $request->search ?? '';
         $position = $request->position ?? '';
         $office = $request->office ?? '';
-        $users = User::when($position != null || $position != "", function($query) use($position){
-            $query->where("user_type", $position);
-        })->when($search != null || $search != "", function($query) use($search){
-            $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
-        })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
-            $query->whereHas("office", function ($query2) use ($office) {
-                $query2->where("id", $office);
-            })->with(['office' => function ($query2) use ($office) {
-                $query2->where("id", $office);
-            }]);
-        })->with("access_control")->orderBy("name", "asc")->paginate(8);
+
+        if (Auth::user()->user_type == "director") {
+            $users = User::whereOfficeId(Auth::user()->office_id)->when($position != null || $position != "", function($query) use($position){
+                $query->where("user_type", $position);
+            })->when($search != null || $search != "", function($query) use($search){
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
+            })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
+                $query->whereHas("office", function ($query2) use ($office) {
+                    $query2->where("id", $office);
+                })->with(['office' => function ($query2) use ($office) {
+                    $query2->where("id", $office);
+                }]);
+            })->with("access_control")->orderBy("name", "asc")->paginate(8);
+        }
+        else {
+            $users = User::when($position != null || $position != "", function($query) use($position){
+                $query->where("user_type", $position);
+            })->when($search != null || $search != "", function($query) use($search){
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
+            })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
+                $query->whereHas("office", function ($query2) use ($office) {
+                    $query2->where("id", $office);
+                })->with(['office' => function ($query2) use ($office) {
+                    $query2->where("id", $office);
+                }]);
+            })->with("access_control")->orderBy("name", "asc")->paginate(8);
+        }
+        
         $offices = Office::get();
         $services = Service::get();
         $units = Unit::when($office != null || $office != "", function($query) use($office){

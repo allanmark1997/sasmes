@@ -14,11 +14,12 @@ import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["services", "search"])
+const props = defineProps(["services", "search", "offices"])
 const form = useForm({
     name: null,
     abbrevation: null,
     image: [],
+    office_id: "",
 })
 
 const add_modal = ref(false);
@@ -180,8 +181,17 @@ const search_remove = () => {
                 </div>
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Services abbrevation" v-model="form.abbrevation" />
+                <Input type="text" label="Service abbrevation" v-model="form.abbrevation" />
                 <JetInputError :message="form.errors.abbrevation" class="mt-2" />
+            </div>
+            <div>
+                <select v-model="form.office_id"
+                    class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                    <option value="" disabled>Select Office</option>
+                    <template v-for="(office, key) in props.offices" :key="key">
+                        <option :value="office.id">{{  office.name }}</option>
+                    </template>
+                </select>
             </div>
         </template>
         <template #footer>

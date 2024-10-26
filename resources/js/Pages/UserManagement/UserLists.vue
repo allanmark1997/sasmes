@@ -132,17 +132,17 @@ const access_control = () => {
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button
                             v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin') && $page.props.auth.user.id != user.id"
-                            @click="open_modal_update(user)" class="bg-orange-500 rounded-md p-1 mr-1">
+                            @click="open_modal_update(user)" class="bg-orange-500 rounded-md p-1 mr-1" title="Update User">
                             <Icon icon="pencil" />
                         </button>
                         <button
                             v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin') && $page.props.auth.user.id != user.id"
                             @click="open_modal_status(user)" class="rounded-md p-1"
-                            :class="user.status == 1 ? 'bg-red-500' : 'bg-green-500'">
+                            :class="user.status == 1 ? 'bg-red-500' : 'bg-green-500'" title="User Status">
                             <Icon v-if="user.status == 1" icon="close_icon" />
                             <Icon v-else icon="check" />
                         </button>
-                        <button @click="open_modal_access_control(user)" class="rounded-md p-1 ml-1 bg-teal-500">
+                        <button @click="open_modal_access_control(user)" class="rounded-md p-1 ml-1 bg-teal-500" title="Access Control">
                             <Icon icon="option" />
                         </button>
                     </div>
@@ -155,7 +155,7 @@ const access_control = () => {
                             </h5>
                             <p class="text-center mx-auto text-xs">{{ user.email }}</p>
                             <p
-                                class="text-center text-white mx-auto text-xs uppercase bg-green-500 w-[10vmin] rounded-lg mt-2 p-1">
+                                class="text-center text-white mx-auto text-xs uppercase bg-green-500 w-[20vmin] rounded-lg mt-2 p-1">
                                 {{ user.user_type == 'root' ? "Super Admin" : user.user_type == 'admin' ?
                                     "Admin" : user.user_type == 'vcsas' ? "VCSAS" : user.user_type == 'director' ?
                                         "Director" : user.user_type == 'unit_head' ? "Unit Head" : "Unit Staff" }}</p>
