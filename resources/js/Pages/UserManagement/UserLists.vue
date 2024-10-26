@@ -150,7 +150,7 @@ const access_control = () => {
                         :src="user.profile_photo_url" :onerror="`this.src='${default_image}'`" alt="User image" />
                     <div class="px-2 pb-2">
                         <div>
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900 text-center -mt-4">{{
+                            <h5 class="text-md font-semibold tracking-tight text-gray-900 text-center -mt-4">{{
                                 user.name }}
                             </h5>
                             <p class="text-center mx-auto text-xs">{{ user.email }}</p>

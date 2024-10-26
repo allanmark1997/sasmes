@@ -128,7 +128,7 @@ const confirm_delete = () => {
                         :src="unit.photo" :onerror="`this.src='${default_image}'`" alt="Unit image" />
                     <div class="px-5 pb-5">
                         <a :href="route('unit_service.index', { office_id:props.office_id, unit_id:unit.id })">
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ unit.name }}</h5>
+                            <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ unit.name }}</h5>
                             <small>{{ unit.abbrevation }}</small>
                         </a>
                     </div>

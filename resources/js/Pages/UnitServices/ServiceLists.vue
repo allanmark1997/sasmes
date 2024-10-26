@@ -115,7 +115,7 @@ const date = (date) => {
                         alt="Service image" />
                     <div class="px-5 pb-5">
                         <div>
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ service.unit_service.name
+                            <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ service.unit_service.name
                                 }}</h5>
                             <small>{{ service.unit_service.abbrevation }}</small>
                         </div>

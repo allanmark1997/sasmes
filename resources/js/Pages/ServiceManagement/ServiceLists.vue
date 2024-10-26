@@ -128,7 +128,7 @@ const confirm_delete = () => {
                         :src="service.photo" :onerror="`this.src='${default_image}'`" alt="Service image" />
                     <div class="px-5 pb-5">
                         <div>
-                            <h5 class="text-lg font-semibold tracking-tight text-gray-900">{{ service.name }}</h5>
+                            <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ service.name }}</h5>
                             <small>{{ service.abbrevation }}</small>
                         </div>
                     </div>
