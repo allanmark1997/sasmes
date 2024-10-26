@@ -84,12 +84,12 @@ const search_remove = () => {
                         </select>
                     </div>
                     <div>
-                        <Input v-model="from" class="rounded-lg mb-2 w-[30vmin]" type="date" label="From date" />
+                        <Input v-model="from" class="rounded-lg mb-2 w-[15vmin]" type="date" label="From date" />
                     </div>
                     <div>
-                        <Input v-model="to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date" @keyup.enter="search_" />
+                        <Input v-model="to" class="rounded-lg mb-2 w-[15vmin]" type="date" label="To date" @keyup.enter="search_" />
                     </div>
-                    <Input v-model="search" class="rounded-lg mb-2 w-[30vmin]" type="text" label="Search Client"
+                    <Input v-model="search" class="rounded-lg mb-2 w-[20vmin]" type="text" label="Search Client"
                         @keyup.enter="search_" />
                     <button v-if="search || role || office || service || from || to" class="h-10 my-auto mt-5" @click="search_remove">
                         <Icon icon="close_icon" size="sm" />
