@@ -46,7 +46,9 @@ class ClientRecordsController extends Controller
             $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
         })->orderBy("created_at", "desc")->paginate(8);
         $offices = Office::get();
-        $services = Service::get();
+        $services = Service::when($office !=  null || $office != "" && $to != null || $to != "", function ($query) use ($office) {
+            $query->whereOfficeId($office);
+        })->get();
         return Inertia::render('ClientRecord/Index', [
             "client_record" => $records,
             "offices" => $offices,

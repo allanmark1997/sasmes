@@ -73,7 +73,7 @@ const search_remove = () => {
                             </template>
                         </select>
                     </div>
-                    <div>
+                    <div v-if="office != ''">
                         <select v-model="service" @change="search_"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[20vmin] h-10 mt-5 break-words p-1">
                             <option value="" disabled>Select Service</option>
