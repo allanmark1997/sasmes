@@ -38,9 +38,10 @@ class DashboardController extends Controller
         }
 
         $office_sample = collect($offices)->map(function ($office) use ($filtered_records) {
+            dd(collect($filtered_records), $filtered_records->toArray());
             $office = (object)array(
                 "chart" => array(
-                    "name" => $office->name,
+                    "name" => $office->abbrevation,
                     "data" => array()
                 )
                 
@@ -49,7 +50,7 @@ class DashboardController extends Controller
             );
             return $office;
         })->toArray();
-        // dd($client_chart, $office_sample);
+        dd($client_chart, $office_sample);
 
         return Inertia::render('Dashboard', [
             "client_chart" => $filtered_records,
