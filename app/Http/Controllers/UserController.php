@@ -25,51 +25,54 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search ?? '';
-        $position = $request->position ?? '';
-        $office = $request->office ?? '';
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "director") {
+            $search = $request->search ?? '';
+            $position = $request->position ?? '';
+            $office = $request->office ?? '';
 
-        if (Auth::user()->user_type == "director") {
-            $users = User::whereOfficeId(Auth::user()->office_id)->when($position != null || $position != "", function($query) use($position){
-                $query->where("user_type", $position);
-            })->when($search != null || $search != "", function($query) use($search){
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
-            })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
-                $query->whereHas("office", function ($query2) use ($office) {
-                    $query2->where("id", $office);
-                })->with(['office' => function ($query2) use ($office) {
-                    $query2->where("id", $office);
-                }]);
-            })->with("access_control")->orderBy("name", "asc")->paginate(8);
+            if (Auth::user()->user_type == "director") {
+                $users = User::whereOfficeId(Auth::user()->office_id)->when($position != null || $position != "", function ($query) use ($position) {
+                    $query->where("user_type", $position);
+                })->when($search != null || $search != "", function ($query) use ($search) {
+                    $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
+                })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
+                    $query->whereHas("office", function ($query2) use ($office) {
+                        $query2->where("id", $office);
+                    })->with(['office' => function ($query2) use ($office) {
+                        $query2->where("id", $office);
+                    }]);
+                })->with("access_control")->orderBy("name", "asc")->paginate(8);
+            } else {
+                $users = User::when($position != null || $position != "", function ($query) use ($position) {
+                    $query->where("user_type", $position);
+                })->when($search != null || $search != "", function ($query) use ($search) {
+                    $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
+                })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
+                    $query->whereHas("office", function ($query2) use ($office) {
+                        $query2->where("id", $office);
+                    })->with(['office' => function ($query2) use ($office) {
+                        $query2->where("id", $office);
+                    }]);
+                })->with("access_control")->orderBy("name", "asc")->paginate(8);
+            }
+
+            $offices = Office::get();
+            $services = Service::get();
+            $units = Unit::when($office != null || $office != "", function ($query) use ($office) {
+                $query->where("office_id", $office);
+            })->get();
+            return Inertia::render('UserManagement/Index', [
+                "users" => $users,
+                "search" => $search,
+                "offices" => $offices,
+                "services" => $services,
+                "position" => $position,
+                "office" => $office,
+                "units" => $units,
+            ]);
+        } else {
+            return redirect()->route('dashboard');
         }
-        else {
-            $users = User::when($position != null || $position != "", function($query) use($position){
-                $query->where("user_type", $position);
-            })->when($search != null || $search != "", function($query) use($search){
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("email", "LIKE", "%{$search}%");
-            })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
-                $query->whereHas("office", function ($query2) use ($office) {
-                    $query2->where("id", $office);
-                })->with(['office' => function ($query2) use ($office) {
-                    $query2->where("id", $office);
-                }]);
-            })->with("access_control")->orderBy("name", "asc")->paginate(8);
-        }
-        
-        $offices = Office::get();
-        $services = Service::get();
-        $units = Unit::when($office != null || $office != "", function($query) use($office){
-            $query->where("office_id", $office);
-        })->get();
-        return Inertia::render('UserManagement/Index', [
-            "users" => $users,
-            "search" => $search,
-            "offices" => $offices,
-            "services" => $services,
-            "position" => $position,
-            "office" => $office,
-            "units" => $units,
-        ]);
     }
 
     public function status(Request $request, User $user)

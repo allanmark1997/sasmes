@@ -40,9 +40,9 @@ const logout = () => {
             <aside class=" top-0 left-0 w-[35vmin]   transition-transform -translate-x-full translate-x-0"
                 aria-label="Sidebar">
                 <div class="h-full px-3 py-4 bg-[#070d31]">
-                    <div class="relative flex left-4 lg:left-4">
+                    <div class="relative flex left-4 lg:left-8">
                         <img class="w-[50px] h-[50px]" src="./../CustomComponents/images/sasmes_logo.png" alt="">
-                        <img class="w-[70px] h-[20px] my-auto" src="./../CustomComponents/images/sasmes_text.png"
+                        <img class="w-[60px] h-[15px] my-auto" src="./../CustomComponents/images/sasmes_text.png"
                             alt="">
                     </div>
                     <ul class="space-y-2 font-medium mt-4">

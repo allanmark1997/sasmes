@@ -110,14 +110,14 @@ const search_remove = () => {
 
         <div class="py-4">
             <div class="flex justify-between">
-                <div class="flex gap-2 ml-8">
+                <div  v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin'" class="flex gap-2 ml-8">
                     <Input v-model="search" class="rounded-lg mb-2 w-[30vmin]" type="text" label="Search Office"
                         @keyup.enter="search_" />
                     <button v-if="search" class="h-10 my-auto mt-5" @click="search_remove">
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>
-                <PrimaryButton v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'" @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
+                <PrimaryButton v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin'" @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
                     Add Office
                 </PrimaryButton>
             </div>

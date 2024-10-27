@@ -16,16 +16,35 @@ class ServiceController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $request->search ?? '';
-        $services = Service::when($search != null || $search != "", function($query) use ($search){
-            $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
-        })->orderBy("name", "asc")->paginate(8);
-        $offices = Office::get();
-        return Inertia::render('ServiceManagement/Index', [
-            "services" => $services,
-            "search" => $search,
-            "offices" => $offices,
-        ]);
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "director") {
+            $search = $request->search ?? '';
+            $office = $request->office ?? '';
+            if (Auth::user()->user_type == "director") {
+                $services = Service::whereOfficeId(Auth::user()->office_id)->with("office")->when($search != null || $search != "", function ($query) use ($search) {
+                    $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
+                })
+                    ->when($office != null || $office != "", function ($query) use ($office) {
+                        $query->whereOfficeId($office);
+                    })->orderBy("name", "asc")->paginate(8);
+            } else {
+                $services = Service::with("office")->when($search != null || $search != "", function ($query) use ($search) {
+                    $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
+                })
+                    ->when($office != null || $office != "", function ($query) use ($office) {
+                        $query->whereOfficeId($office);
+                    })->orderBy("name", "asc")->paginate(8);
+            }
+
+            $offices = Office::get();
+            return Inertia::render('ServiceManagement/Index', [
+                "services" => $services,
+                "search" => $search,
+                "offices" => $offices,
+                "office" => $office,
+            ]);
+        } else {
+            return redirect()->route('dashboard');
+        }
     }
 
     /**
@@ -62,6 +81,33 @@ class ServiceController extends Controller
             "photo" => env('APP_URL') . '/storage/images/services/' . $imageName,
             "user_id" => Auth::user()->id,
             "office_id" => $request->office_id,
+        ]);
+
+        return back();
+    }
+
+    public function store_director(Request $request)
+    {
+        $request->validate([
+            'name' => ["required"],
+            'abbrevation' => ["required", "unique:services"],
+            'image' => ['required', 'max:1024'],
+        ]);
+
+        $imageName = $request->input('image');
+        if ($request->hasfile('image')) {
+            Service::initStorage();
+            $photo = $request->file('image');
+            $imageName = $photo->hashName();
+            $photo->store('images/services');
+        }
+
+        Service::create([
+            "name" => $request->name,
+            "abbrevation" => $request->abbrevation,
+            "photo" => env('APP_URL') . '/storage/images/services/' . $imageName,
+            "user_id" => Auth::user()->id,
+            "office_id" => Auth::user()->office_id,
         ]);
 
         return back();
@@ -111,8 +157,7 @@ class ServiceController extends Controller
                 "abbrevation" => $request->abbrevation,
                 "photo" => env('APP_URL') . '/storage/images/services/' . $imageName
             ]);
-        }
-        else{
+        } else {
             $service->update([
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation

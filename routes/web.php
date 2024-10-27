@@ -58,6 +58,7 @@ Route::middleware([
     Route::prefix('services')->name('service.')->group(function () {
         Route::get('/service_lists', [ServiceController::class, 'index'])->name('index');
         Route::post('/add_service', [ServiceController::class, 'store'])->name('store');
+        Route::post('/add_service_director', [ServiceController::class, 'store_director'])->name('store_director');
         Route::post('/update_service/{service}', [ServiceController::class, 'update'])->name('update');
         Route::delete('/delete_service/{service}', [ServiceController::class, 'destroy'])->name('destroy');
     });

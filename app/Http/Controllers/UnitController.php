@@ -21,7 +21,7 @@ class UnitController extends Controller
         $search = $request->search ?? '';
         $office = Office::whereId($request->office_id)->first();
         
-        $services = Service::get();
+        $services = Service::whereOfficeId($request->office_id)->get();
         if (count(collect(Auth::user()->load("access_control"))["access_control"]["units"]) == 0) {
             $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search) {
                 $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");

@@ -174,6 +174,8 @@ const search_remove = () => {
                         <input id="profile_photo" type="file" accept="image/png, image/gif, image/jpeg"
                             class="hidden" />
                     </label>
+                </div>
+                <div class="col-span-12">
                     <JetInputError :message="form.errors.image || unit_photo_error" class="mt-2" />
                 </div>
             </div>

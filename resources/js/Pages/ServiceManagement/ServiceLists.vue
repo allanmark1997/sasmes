@@ -14,12 +14,13 @@ import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["services", "search", "office_id"])
+const props = defineProps(["services", "search", "office_id", "office", "offices"])
 const form_update = useForm({
     name: null,
     abbrevation: null,
     image: [],
-    service: null
+    service: null,
+    office_id: "",
 })
 
 const form_delete = useForm({
@@ -36,6 +37,7 @@ const open_modal = (service) => {
     form_update.service = service
     form_update.name = service.name
     form_update.abbrevation = service.abbrevation
+    form_update.office_id = service.office_id
     post_image.value.push(service.photo)
     update_modal.value = !update_modal.value
 }
@@ -117,10 +119,14 @@ const confirm_delete = () => {
                 <div
                     class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
-                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(service)" class="bg-orange-500 rounded-md p-1 mr-1">
+                        <button
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                            @click="open_modal(service)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
-                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal_delete(service)" class="bg-red-500 rounded-md p-1">
+                        <button
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                            @click="open_modal_delete(service)" class="bg-red-500 rounded-md p-1">
                             <Icon icon="trash" />
                         </button>
                     </div>
@@ -131,15 +137,16 @@ const confirm_delete = () => {
                             <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ service.name }}</h5>
                             <small>{{ service.abbrevation }}</small>
                         </div>
+                        <small>Own by {{ service.office.name }}({{ service.office.abbrevation }})</small>
                     </div>
                 </div>
             </div>
         </template>
     </div>
     <div class="flex items-center justify-between bottom-1 fixed">
-        <Pagination :links="props.services.links" :search="props.search" />
+        <Pagination :links="props.services.links" :search="props.search" :office="props.office" />
         <p class="mt-6 text-sm text-gray-500">
-            Showing {{ services.data.length }} Services                                                       
+            Showing {{ services.data.length }} Services
         </p>
     </div>
 
@@ -201,6 +208,16 @@ const confirm_delete = () => {
                 <Input type="text" label="Office abbrevation" v-model="form_update.abbrevation" />
                 <JetInputError :message="form_update.errors.abbrevation" class="mt-2" />
             </div>
+            <!-- <div v-if="$page.props.auth.user.user_type != 'director'">
+                <select v-model="form_update.office_id"
+                    class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                    <option value="" disabled>Select Office</option>
+                    <template v-for="(office, key) in props.offices" :key="key">
+                        <option :value="office.id">{{ office.name }}</option>
+                    </template>
+                </select>
+            </div> -->
+            
         </template>
         <template #footer>
             <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">
@@ -220,8 +237,8 @@ const confirm_delete = () => {
     <ConfirmDialogModal :show="delete_modal" @close="delete_modal = false" maxWidth="2xl">
         <template #title>
             Are you sure you want to delete this service({{
-            form_delete.service.name
-        }})?</template>
+                form_delete.service.name
+            }})?</template>
         <template #content>
             <p class="text-red-500">
                 This action can update the system and this is not reversible!

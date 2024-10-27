@@ -63,19 +63,16 @@ const date_time = (date) => {
                 <template v-for="(record, key) in client_record.data" :key="key">
                     <tr class="odd:bg-white even:bg-gray-200 border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                            <img :src="record.client.photo" class="w-12 h-12 rounded-full" alt="">
-                            <p class="my-auto ml-2">
-                                {{ record.client.name }}
-                            </p>
+                            {{ record.client.lname + ", " }}{{ record.client.fname + " " }}{{ " " + !record.client.mname ? record.client.mname : "" }}
                         </th>
                         <td class="px-6 py-4">
                             {{ record.client.gender == "male" ? "Male" : "Female" }}
                         </td>
                         <td class="px-6 py-4 uppercase">
-                            {{ record.client.type }}
+                            {{ record.type }}
                         </td>
                         <td class="px-6 py-4 uppercase">
-                            {{ record.client.role }}
+                            {{ record.role }}
                         </td>
                         <td class="px-6 py-4 uppercase">
                             {{ record.appointment_type }}

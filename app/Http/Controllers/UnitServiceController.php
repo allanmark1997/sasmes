@@ -30,7 +30,7 @@ class UnitServiceController extends Controller
             }]);
         })->orderBy("created_at", "asc")->paginate(12);
         $except_already_exist_service = collect(UnitService::whereUnitId($request->unit_id)->get())->pluck("service_id")->toArray();
-        $services = Service::whereNotIn("id", $except_already_exist_service)->get();
+        $services = Service::whereOfficeId($request->office_id)->whereNotIn("id", $except_already_exist_service)->get();
         $clients = Client::get();
         return Inertia::render('UnitServices/Index', [
             "unit_services" => $unit_services,

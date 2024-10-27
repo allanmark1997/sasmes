@@ -22,14 +22,16 @@ const form = useForm({
 })
 
 const form_register = useForm({
-    name: null,
+    fname: null,
+    mname: null,
+    lname: null,
     sex: null,
-    birthday: null,
-    address: null,
-    type: null,
-    role: null,
-    photo: [],
-    id_photo: []
+    // birthday: null,
+    // address: null,
+    // type: null,
+    // role: null,
+    // photo: [],
+    // id_photo: []
 })
 
 const add_modal = ref(false);
@@ -85,79 +87,79 @@ const register_client = () => {
     });
 }
 
-const openFile = () => {
-    client_photo_error.value = ""
-    let hidden = document.getElementById("profile_photo");
-    hidden.click();
-    hidden.onchange = (e) => {
-        for (let index = 0; index < e.target.files.length; index++) {
-            post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_register.photo = e.target.files[0];
-        }
-    };
-};
+// const openFile = () => {
+//     client_photo_error.value = ""
+//     let hidden = document.getElementById("profile_photo");
+//     hidden.click();
+//     hidden.onchange = (e) => {
+//         for (let index = 0; index < e.target.files.length; index++) {
+//             post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
+//             form_register.photo = e.target.files[0];
+//         }
+//     };
+// };
 
-const dragFile = (e) => {
-    client_photo_error.value = ""
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 1) {
-        client_photo_error.value = "Only 1 image can be selected";
-    }
-    else {
-        for (const file of e.dataTransfer.files) {
-            var objectURL = URL.createObjectURL(file);
-            post_image.value.push(objectURL);
-            form_register.photo = file;
-        }
-    }
-};
+// const dragFile = (e) => {
+//     client_photo_error.value = ""
+//     e.preventDefault();
+//     if (e.dataTransfer.files.length > 1) {
+//         client_photo_error.value = "Only 1 image can be selected";
+//     }
+//     else {
+//         for (const file of e.dataTransfer.files) {
+//             var objectURL = URL.createObjectURL(file);
+//             post_image.value.push(objectURL);
+//             form_register.photo = file;
+//         }
+//     }
+// };
 
-const remove_image = (key) => {
-    post_image.value.splice(key, 1);
-    form_register.photo = null;
-    toast.warn("Image remove", {
-        autoClose: 1000,
-        transition: toast.TRANSITIONS.FLIP,
-        position: toast.POSITION.TOP_RIGHT,
-    });
-};
+// const remove_image = (key) => {
+//     post_image.value.splice(key, 1);
+//     form_register.photo = null;
+//     toast.warn("Image remove", {
+//         autoClose: 1000,
+//         transition: toast.TRANSITIONS.FLIP,
+//         position: toast.POSITION.TOP_RIGHT,
+//     });
+// };
 
-const openFileId = () => {
-    id_photo_error.value = ""
-    let hidden = document.getElementById("id_photo");
-    hidden.click();
-    hidden.onchange = (e) => {
-        for (let index = 0; index < e.target.files.length; index++) {
-            post_image_id.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_register.id_photo = e.target.files[0];
-        }
-    };
-};
+// const openFileId = () => {
+//     id_photo_error.value = ""
+//     let hidden = document.getElementById("id_photo");
+//     hidden.click();
+//     hidden.onchange = (e) => {
+//         for (let index = 0; index < e.target.files.length; index++) {
+//             post_image_id.value.push(window.URL.createObjectURL(e.target.files[0]));
+//             form_register.id_photo = e.target.files[0];
+//         }
+//     };
+// };
 
-const dragFileId = (e) => {
-    id_photo_error.value = ""
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 1) {
-        id_photo_error.value = "Only 1 image can be selected";
-    }
-    else {
-        for (const file of e.dataTransfer.files) {
-            var objectURL = URL.createObjectURL(file);
-            post_image_id.value.push(objectURL);
-            form_register.id_photo = file;
-        }
-    }
-};
+// const dragFileId = (e) => {
+//     id_photo_error.value = ""
+//     e.preventDefault();
+//     if (e.dataTransfer.files.length > 1) {
+//         id_photo_error.value = "Only 1 image can be selected";
+//     }
+//     else {
+//         for (const file of e.dataTransfer.files) {
+//             var objectURL = URL.createObjectURL(file);
+//             post_image_id.value.push(objectURL);
+//             form_register.id_photo = file;
+//         }
+//     }
+// };
 
-const remove_imageId = (key) => {
-    post_image_id.value.splice(key, 1);
-    form_register.id_photo = null;
-    toast.warn("Image remove", {
-        autoClose: 1000,
-        transition: toast.TRANSITIONS.FLIP,
-        position: toast.POSITION.TOP_RIGHT,
-    });
-};
+// const remove_imageId = (key) => {
+//     post_image_id.value.splice(key, 1);
+//     form_register.id_photo = null;
+//     toast.warn("Image remove", {
+//         autoClose: 1000,
+//         transition: toast.TRANSITIONS.FLIP,
+//         position: toast.POSITION.TOP_RIGHT,
+//     });
+// };
 
 const search_ = () => {
     router.get(
@@ -228,6 +230,7 @@ const search_remove = () => {
             <div>
                 <JetInputError :message="form.errors.services" class="mt-2" />
             </div>
+           
         </template>
         <template #footer>
             <SecondaryButton @click="add_modal = false" class="mr-2 hover:bg-red-500">
@@ -247,7 +250,7 @@ const search_remove = () => {
     <JetDialogModal :show="register_modal" @close="register_modal = false" maxWidth="2xl">
         <template #title>Register New Client here!</template>
         <template #content>
-            <div class="grid grid-cols-12 gap-2">
+            <!-- <div class="grid grid-cols-12 gap-2">
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
                     <template v-for="(image, key) in post_image" :key="key">
                         <div class="flex-shrink-0">
@@ -287,11 +290,18 @@ const search_remove = () => {
                     </label>
                 </div>
                 <JetInputError :message="form_register.errors.photo || client_photo_error" class="mt-2 col-span-full" />
+            </div> -->
+            <div class="col-span-full">
+                <Input type="text" label="Client First Name" v-model="form_register.fname" />
+                <JetInputError :message="form_register.errors.fname" class="mt-2" />
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Client Name" v-model="form_register.name" />
-                <JetInputError :message="form_register.errors.name" class="mt-2" />
+                <Input type="text" label="Client Middle Name" v-model="form_register.mname" />
             </div>
+            <div class="col-span-full">
+                <Input type="text" label="Client Surname" v-model="form_register.lname" />
+                <JetInputError :message="form_register.errors.lname" class="mt-2" />
+            </div>  
             <div class="col-span-full">
                 <select
                     class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
@@ -302,7 +312,7 @@ const search_remove = () => {
                 </select>
                 <JetInputError :message="form_register.errors.sex" class="mt-2" />
             </div>
-            <div class="col-span-full">
+            <!-- <div class="col-span-full">
                 <Input type="date" label="Client Birthday" v-model="form_register.birthday" />
                 <JetInputError :message="form_register.errors.birthday" class="mt-2" />
             </div>
@@ -373,7 +383,7 @@ const search_remove = () => {
                     </label>
                     <JetInputError :message="form_register.errors.id_photo || id_photo_error" class="mt-2" />
                 </div>
-            </div>
+            </div> -->
         </template>
         <template #footer>
             <SecondaryButton @click="register_modal = false" class="mr-2 hover:bg-red-500">

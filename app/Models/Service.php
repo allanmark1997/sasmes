@@ -12,6 +12,11 @@ class Service extends Model
     use HasFactory, SoftDeletes;
     protected $guarded = [];
 
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
     public static function initStorage()
     {
         if (!Storage::exists('images/services')) {

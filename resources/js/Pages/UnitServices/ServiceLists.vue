@@ -23,13 +23,15 @@ const form_status = useForm({
 })
 
 const form_admission = useForm({
-    name: "",
+    search: "",
     id: "",
     client: "",
     appointment_type: null,
-    office_id:props.office_id,
-    unit_id:props.unit_id,
-    unit_services_id:null
+    office_id: props.office_id,
+    unit_id: props.unit_id,
+    unit_services_id: null,
+    role: "",
+    type: "",
 })
 
 const admission_modal = ref(false);
@@ -122,7 +124,7 @@ const date = (date) => {
                         <div>
                             <p class="text-xs p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto"
                                 :class="service.status == 1 ? 'bg-green-500' : 'bg-red-500'">{{ service.status == 1 ?
-        'Active' : 'Deactivated' }}</p>
+                                    'Active' : 'Deactivated' }}</p>
                         </div>
                     </div>
                 </div>
@@ -145,7 +147,7 @@ const date = (date) => {
                 <JetInputError :message="form_update.errors.abbrevation" class="mt-2" />
             </div> -->
 
-            <div class="h-[70vmin]">
+            <div class="h-[50vmin]">
                 <div class="col-span-full">
                     <select
                         class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
@@ -156,28 +158,57 @@ const date = (date) => {
                     </select>
                     <JetInputError :message="form_admission.errors.appointment_type" class="mt-2" />
                 </div>
+                <div class="col-span-full">
+                    <select
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
+                        v-model="form_admission.type">
+                        <option value="" disabled>Select Client Type</option>
+                        <option value="citizen">Citizen</option>
+                        <option value="business">Business</option>
+                        <option value="government">Government</option>
+                    </select>
+                    <JetInputError :message="form_admission.errors.type" class="mt-2" />
+                </div>
+                <div>
+                    <select v-model="form_admission.role"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
+                        <option value="" disabled>Select Client Role</option>
+                        <option value="student">Student</option>
+                        <option value="employee">Employee</option>
+                        <option value="alumni">Alumni</option>
+                        <option value="guardian">Guardian</option>
+                        <option value="others">Others</option>
+                    </select>
+                    <JetInputError :message="form_admission.errors.role" class="mt-2" />
+
+                </div>
                 <div class="col-span-full grid grid-cols-6 gap-1">
                     <div class="col-span-5">
-                        <Input type="text" label="Search Client name"
-                            v-model="form_admission.name" />
-                    <JetInputError :message="form_admission.errors.client" class="mt-2" />
-                        <div v-if="form_admission.name && !form_admission.client"
+                        <Input type="text" label="Search Client name" v-model="form_admission.search" />
+                        <JetInputError :message="form_admission.errors.client" class="mt-2" />
+                        <div v-if="form_admission.search && !form_admission.client"
                             class="absolute z-50 w-60 bg-white rounded shadow">
                             <ul class="overflow-y-auto py-1 h-[20vmin] text-gray-700"
                                 aria-labelledby="dropdownUsersButton">
                                 <li v-for="(client, index) in props.clients" :key="index">
-                                    <a v-if="client.name
-        .toLowerCase()
-        .includes(form_admission.name.toLowerCase())
-        " class="flex items-center py-2 px-4 hover:bg-gray-100 cursor-pointer" @click="
-        (form_admission.name = client.name),
-        (form_admission.id = client.id),
-        (form_admission.client = client),
-        (search_results_client_to_add = false)
-        ">
-                                        <img class="mr-2 w-6 h-6 rounded-full" :src="client.photo"
+                                    <a v-if="client.lname
+                                        .toLowerCase()
+                                        .includes(form_admission.search.toLowerCase()) ||
+                                        client.fname
+                                            .toLowerCase()
+                                            .includes(form_admission.search.toLowerCase())
+                                    " class="flex items-center py-2 px-4 hover:bg-gray-100 cursor-pointer" @click="
+                                        (form_admission.id = client.id),
+                                        (form_admission.client = client),
+                                        (search_results_client_to_add = false),
+                                        (form_admission.search = '')
+                                        ">
+                                        <!-- <img class="mr-2 w-6 h-6 rounded-full" :src="client.photo"
                                             :onerror="`this.src='${default_image}'`" />
-                                        {{ client.name }}
+                                             -->
+                                        {{ client.lname + ", " + client.fname + " " + (!client.mname ? "" :
+                                            client.mname)
+                                        }}
                                     </a>
                                 </li>
                             </ul>
@@ -185,22 +216,23 @@ const date = (date) => {
                                 <small>Results</small>
                             </div>
                             <a @click="
-        (search_results_client_to_add = false),
-        (form_admission.name = ''),
-        (form_admission.client = ''),
-        (form_admission.id = false)
-        " class="flex items-center p-3 text-sm font-medium text-blue-600 bg-gray-50 border-t border-gray-200 hover:bg-gray-100 hover:underline cursor-pointer">
+                                (search_results_client_to_add = false),
+                                (form_admission.client = ''),
+                                (form_admission.id = false),
+                                (form_admission.search = '')
+                                "
+                                class="flex items-center p-3 text-sm font-medium text-blue-600 bg-gray-50 border-t border-gray-200 hover:bg-gray-100 hover:underline cursor-pointer">
                                 clear search
                             </a>
                         </div>
                     </div>
                     <div class="col-span-1 my-auto flex">
-                        <button v-if="form_admission.id" class="h-10 my-auto mt-5" @click="
-        (search_results_client_to_add = false),
-        (form_admission.name = ''),
-        (form_admission.client = ''),
-        (form_admission.id = false)
-        ">
+                        <button v-if="form_admission.client" class="h-10 my-auto mt-5" @click="
+                            (search_results_client_to_add = false),
+                            (form_admission.client = ''),
+                            (form_admission.id = false),
+                            (form_admission.search = '')
+                            ">
                             <Icon icon="close_icon" size="sm" />
                         </button>
                         <!-- <button @click="open_search_product"
@@ -212,40 +244,52 @@ const date = (date) => {
 
                 <div v-if="form_admission.client" class="mt-6">
                     <div class="w-full mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow">
-                        <div class="flex flex-col items-center pb-10">
-                            <img class="w-24 h-24 mb-3 rounded-full shadow-lg mt-4" :src="form_admission.client?.photo"
-                                alt="Bonnie image" />
-                            <h5 class="mb-1 text-xl font-medium text-gray-700">{{ form_admission.client?.name }}</h5>
+                        <div class="flex flex-col items-center ">
+                            <!-- <img class="w-24 h-24 mb-3 rounded-full shadow-lg mt-4" :src="form_admission.client?.photo"
+                                alt="Bonnie image" /> -->
+
+                            <h5 class="mb-1 text-xl font-medium text-gray-700">{{ form_admission.client?.fname }}</h5>
                             <div class="grid grid-cols-12 gap-1">
-                                <div class="col-span-6 flex text-left">
+                                <!-- <div class="col-span-6 flex text-left">
                                     <Icon icon="birthday" /><span class="text-sm text-gray-500">{{
-        date(form_admission.client?.birthday) }}</span>
-                                </div>
+                                        date(form_admission.client?.birthday) }}</span>
+                                </div> -->
                                 <div class="col-span-6 flex  text-left">
                                     <Icon icon="sex" /><span class="text-sm text-gray-500 uppercase">{{
-        form_admission.client?.sex }}</span>
+                                        form_admission.client?.sex }}</span>
                                 </div>
-                                <div class="col-span-6 flex text-left">
+                                <!-- <div class="col-span-6 flex text-left">
                                     <Icon icon="location" /><span class="text-sm text-gray-500">{{
-        form_admission.client?.address
-    }}</span>
+                                        form_admission.client?.address
+                                    }}</span>
                                 </div>
                                 <div class="col-span-6 flex text-left">
                                     <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
-            form_admission.client?.type }}</span>
+                                        form_admission.client?.type }}</span>
                                 </div>
                                 <div class="col-span-6 flex text-left">
                                     <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
-        form_admission.client?.role }}</span>
-                                </div>
+                                        form_admission.client?.role }}</span>
+                                </div> -->
                                 <div class="col-span-6 flex text-left">
                                     <Icon icon="calendar" /><span class="text-sm text-gray-500 uppercase">{{ date(
-        form_admission.client?.created_at) }}</span>
+                                        form_admission.client?.created_at) }}</span>
                                 </div>
                             </div>
-                            <img class="w-[35vmin] h-[25vmin] mb-3 rounded-lg shadow-lg mt-4 object-scale-down p-2"
-                                :src="form_admission.client.id_photo" alt="Bonnie image" />
+                            <!-- <img class="w-[35vmin] h-[25vmin] mb-3 rounded-lg shadow-lg mt-4 object-scale-down p-2"
+                                :src="form_admission.client.id_photo" alt="Bonnie image" /> -->
+                            <div>
+                                <button v-if="form_admission.id" class="w-[10vmin] bg-red-500 rounded-lg mt-6 mb-2 text-white" @click="
+                                    (search_results_client_to_add = false),
+                                    (form_admission.client = ''),
+                                    (form_admission.id = false),
+                                    (form_admission.search = '')
+                                    ">
+                                    Remove
+                                </button>
+                            </div>
                         </div>
+
                     </div>
                 </div>
             </div>
@@ -324,7 +368,7 @@ const date = (date) => {
     <ConfirmDialogModal :show="status_modal" @close="status_modal = false" maxWidth="2xl">
         <template #title>
             Are you sure you want to update status of service({{
-            form_status.service.unit_service.name
+                form_status.service.unit_service.name
             }})?</template>
         <template #content>
         </template>

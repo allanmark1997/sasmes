@@ -17,38 +17,42 @@ import moment from 'moment';
 
 const props = defineProps(["clients", "search"])
 const form_update = useForm({
-    name: null,
+    fname: null,
+    mname: null,
+    lname: null,
     sex: null,
-    birthday: null,
-    address: null,
-    type: null,
-    role: null,
-    photo: [],
-    id_photo: [],
-    client: null
+    // birthday: null,
+    // address: null,
+    // type: null,
+    // role: null,
+    // photo: [],
+    // id_photo: [],
+    // client: null
 })
 
 const update_modal = ref(false);
 const details_modal = ref(false);
-const client_photo_error = ref("");
-const id_photo_error = ref("");
-const post_image = ref([]);
-const post_image_id = ref([]);
+// const client_photo_error = ref("");
+// const id_photo_error = ref("");
+// const post_image = ref([]);
+// const post_image_id = ref([]);
 
 const open_update_modal = (client) => {
     form_update.reset()
-    post_image.value = []
-    post_image_id.value = []
+    // post_image.value = []
+    // post_image_id.value = []
 
     form_update.client = client
-    form_update.name = client.name
+    form_update.fname = client.fname
+    form_update.mname = client.mname
+    form_update.lname = client.lname
     form_update.sex = client.sex
-    form_update.birthday = client.birthday
-    form_update.address = client.address
-    form_update.type = client.type
-    form_update.role = client.role
-    post_image.value.push(client.photo)
-    post_image_id.value.push(client.id_photo)
+    // form_update.birthday = client.birthday
+    // form_update.address = client.address
+    // form_update.type = client.type
+    // form_update.role = client.role
+    // post_image.value.push(client.photo)
+    // post_image_id.value.push(client.id_photo)
     update_modal.value = !update_modal.value
 }
 
@@ -68,79 +72,79 @@ const update_client = () => {
     });
 }
 
-const openFile = () => {
-    client_photo_error.value = ""
-    let hidden = document.getElementById("profile_photo");
-    hidden.click();
-    hidden.onchange = (e) => {
-        for (let index = 0; index < e.target.files.length; index++) {
-            post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_update.photo = e.target.files[0];
-        }
-    };
-};
+// const openFile = () => {
+//     client_photo_error.value = ""
+//     let hidden = document.getElementById("profile_photo");
+//     hidden.click();
+//     hidden.onchange = (e) => {
+//         for (let index = 0; index < e.target.files.length; index++) {
+//             post_image.value.push(window.URL.createObjectURL(e.target.files[0]));
+//             form_update.photo = e.target.files[0];
+//         }
+//     };
+// };
 
-const dragFile = (e) => {
-    client_photo_error.value = ""
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 1) {
-        client_photo_error.value = "Only 1 image can be selected";
-    }
-    else {
-        for (const file of e.dataTransfer.files) {
-            var objectURL = URL.createObjectURL(file);
-            post_image.value.push(objectURL);
-            form_update.photo = file;
-        }
-    }
-};
+// const dragFile = (e) => {
+//     client_photo_error.value = ""
+//     e.preventDefault();
+//     if (e.dataTransfer.files.length > 1) {
+//         client_photo_error.value = "Only 1 image can be selected";
+//     }
+//     else {
+//         for (const file of e.dataTransfer.files) {
+//             var objectURL = URL.createObjectURL(file);
+//             post_image.value.push(objectURL);
+//             form_update.photo = file;
+//         }
+//     }
+// };
 
-const remove_image = (key) => {
-    post_image.value.splice(key, 1);
-    form_update.photo = null;
-    toast.warn("Image remove", {
-        autoClose: 1000,
-        transition: toast.TRANSITIONS.FLIP,
-        position: toast.POSITION.TOP_RIGHT,
-    });
-};
+// const remove_image = (key) => {
+//     post_image.value.splice(key, 1);
+//     form_update.photo = null;
+//     toast.warn("Image remove", {
+//         autoClose: 1000,
+//         transition: toast.TRANSITIONS.FLIP,
+//         position: toast.POSITION.TOP_RIGHT,
+//     });
+// };
 
-const openFileId = () => {
-    id_photo_error.value = ""
-    let hidden = document.getElementById("id_photo");
-    hidden.click();
-    hidden.onchange = (e) => {
-        for (let index = 0; index < e.target.files.length; index++) {
-            post_image_id.value.push(window.URL.createObjectURL(e.target.files[0]));
-            form_update.id_photo = e.target.files[0];
-        }
-    };
-};
+// const openFileId = () => {
+//     id_photo_error.value = ""
+//     let hidden = document.getElementById("id_photo");
+//     hidden.click();
+//     hidden.onchange = (e) => {
+//         for (let index = 0; index < e.target.files.length; index++) {
+//             post_image_id.value.push(window.URL.createObjectURL(e.target.files[0]));
+//             form_update.id_photo = e.target.files[0];
+//         }
+//     };
+// };
 
-const dragFileId = (e) => {
-    id_photo_error.value = ""
-    e.preventDefault();
-    if (e.dataTransfer.files.length > 1) {
-        id_photo_error.value = "Only 1 image can be selected";
-    }
-    else {
-        for (const file of e.dataTransfer.files) {
-            var objectURL = URL.createObjectURL(file);
-            post_image_id.value.push(objectURL);
-            form_update.id_photo = file;
-        }
-    }
-};
+// const dragFileId = (e) => {
+//     id_photo_error.value = ""
+//     e.preventDefault();
+//     if (e.dataTransfer.files.length > 1) {
+//         id_photo_error.value = "Only 1 image can be selected";
+//     }
+//     else {
+//         for (const file of e.dataTransfer.files) {
+//             var objectURL = URL.createObjectURL(file);
+//             post_image_id.value.push(objectURL);
+//             form_update.id_photo = file;
+//         }
+//     }
+// };
 
-const remove_imageId = (key) => {
-    post_image_id.value.splice(key, 1);
-    form_update.id_photo = null;
-    toast.warn("Image remove", {
-        autoClose: 1000,
-        transition: toast.TRANSITIONS.FLIP,
-        position: toast.POSITION.TOP_RIGHT,
-    });
-};
+// const remove_imageId = (key) => {
+//     post_image_id.value.splice(key, 1);
+//     form_update.id_photo = null;
+//     toast.warn("Image remove", {
+//         autoClose: 1000,
+//         transition: toast.TRANSITIONS.FLIP,
+//         position: toast.POSITION.TOP_RIGHT,
+//     });
+// };
 
 const open_modal_details = (client) => {
     form_update.client = client
@@ -150,6 +154,10 @@ const open_modal_details = (client) => {
 const date = (date) => {
     return moment(date).format('MMMM Do YYYY');
 }
+
+const date_time = (date) => {
+    return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+}
 </script>
 
 <template>
@@ -158,7 +166,52 @@ const date = (date) => {
             No Clients!
         </p>
     </div>
-    <div class="grid grid-cols-12 gap-2">
+    <div v-else class="relative overflow-x-auto overflow-y-auto rounded-lg">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-700">
+            <thead class="text-xs text-white uppercase bg-yellow-500 ">
+                <tr>
+                    <th scope="col" class="px-6 py-3">
+                        Client Name
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Gender
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Date & Time
+                    </th>
+                    <th scope="col" class="px-6 py-3">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template v-for="(client, key) in clients.data" :key="key">
+                    <tr class="odd:bg-white even:bg-gray-200 border-b">
+                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
+                            {{ client.lname + ", " }}{{ client.fname + " " }}{{ " " + !client.mname ? client.mname : "" }}
+                        </th>
+                        <td class="px-6 py-4">
+                            {{ client.sex == "male" ? "Male" : "Female" }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            {{ date_time(client.created_at) }}
+                        </td>
+                        <td class="px-6 py-4 ">
+                            <button @click="open_modal_details(client)" class="bg-green-500 rounded-md p-1 mr-1">
+                                <Icon icon="docs" />
+                            </button>
+                            <button
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                                @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
+                                <Icon icon="pencil" />
+                            </button>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="grid grid-cols-12 gap-2">
         <template v-for="(client, key) in clients.data" :key="key">
             <div class="col-span-3">
                 <div
@@ -167,7 +220,9 @@ const date = (date) => {
                         <button @click="open_modal_details(client)" class="bg-green-500 rounded-md p-1 mr-1">
                             <Icon icon="docs" />
                         </button>
-                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
+                        <button
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                            @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
 
@@ -184,7 +239,7 @@ const date = (date) => {
                 </div>
             </div>
         </template>
-    </div>
+    </div> -->
     <div class="flex items-center justify-between bottom-1 fixed">
         <Pagination :links="props.clients.links" :search="props.search" />
         <p class="mt-6 text-sm text-gray-500">
@@ -195,7 +250,7 @@ const date = (date) => {
     <JetDialogModal :show="update_modal" @close="update_modal = false" maxWidth="2xl">
         <template #title>Update Client here!</template>
         <template #content>
-            <div class="grid grid-cols-12 gap-2">
+            <!-- <div class="grid grid-cols-12 gap-2">
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
                     <template v-for="(image, key) in post_image" :key="key">
                         <div class="flex-shrink-0">
@@ -235,11 +290,18 @@ const date = (date) => {
                     </label>
                 </div>
                 <JetInputError :message="form_update.errors.photo || client_photo_error" class="mt-2 col-span-full" />
+            </div> -->
+            <div class="col-span-full">
+                <Input type="text" label="Client First Name" v-model="form_update.fname" />
+                <JetInputError :message="form_update.errors.fname" class="mt-2" />
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Client Name" v-model="form_update.name" />
-                <JetInputError :message="form_update.errors.name" class="mt-2" />
+                <Input type="text" label="Client Middle Name" v-model="form_update.mname" />
             </div>
+            <div class="col-span-full">
+                <Input type="text" label="Client Surname" v-model="form_update.lname" />
+                <JetInputError :message="form_update.errors.lname" class="mt-2" />
+            </div>  
             <div class="col-span-full">
                 <select
                     class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
@@ -250,7 +312,7 @@ const date = (date) => {
                 </select>
                 <JetInputError :message="form_update.errors.sex" class="mt-2" />
             </div>
-            <div class="col-span-full">
+            <!-- <div class="col-span-full">
                 <Input type="date" label="Client Birthday" v-model="form_update.birthday" />
                 <JetInputError :message="form_update.errors.birthday" class="mt-2" />
             </div>
@@ -321,7 +383,7 @@ const date = (date) => {
                     </label>
                     <JetInputError :message="form_update.errors.id_photo || id_photo_error" class="mt-2" />
                 </div>
-            </div>
+            </div> -->
         </template>
         <template #footer>
             <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">
@@ -339,43 +401,43 @@ const date = (date) => {
     </JetDialogModal>
 
     <JetDialogModal :show="details_modal" @close="details_modal = false" maxWidth="2xl">
-        <template #title>Client's details of ({{ form_update.client?.name }})</template>
+        <template #title>Client's details of ({{ form_update.client?.lname + ", " + form_update.client?.fname + " " + (!form_update.client?.mname ? "":form_update.client?.mname)  }})</template>
         <template #content>
-            <div class="grid grid-cols-12 gap-2">
+            <!-- <div class="grid grid-cols-12 gap-2">
                 <div class="col-span-12">
                     <div class="flex-shrink-0">
                         <img class="w-[40vmin] h-[30vmin] rounded-lg mx-auto object-scale-down"
                             :src="form_update.client?.id_photo" />
                     </div>
                 </div>
-            </div>
-            <div class="grid grid-cols-12 gap-1 mt-4">
+            </div> -->
+            <!-- <div class="grid grid-cols-12 gap-1 mt-4">
                 <div class="col-span-6 flex text-left">
                     <Icon icon="birthday" /><span class="text-sm text-gray-500">{{
-        date(form_update.client?.birthday) }}</span>
+                        date(form_update.client?.birthday) }}</span>
                 </div>
                 <div class="col-span-6 flex  text-left">
                     <Icon icon="sex" /><span class="text-sm text-gray-500 uppercase">{{
-        form_update.client?.sex }}</span>
+                        form_update.client?.sex }}</span>
                 </div>
                 <div class="col-span-6 flex text-left">
                     <Icon icon="location" /><span class="text-sm text-gray-500">{{
-        form_update.client?.address
-    }}</span>
+                        form_update.client?.address
+                    }}</span>
                 </div>
                 <div class="col-span-6 flex text-left">
                     <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
-            form_update.client?.type }}</span>
+                        form_update.client?.type }}</span>
                 </div>
                 <div class="col-span-6 flex text-left">
                     <Icon icon="user" /><span class="text-sm text-gray-500 uppercase">{{
-        form_update.client?.role }}</span>
+                        form_update.client?.role }}</span>
                 </div>
                 <div class="col-span-6 flex text-left">
                     <Icon icon="calendar" /><span class="text-sm text-gray-500 uppercase">{{ date(
                         form_update.client?.created_at) }}</span>
                 </div>
-            </div>
+            </div> -->
         </template>
         <template #footer>
             <SecondaryButton @click="details_modal = false" class="mr-2 hover:bg-red-500">

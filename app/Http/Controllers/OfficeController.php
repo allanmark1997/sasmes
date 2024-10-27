@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 
@@ -15,9 +17,13 @@ class OfficeController extends Controller
     public function index(Request $request)
     {
         $search = $request->search ?? '';
-        $offices = Office::when($search != null || $search != "", function($query) use ($search){
-            $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
-        })->orderBy("name", "asc")->paginate(8);
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin") {
+            $offices = Office::when($search != null || $search != "", function ($query) use ($search) {
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
+            })->orderBy("name", "asc")->paginate(8);
+        } else {
+            return redirect()->route('unit.index', ["office_id" => Auth::user()->office_id]);
+        }
         return Inertia::render('Office/Index', [
             "offices" => $offices,
             "search" => $search
@@ -104,8 +110,7 @@ class OfficeController extends Controller
                 "abbrevation" => $request->abbrevation,
                 "photo" => env('APP_URL') . '/storage/images/offices/' . $imageName
             ]);
-        }
-        else{
+        } else {
             $office->update([
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation
