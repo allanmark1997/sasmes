@@ -92,7 +92,8 @@ const search_remove = () => {
                     <Input v-model="search" class="rounded-lg mb-2 w-[20vmin]" type="text" label="Search Client"
                         @keyup.enter="search_" />
                     <button v-if="search || role || office || service || from || to" class="h-10 my-auto mt-5" @click="search_remove">
-                        <Icon icon="close_icon" size="sm" />
+                        <!-- <Icon icon="close_icon" size="sm" /> -->
+                         <small class="bg-red-500 text-white p-1 rounded-lg">remove filter</small>
                     </button>
                 </div>
             </div>

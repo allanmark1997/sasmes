@@ -20,64 +20,80 @@ class DashboardController extends Controller
     {
         $from = $request->from ?? date("Y-m-d");
         $to = $request->to ?? date("Y-m-d");
+        $office = $request->office ?? "";
+        $unit = $request->unit ?? "";
         $filter = $request->filter ?? "office";
-        $month_today = date("Y-m");
-        // dd($month_today, $from, $to);
-        $client_chart = [];
+
         $offices = Office::get();
-        $units = Unit::whereStatus(1)->get();
-        $office_ids = collect($offices)->pluck("id")->toArray();
-        $unit_ids = collect($units)->pluck("id")->toArray();
+        $units = Unit::when($office !=  null || $office != "", function ($query) use ($office) {
+            $query->whereOfficeId($office);
+        })->whereStatus(1)->get();
 
-        $filtered_records = ClientRecords::with("office")->with("client")->with("service")->with("unit")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
-            $query->whereBetween('created_at', [$from, $to]);
+        $filtered_records = ClientRecords::with("office")->has("office")->with("client")->has("client")->with("service")->has("service")->with("unit")->has("unit")->when($unit !=  null || $unit != "", function ($query) use ($unit) {
+            $query->whereUnitId($unit);
+        })->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
         })->get();
-
-        $office_counter = 0;
-        // foreach ($filtered_records as $key => $record) {
-        //     $client_chart[] = (object)array(
-        //         "name" => $record->office->name
-        //     );
-        // }
 
         $data = [];
 
-        $office_sample = collect($offices)->map(function ($office) use ($filtered_records, $data) {
-            foreach ($filtered_records as $key => $record) {
-                $counter = 0;
-                if ($office->id == $record->office_id) {
-                    $counter++;
-                    $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
+        if ($request->filter == "office") {
+            $office_sample = collect($offices)->map(function ($office) use ($filtered_records, $data) {
+                foreach ($filtered_records as $key => $record) {
+                    $counter = 0;
+                    if ($office->id == $record->office_id) {
+                        $counter++;
+                        $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
+                    }
+                    $counter = 0;
                 }
-                $counter = 0;
-            }
+                $office = (object)array(
+                    "chart" => array(
+                        "name" => $office->abbrevation,
+                        "data" => $data
+                    )
+                );
+                return $office;
+            })->toArray();
+        } else {
+            $office_sample = collect($units)->map(function ($office) use ($filtered_records, $data) {
+                foreach ($filtered_records as $key => $record) {
+                    $counter = 0;
+                    if ($office->id == $record->office_id) {
+                        $counter++;
+                        $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
+                    }
+                    $counter = 0;
+                }
+                $office = (object)array(
+                    "chart" => array(
+                        "name" => $office->abbrevation,
+                        "data" => $data
+                    )
+                );
+                return $office;
+            })->toArray();
+        }
+
+
+        $office_count = collect($office_sample)->map(function ($office) {
             $office = (object)array(
-                "chart" => array(
-                    "name" => $office->abbrevation,
-                    "data" => $data
-                )
+                "name" => $office->chart["name"],
+                "data" => (object)$this->collect_data($office->chart["data"])
             );
             return $office;
         })->toArray();
-
-        $office_count = collect($office_sample)->map(function ($office) {
-            $office = array(
-                "name" => $office->chart["name"],
-                "data" => array(
-                    $this->collect_data($office->chart["data"])
-                )
-            );
-            return $office;
-        });
-        // dd($office_count);
+        // dd($office_count, $office_sample);
 
         return Inertia::render('Dashboard', [
-            "client_chart" => $filtered_records,
+            "client_chart" => $office_count,
             "from" => $from,
             "offices" => $offices,
             "units" => $units,
             "to" => $to,
             "filter" => $filter,
+            "office" => $office,
+            "unit" => $unit,
         ]);
     }
 
@@ -85,9 +101,7 @@ class DashboardController extends Controller
     {
         $temp_data = [];
         foreach ($datas as $key => $data) {
-            $temp_data = array(
-                $key => $data
-            );
+            $temp_data[$key] = count($data);
         }
         return $temp_data;
     }
