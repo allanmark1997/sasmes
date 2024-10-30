@@ -48,10 +48,10 @@ const search_remove = () => {
                         </select>
                     </div>
                     <div>
-                        <Input v-model="form.from" class="rounded-lg mb-2 w-[30vmin]" type="month" label="From date" />
+                        <Input v-model="form.from" class="rounded-lg mb-2 w-[30vmin]" type="date" label="From date" />
                     </div>
                     <div>
-                        <Input v-model="form.to" class="rounded-lg mb-2 w-[30vmin]" type="month" label="To date" @keyup.enter="search_" />
+                        <Input v-model="form.to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date" @keyup.enter="search_" />
                     </div>
                     <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
                         <Icon icon="close_icon" size="sm" />
