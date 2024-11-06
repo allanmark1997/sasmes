@@ -47,7 +47,7 @@ const search_remove = () => {
         <div class="py-4">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex gap-2 ">
-                    <div >
+                    <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
                         <select v-model="form.office_id"
                         @change="(search_)"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"

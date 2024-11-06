@@ -8,6 +8,7 @@ use App\Models\Office;
 use App\Models\Unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
@@ -20,8 +21,14 @@ class DashboardController extends Controller
     {
         $from = $request->from ?? date("Y-m-d");
         $to = $request->to ?? date("Y-m-d");
-        $office_id = $request->office_id ?? "";
 
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+            $office_id = $request->office_id ?? "";
+        }
+        else{
+            $office_id = Auth::user()->office_id;
+        }
+        
         $offices = Office::get();
         $units = Unit::get();
         $filtered_records = ClientRecords::with("office")->has("office")->with("client")->has("client")->with("service")->has("service")->with("unit")->has("unit")->when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
