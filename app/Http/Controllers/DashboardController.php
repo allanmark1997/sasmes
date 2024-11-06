@@ -29,7 +29,7 @@ class DashboardController extends Controller
             $office_id = Auth::user()->office_id;
         }
         
-        $offices = Office::get();
+        $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
         $units = Unit::get();
         $filtered_records = ClientRecords::with("office")->has("office")->with("client")->has("client")->with("service")->has("service")->with("unit")->has("unit")->when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
             $query->whereOfficeId($office_id);
