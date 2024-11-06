@@ -35,7 +35,7 @@ const submit = () => {
     <AuthenticationCard>
         <template #logo>
             <AuthenticationCardLogo />
-            <img src="./../../CustomComponents/images/sasmes_text.png" alt="" class="-mt-12 w-[30vmin] mx-auto">
+            <img src="./../../CustomComponents/images/sasmes_text.png" alt="" class="-mt-8 w-[30vmin] mx-auto">
         </template>
 
         <div v-if="status" class="mb-4 font-medium text-sm text-green-600">
@@ -75,10 +75,10 @@ const submit = () => {
             </div>
 
             <div class="flex justify-between mt-4">
-                <label class="flex items-center">
+                <!-- <label class="flex items-center">
                     <Checkbox v-model:checked="form.remember" name="remember" />
                     <span class="ms-2 text-sm text-white">Remember me</span>
-                </label>
+                </label> -->
                 <Link v-if="canResetPassword" :href="route('password.request')" class="underline text-sm text-white hover:text-gray-200 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Forgot your password?
                 </Link>

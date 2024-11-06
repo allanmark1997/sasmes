@@ -20,32 +20,24 @@ class DashboardController extends Controller
     {
         $from = $request->from ?? date("Y-m-d");
         $to = $request->to ?? date("Y-m-d");
-        $office = $request->office ?? "";
-        $unit = $request->unit ?? "";
-        $filter = $request->filter ?? "office";
+        $office_id = $request->office_id ?? "";
 
         $offices = Office::get();
-        $units = Unit::when($office !=  null || $office != "", function ($query) use ($office) {
-            $query->whereOfficeId($office);
-        })->whereStatus(1)->get();
-
-        $filtered_records = ClientRecords::with("office")->has("office")->with("client")->has("client")->with("service")->has("service")->with("unit")->has("unit")->when($unit !=  null || $unit != "", function ($query) use ($unit) {
-            $query->whereUnitId($unit);
+        $units = Unit::get();
+        $filtered_records = ClientRecords::with("office")->has("office")->with("client")->has("client")->with("service")->has("service")->with("unit")->has("unit")->when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+            $query->whereOfficeId($office_id);
         })->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
             $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
         })->get();
 
         $data = [];
 
-        if ($request->filter == "office") {
+        if ($office_id == "") {
             $office_sample = collect($offices)->map(function ($office) use ($filtered_records, $data) {
                 foreach ($filtered_records as $key => $record) {
-                    $counter = 0;
                     if ($office->id == $record->office_id) {
-                        $counter++;
                         $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
                     }
-                    $counter = 0;
                 }
                 $office = (object)array(
                     "chart" => array(
@@ -55,45 +47,80 @@ class DashboardController extends Controller
                 );
                 return $office;
             })->toArray();
+
+            foreach ($filtered_records->groupBy("office.name") as $key => $office) {
+                $iteration = 0;
+                foreach ($office->groupBy("role") as $key2 => $role) {
+                    $office_count[$key]["type"][$iteration]["name"] = $key2;
+                    foreach ($role->groupBy("type") as $key3 => $type) {
+                        $office_count[$key]["type"][$iteration]["data"][$key3] = $type->count();
+                    }
+                    $iteration++;
+                }
+    
+                foreach ($office->groupBy("client.sex") as $key4 => $sex) {
+                    $office_count[$key]["sex"][$key4] = $sex->count();
+                }
+    
+                $office_count[$key]["overall_count"] = $office->count();
+                
+                foreach ($office->groupBy("type") as $key2 => $type) {
+                    $office_count[$key]["type_text"][$key2] = $type->count();
+                }
+            }
         } else {
-            $office_sample = collect($units)->map(function ($office) use ($filtered_records, $data) {
+            $office_sample = collect($units)->map(function ($unit) use ($filtered_records, $data) {
                 foreach ($filtered_records as $key => $record) {
-                    $counter = 0;
-                    if ($office->id == $record->office_id) {
-                        $counter++;
+                    if ($unit->id == $record->unit_id) {
                         $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
                     }
-                    $counter = 0;
                 }
                 $office = (object)array(
                     "chart" => array(
-                        "name" => $office->abbrevation,
+                        "name" => $unit->abbrevation,
                         "data" => $data
                     )
                 );
                 return $office;
             })->toArray();
+
+            foreach ($filtered_records->groupBy("unit.name") as $key => $office) {
+                $iteration = 0;
+                foreach ($office->groupBy("role") as $key2 => $role) {
+                    $office_count[$key]["type"][$iteration]["name"] = $key2;
+                    foreach ($role->groupBy("type") as $key3 => $type) {
+                        $office_count[$key]["type"][$iteration]["data"][$key3] = $type->count();
+                    }
+                    $iteration++;
+                }
+    
+                foreach ($office->groupBy("client.sex") as $key4 => $sex) {
+                    $office_count[$key]["sex"][$key4] = $sex->count();
+                }
+    
+                $office_count[$key]["overall_count"] = $office->count();
+                
+                foreach ($office->groupBy("type") as $key2 => $type) {
+                    $office_count[$key]["type_text"][$key2] = $type->count();
+                }
+            }
         }
 
-
-        $office_count = collect($office_sample)->map(function ($office) {
+        $overall_count = collect($office_sample)->map(function ($office) {
             $office = (object)array(
                 "name" => $office->chart["name"],
-                "data" => (object)$this->collect_data($office->chart["data"])
+                "data" => (object)$this->collect_data($office->chart["data"]),
             );
             return $office;
         })->toArray();
-        // dd($office_count, $office_sample);
 
         return Inertia::render('Dashboard', [
-            "client_chart" => $office_count,
+            "client_chart" => $overall_count,
+            "office_count_role_gender" => $office_count??[],
             "from" => $from,
             "offices" => $offices,
-            "units" => $units,
             "to" => $to,
-            "filter" => $filter,
-            "office" => $office,
-            "unit" => $unit,
+            "office_id" => $office_id,
         ]);
     }
 
@@ -105,6 +132,19 @@ class DashboardController extends Controller
         }
         return $temp_data;
     }
+
+    public function count_male_female($datas)
+    {
+        $temp_data = [];
+        foreach ($datas as $key => $data) {
+            $temp_data[$key] = count(collect($data)->pluck("client")->pluck("sex"));
+            // foreach ($data as $key2 => $client) {
+            //     $temp_data[$key][$key2] = $client;
+            // }
+        }
+        return $temp_data;
+    }
+
 
     /**
      * Show the form for creating a new resource.

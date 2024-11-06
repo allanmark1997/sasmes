@@ -106,7 +106,7 @@ const create_user = () => {
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>
-                <div>
+                <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin')">
                     <PrimaryButton @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
                         Create User
                     </PrimaryButton>

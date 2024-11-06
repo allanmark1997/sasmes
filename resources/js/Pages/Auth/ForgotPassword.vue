@@ -28,7 +28,7 @@ const submit = () => {
             <AuthenticationCardLogo />
         </template>
 
-        <div class="mb-4 text-sm text-gray-600">
+        <div class="mb-4 text-sm text-gray-300">
             Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.
         </div>
 
@@ -43,7 +43,7 @@ const submit = () => {
                     id="email"
                     v-model="form.email"
                     type="email"
-                    class="mt-1 block w-full"
+                    class="mt-1 block w-full text-gray-700"
                     required
                     autofocus
                     autocomplete="username"

@@ -42,6 +42,7 @@ class UserController extends Controller
                         $query2->where("id", $office);
                     }]);
                 })->with("access_control")->orderBy("name", "asc")->paginate(8);
+                $units = Unit::whereOfficeId(Auth::user()->office_id)->get();
             } else {
                 $users = User::when($position != null || $position != "", function ($query) use ($position) {
                     $query->where("user_type", $position);
@@ -54,13 +55,15 @@ class UserController extends Controller
                         $query2->where("id", $office);
                     }]);
                 })->with("access_control")->orderBy("name", "asc")->paginate(8);
+
+                $units = Unit::when($office != null || $office != "", function ($query) use ($office) {
+                    $query->where("office_id", $office);
+                })->get();
             }
 
             $offices = Office::get();
             $services = Service::get();
-            $units = Unit::when($office != null || $office != "", function ($query) use ($office) {
-                $query->where("office_id", $office);
-            })->get();
+            
             return Inertia::render('UserManagement/Index', [
                 "users" => $users,
                 "search" => $search,

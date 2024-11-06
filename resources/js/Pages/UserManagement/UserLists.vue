@@ -146,7 +146,7 @@ const access_control = () => {
                             <Icon icon="option" />
                         </button>
                     </div>
-                    <img class="object-obtain p-8 h-[25vmin] w-[25vmin] mx-auto rounded-full -mt-5"
+                    <img class="object-obtain p-8 h-[20vmin] w-[20vmin] mx-auto rounded-full -mt-5"
                         :src="user.profile_photo_url" :onerror="`this.src='${default_image}'`" alt="User image" />
                     <div class="px-2 pb-2">
                         <div>
@@ -155,14 +155,14 @@ const access_control = () => {
                             </h5>
                             <p class="text-center mx-auto text-xs">{{ user.email }}</p>
                             <p
-                                class="text-center text-white mx-auto text-xs uppercase bg-green-500 w-[20vmin] rounded-lg mt-2 p-1">
+                                class="text-center text-white mx-auto text-[1vmin] uppercase bg-green-500 w-[20vmin] rounded-lg mt-2 p-1">
                                 {{ user.user_type == 'root' ? "Super Admin" : user.user_type == 'admin' ?
                                     "Admin" : user.user_type == 'vcsas' ? "VCSAS" : user.user_type == 'director' ?
                                         "Director" : user.user_type == 'unit_head' ? "Unit Head" : "Unit Staff" }}</p>
                             <p
-                                class="text-center text-white mx-auto text-xs uppercase bg-orange-500 w-[10vmin] rounded-lg mt-2 p-1 pl-1 pr-1">
+                                class="text-center text-white mx-auto text-[1vmin] uppercase bg-orange-500 w-[10vmin] rounded-lg mt-2 p-1 pl-1 pr-1">
                                 {{ user.office.abbrevation }}</p>
-                            <p class="text-xs p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto mt-2"
+                            <p class="text-[1vmin] p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto mt-2"
                                 :class="user.status == 1 ? 'bg-green-500' : 'bg-red-500'">{{ user.status == 1 ?
                                     'Active' : 'Deactivated' }}</p>
                         </div>
