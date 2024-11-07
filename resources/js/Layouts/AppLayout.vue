@@ -96,7 +96,7 @@ const logout = () => {
                         <li
                             v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
                             <a :href="route('client.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('client.index') ? 'bg-[#f9b418]' : ''">
+                                :class="route().current('client.index') || route().current('client.index_details') ? 'bg-[#f9b418]' : ''">
                                 <Icon icon="user" />
                                 <span class="ms-3">Client Management</span>
                             </a>

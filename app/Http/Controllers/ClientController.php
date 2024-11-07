@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\ClientRecords;
+use App\Models\UnitService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
@@ -22,6 +25,46 @@ class ClientController extends Controller
         return Inertia::render('ClientManagement/Index', [
             "clients" => $clients,
             "search" => $search,
+        ]);
+    }
+
+    public function index_details(Request $request)
+    {
+        $from = $request->from ?? '';
+        $to = $request->to ?? '';
+        $client = Client::whereId($request->client_id)->first();
+        $unit_services_count = UnitService::get()->count();
+        $offices = ClientRecords::whereClientId($request->client_id)->with("service")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+        })->get();
+        foreach ($offices->groupBy("office.name") as $key => $office) {
+            $office_visits["text"][$key]["percent"] = round((float)(($office->count() / $unit_services_count) * 100), 2);
+            $office_visits["text"][$key]["count"] = (int)$office->count();
+            $office_visits["chart"][$key] = round((float)(($office->count() / $unit_services_count) * 100), 2);
+
+            $unit_visits[$key]["office_count"] = (int)$office->count();
+            foreach ($office->groupBy("unit.name") as $key2 => $unit) {
+                $unit_visits[$key]["text"][$key2]["percent"] = round((float)(($unit->count() / (int)$office->count()) * 100), 2);
+                $unit_visits[$key]["text"][$key2]["count"] = $unit->count();
+                $unit_visits[$key]["chart"][$key2] = round((float)(($unit->count() / (int)$office->count()) * 100), 2);
+
+                $unit_visits[$key]["text"][$key2]["services"]["unit_count"] = $unit->count();
+                $unit_visits[$key]["text"][$key2]["services"]["name"] = $key2;
+                foreach ($unit->groupBy("service.unit_service.name") as $key3 => $service) {
+                    $unit_visits[$key]["text"][$key2]["services"]["services"]["text"][$key3]["percent"] = round((float)(($service->count() / (int)$unit->count()) * 100), 2);
+                    $unit_visits[$key]["text"][$key2]["services"]["services"]["text"][$key3]["count"] = $service->count();
+                    $unit_visits[$key]["text"][$key2]["services"]["services"]["chart"][$key3] = round((float)(($service->count() / (int)$unit->count()) * 100), 2);
+                }
+            }
+        }
+        return Inertia::render('ClientProfile/Index', [
+            "client" => $client,
+            "from" => $from,
+            "to" => $to,
+            "client_id" => $request->client_id,
+            "unit_services_count" => $unit_services_count,
+            "office_visits" => $office_visits??[],
+            "unit_visits" => $unit_visits??[],
         ]);
     }
 

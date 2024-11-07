@@ -65,6 +65,7 @@ Route::middleware([
 
     Route::prefix('clients')->name('client.')->group(function () {
         Route::get('/client_lists', [ClientController::class, 'index'])->name('index');
+        Route::get('/client_details', [ClientController::class, 'index_details'])->name('index_details');
         Route::post('/add_client', [ClientController::class, 'store'])->name('store');
         Route::post('/update_client/{client}', [ClientController::class, 'update'])->name('update');
         Route::delete('/delete_client/{client}', [ClientController::class, 'destroy'])->name('destroy');
