@@ -4,6 +4,7 @@ use App\Http\Controllers\AccessControlController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ClientRecordsController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EvaluationController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\UnitController;
@@ -87,4 +88,8 @@ Route::middleware([
     Route::prefix('access_control')->name('access.')->group(function () {
         Route::put('/add_access/{accessControl}', [AccessControlController::class, 'update'])->name('update');
     });
+});
+
+Route::prefix('engine')->name('evaluation.')->group(function () {
+    Route::get('/evaluation', [EvaluationController::class, 'index'])->name('index');
 });
