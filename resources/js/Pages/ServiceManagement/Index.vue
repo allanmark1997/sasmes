@@ -9,7 +9,7 @@ import JetInputError from "@/Components/InputError.vue";
 import Icon from "@/CustomComponents/Icon.vue"
 
 import { Head, Link, useForm, router } from '@inertiajs/vue3';
-import { onMounted, ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
@@ -20,12 +20,14 @@ const form = useForm({
     abbrevation: null,
     image: [],
     office_id: "",
+    selected_units: [],
 })
 
 const form_director = useForm({
     name: null,
     abbrevation: null,
     image: [],
+    selected_units: [],
 })
 
 const add_modal = ref(false);
@@ -36,6 +38,7 @@ const post_image_director = ref([]);
 const service_photo_error_director = ref("");
 const search = ref(props.search);
 const office = ref(props.office);
+const unit_lists = ref(null);
 
 const open_modal = () => {
     form.reset()
@@ -171,6 +174,17 @@ const search_remove = () => {
         route("service.index", { search: search.value, office: office.value })
     );
 }
+
+watch(
+    () => form.office_id,
+    (id) => {
+        form.selected_units = []
+        var index = props.offices.findIndex(x => x.id === id);
+        unit_lists.value = props.offices[index].units
+        console.log(index, id, unit_lists.value)
+    },
+    { deep: true }
+)
 </script>
 <template>
     <AppLayout title="Services">
@@ -213,7 +227,8 @@ const search_remove = () => {
 
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                    <ServiceLists :services="props.services" :search="props.search" :office="props.office" :offices="props.offices" />
+                    <ServiceLists :services="props.services" :search="props.search" :office="props.office"
+                        :offices="props.offices" />
                 </div>
             </div>
         </div>
@@ -281,6 +296,19 @@ const search_remove = () => {
                         <option :value="office.id">{{ office.name }}</option>
                     </template>
                 </select>
+            </div>
+
+            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[40vmin] overflow-y-auto">
+                <template v-for="(unit, key) in unit_lists" :key="key">
+                    <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
+                        <input id="bordered-checkbox-1" type="checkbox" :value="unit.id" v-model="form.selected_units"
+                            name="bordered-checkbox"
+                            class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                        <label for="bordered-checkbox-1" class="w-full py-1 ms-2 text-sm font-medium text-gray-700">
+                            {{ unit.name }}
+                        </label>
+                    </div>
+                </template>
             </div>
         </template>
         <template #footer>
@@ -351,6 +379,18 @@ const search_remove = () => {
             <div class="col-span-full">
                 <Input type="text" label="Service abbrevation" v-model="form_director.abbrevation" />
                 <JetInputError :message="form_director.errors.abbrevation" class="mt-2" />
+            </div>
+            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[40vmin] overflow-y-auto">
+                <template v-for="(unit, key) in props.offices.units" :key="key">
+                    <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
+                        <input id="bordered-checkbox-1" type="checkbox" :value="unit.id" v-model="form_director.selected_units"
+                            name="bordered-checkbox"
+                            class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                        <label for="bordered-checkbox-1" class="w-full py-1 ms-2 text-sm font-medium text-gray-700">
+                            {{ unit.name }}
+                        </label>
+                    </div>
+                </template>
             </div>
         </template>
         <template #footer>

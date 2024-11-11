@@ -63,7 +63,7 @@ class UserController extends Controller
 
             $offices = Office::get();
             $services = Service::get();
-            
+
             return Inertia::render('UserManagement/Index', [
                 "users" => $users,
                 "search" => $search,
@@ -167,14 +167,15 @@ class UserController extends Controller
                 'email' => ["required", "unique:users"],
             ]);
         }
-
+        $generated_password = Str::random(8);
         if ($request->change_pass == true) {
-            $request->validate([
-                'password' => ["required"],
-            ]);
-
+            try {
+                Mail::to($request->email)->send(new RegisterNotificationEmail($request->name, $request->email, $generated_password));
+            } catch (\Throwable $th) {
+                //throw $th;
+            }
             $user->update([
-                "password" => Hash::make($request->password),
+                "password" => Hash::make($generated_password),
             ]);
         }
 

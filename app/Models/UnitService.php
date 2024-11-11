@@ -15,4 +15,14 @@ class UnitService extends Model
     {
         return $this->belongsTo(Service::class, "service_id", "id");
     }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, "service_id", "id");
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class)->with("office");
+    }
 }

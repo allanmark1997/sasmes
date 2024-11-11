@@ -1,0 +1,1 @@
+import{d as t}from"./sasmes_logo-C-K0o8NT.js";import{o,c as e,w as r,a as s,u as i,i as m}from"./app-D-rA1TwB.js";const l={__name:"AuthenticationCardLogo",setup(n){return(u,a)=>(o(),e(i(m),{href:"/"},{default:r(()=>a[0]||(a[0]=[s("img",{src:t,alt:"SASMES Logo",class:"w-[40vmin] my-auto mx-auto"},null,-1)])),_:1}))}};export{l as _};

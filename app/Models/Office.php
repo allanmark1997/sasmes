@@ -14,7 +14,7 @@ class Office extends Model
 
     public function units()
     {
-        return $this->hasMany(Unit::class);
+        return $this->hasMany(Unit::class)->with("unit_service");
     }
 
     public static function initStorage()

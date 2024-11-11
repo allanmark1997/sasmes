@@ -16,4 +16,19 @@ class Evaluation extends Model
             'data' => 'json'
         ];
     }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(UnitService::class, "unit_services_id", "id")->with("unit_service")->has("unit_service");
+    }
+
+    public function unit()
+    {
+        return $this->belongsTo(Unit::class);
+    }
 }

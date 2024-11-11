@@ -31,28 +31,56 @@ class ClientRecordsController extends Controller
             }]);
         })->when($role != null || $role != "", function ($query) use ($role) {
             $query->where("role", $role);
-        })->with("office")->has("office")->when($office != null || $office != "", function ($query) use ($office) {
-            $query->where("office_id", $office);
-        })->with("service")->has("service")->when($service != null || $service != "", function ($query) use ($service) {
-            $query->whereHas("service", function ($query2) use ($service) {
-                // $query2->where("id", $service);
-                $query2->whereHas("unit_service", function ($query3) use ($service) {
-                    $query3->where("id", $service);
-                })->with(['unit_service' => function ($query3) use ($service) {
-                    $query3->where("id", $service);
+        })->with("unit_service")->when($office !=  null || $office != "", function ($query) use ($office) {
+            $query->whereHas("unit_service", function ($query2) use ($office) {
+                $query2->whereHas("unit", function ($query3) use ($office) {
+                    $query3->whereHas("office", function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    })->with(['office' => function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    }]);
+                })->with(['unit' => function ($query3) use ($office) {
+                    $query3->whereHas("office", function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    })->with(['office' => function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    }]);
                 }]);
-            })->with(['service' => function ($query2) use ($service) {
-                // $query2->where("id", $service);
-                $query2->whereHas("unit_service", function ($query3) use ($service) {
-                    $query3->where("id", $service);
-                })->with(['unit_service' => function ($query3) use ($service) {
-                    $query3->where("id", $service);
+            })->with(['unit_service' => function ($query2) use ($office) {
+                $query2->whereHas("unit", function ($query3) use ($office) {
+                    $query3->whereHas("office", function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    })->with(['office' => function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    }]);
+                })->with(['unit' => function ($query3) use ($office) {
+                    $query3->whereHas("office", function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    })->with(['office' => function ($query4) use ($office) {
+                        $query4->whereId($office);
+                    }]);
                 }]);
             }]);
-        })->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
-            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
-        })->orderBy("created_at", "desc")->paginate(8);
-        $offices = Office::get();
+        })
+            ->when($service !=  null || $service != "", function ($query) use ($service) {
+                $query->whereHas("unit_service", function ($query2) use ($service) {
+                    $query2->whereHas("unit_service", function ($query3) use ($service) {
+                        $query3->whereId($service);
+                    })->with(['unit_service' => function ($query3) use ($service) {
+                        $query3->whereId($service);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($service) {
+                    $query2->whereHas("unit_service", function ($query3) use ($service) {
+                        $query3->whereId($service);
+                    })->with(['unit_service' => function ($query3) use ($service) {
+                        $query3->whereId($service);
+                    }]);
+                }]);
+            })
+            ->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+                $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+            })->orderBy("created_at", "desc")->paginate(8);
+        $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
         $services = Service::when($office != null || $office != "", function ($query) use ($office) {
             $query->where("office_id", $office);
         })->get();
@@ -84,16 +112,12 @@ class ClientRecordsController extends Controller
     {
         $request->validate([
             'client' => ["required"],
-            'appointment_type' => ["required"],
             'role' => ["required"],
             'type' => ["required"],
         ]);
 
         ClientRecords::create([
             "client_id" => $request->client["id"],
-            "appointment_type" => $request->appointment_type,
-            "office_id" => $request->office_id,
-            "unit_id" => $request->unit_id,
             "unit_services_id" => $request->unit_services_id,
             "status" => true,
             "type" => $request->type,

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use App\Models\Service;
+use App\Models\UnitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -19,6 +20,9 @@ class ServiceController extends Controller
         if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "director") {
             $search = $request->search ?? '';
             $office = $request->office ?? '';
+
+            // $office = Office::whereId(Auth::user()->office_id)->with("units")->first();
+            // dd(collect($office)->groupBy("units.name"));
             if (Auth::user()->user_type == "director") {
                 $services = Service::whereOfficeId(Auth::user()->office_id)->with("office")->when($search != null || $search != "", function ($query) use ($search) {
                     $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
@@ -26,6 +30,7 @@ class ServiceController extends Controller
                     ->when($office != null || $office != "", function ($query) use ($office) {
                         $query->whereOfficeId($office);
                     })->orderBy("name", "asc")->paginate(8);
+                $offices = Office::whereId(Auth::user()->office_id)->with("units")->first();
             } else {
                 $services = Service::with("office")->when($search != null || $search != "", function ($query) use ($search) {
                     $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
@@ -33,9 +38,8 @@ class ServiceController extends Controller
                     ->when($office != null || $office != "", function ($query) use ($office) {
                         $query->whereOfficeId($office);
                     })->orderBy("name", "asc")->paginate(8);
+                $offices = Office::with("units")->get();
             }
-
-            $offices = Office::get();
             return Inertia::render('ServiceManagement/Index', [
                 "services" => $services,
                 "search" => $search,
@@ -45,6 +49,14 @@ class ServiceController extends Controller
         } else {
             return redirect()->route('dashboard');
         }
+    }
+
+    public function status(Request $request, Service $service)
+    {
+        $service->update([
+            "status" => $request->status
+        ]);
+        return back();
     }
 
     /**
@@ -63,11 +75,11 @@ class ServiceController extends Controller
         $request->validate([
             'name' => ["required"],
             'abbrevation' => ["required", "unique:services"],
-            'image' => ['required', 'max:1024'],
+            'image' => ['max:1024'],
             'office_id' => ['required'],
         ]);
 
-        $imageName = $request->input('image');
+        $imageName = null;
         if ($request->hasfile('image')) {
             Service::initStorage();
             $photo = $request->file('image');
@@ -75,13 +87,24 @@ class ServiceController extends Controller
             $photo->store('images/services');
         }
 
-        Service::create([
+        $service = Service::create([
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
-            "photo" => env('APP_URL') . '/storage/images/services/' . $imageName,
+            "photo" => env('APP_URL') . '/storage/images/services/' . $imageName ?? 1,
             "user_id" => Auth::user()->id,
             "office_id" => $request->office_id,
+            "status" => true
         ]);
+
+        if ($request->selected_units != null) {
+            foreach ($request->selected_units as $key => $unit) {
+                UnitService::create([
+                    "service_id" => $service->id,
+                    "unit_id" => $unit,
+                    "status" => true
+                ]);
+            }
+        }
 
         return back();
     }
@@ -91,10 +114,10 @@ class ServiceController extends Controller
         $request->validate([
             'name' => ["required"],
             'abbrevation' => ["required", "unique:services"],
-            'image' => ['required', 'max:1024'],
+            'image' => ['max:1024'],
         ]);
 
-        $imageName = $request->input('image');
+        $imageName = null;
         if ($request->hasfile('image')) {
             Service::initStorage();
             $photo = $request->file('image');
@@ -102,13 +125,25 @@ class ServiceController extends Controller
             $photo->store('images/services');
         }
 
-        Service::create([
+        $service = Service::create([
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
-            "photo" => env('APP_URL') . '/storage/images/services/' . $imageName,
+            "photo" => env('APP_URL') . '/storage/images/services/' . $imageName ?? 1,
             "user_id" => Auth::user()->id,
             "office_id" => Auth::user()->office_id,
+            "status" => true
         ]);
+
+        if ($request->selected_units != null) {
+            foreach ($request->selected_units as $key => $unit) {
+                UnitService::create([
+                    "service_id" => $service->id,
+                    "unit_id" => $unit,
+                    "status" => true
+                ]);
+            }
+        }
+
 
         return back();
     }
@@ -141,7 +176,7 @@ class ServiceController extends Controller
             'image' => ['max:1024'],
         ]);
 
-        $imageName = $request->input('image');
+        $imageName = null;
         if ($request->hasfile('image')) {
             Service::initStorage();
             $photo = $request->file('image');
@@ -155,7 +190,7 @@ class ServiceController extends Controller
             $service->update([
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation,
-                "photo" => env('APP_URL') . '/storage/images/services/' . $imageName
+                "photo" => env('APP_URL') . '/storage/images/services/' . $imageName ?? 1
             ]);
         } else {
             $service->update([

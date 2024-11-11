@@ -48,6 +48,7 @@ Route::middleware([
         Route::post('/add_unit', [UnitController::class, 'store'])->name('store');
         Route::post('/update_unit/{unit}', [UnitController::class, 'update'])->name('update');
         Route::delete('/delete_unit/{unit}', [UnitController::class, 'destroy'])->name('destroy');
+        Route::put('/delete_unit/{unit}', [UnitController::class, 'status'])->name('status');
     });
 
     Route::prefix('unit_services')->name('unit_service.')->group(function () {
@@ -62,6 +63,7 @@ Route::middleware([
         Route::post('/add_service_director', [ServiceController::class, 'store_director'])->name('store_director');
         Route::post('/update_service/{service}', [ServiceController::class, 'update'])->name('update');
         Route::delete('/delete_service/{service}', [ServiceController::class, 'destroy'])->name('destroy');
+        Route::put('/delete_service/{service}', [ServiceController::class, 'status'])->name('status');
     });
 
     Route::prefix('clients')->name('client.')->group(function () {
@@ -91,5 +93,5 @@ Route::middleware([
 });
 
 Route::prefix('engine')->name('evaluation.')->group(function () {
-    Route::get('/evaluation', [EvaluationController::class, 'index'])->name('index');
+    Route::get('/evaluation/{code}', [EvaluationController::class, 'index'])->name('index');
 });

@@ -12,12 +12,15 @@ class EvaluationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, $code)
     {
-        $office = Office::get();
+        $evaluation = Evaluation::whereCode($code)->with("office")->has("office")->with("service")->has("service")->with("unit")->has("unit")->first();
+        if ($evaluation == null) {
+            # code...
+        }
         $questions = array(
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "",
                 "question" => "Region of Residence",
                 "choices" => array(
@@ -38,10 +41,11 @@ class EvaluationController extends Controller
                     "Western Visayas",
                     "Zamboanga Peninsula",
                 ),
-                "type" => "demog_question"
+                "type" => "demog_question",
+                "qtype" => "dropdown",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "",
                 "question" => "Sex",
                 "choices" => array(
@@ -49,10 +53,11 @@ class EvaluationController extends Controller
                     "Female",
                     "Others"
                 ),
-                "type" => "demog_question"
+                "type" => "demog_question",
+                "qtype" => "dropdown",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "Which of the following best describes your awareness of a CC?",
                 "choices" => array(
@@ -61,10 +66,11 @@ class EvaluationController extends Controller
                     "I learned of the CC is and I did not see one of this office.",
                     "N/A"
                 ),
-                "type" => "cc_question"
+                "type" => "cc_question",
+                "qtype" => "radio",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "If aware of CC (answered 1-3 in CC1). Would you say that the CC of this office was?",
                 "choices" => array(
@@ -74,10 +80,11 @@ class EvaluationController extends Controller
                     "Not visible at all",
                     "N/A"
                 ),
-                "type" => "cc_question"
+                "type" => "cc_question",
+                "qtype" => "radio",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "If aware of CC (answered 1-3 in CC1). How much did the CC help you in your transaction?",
                 "choices" => array(
@@ -86,10 +93,11 @@ class EvaluationController extends Controller
                     "Did not help",
                     "N/A"
                 ),
-                "type" => "cc_question"
+                "type" => "cc_question",
+                "qtype" => "radio",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office has the willingness to help, assist, and provide prompt service to the client.",
                 "choices" => array(
@@ -100,10 +108,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides effective service that you need.",
                 "choices" => array(
@@ -114,10 +123,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides the convenience of location or accesibility of the service you require.",
                 "choices" => array(
@@ -128,10 +138,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office gives effective ways of providing information.",
                 "choices" => array(
@@ -142,10 +153,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides modest/affordable/justifiable cost, if any, of the service that you require.",
                 "choices" => array(
@@ -156,10 +168,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office was able to deliver the service/s with integrety, honesty, and fairness.",
                 "choices" => array(
@@ -170,10 +183,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides a level of competence and capability with satisfying service/s.",
                 "choices" => array(
@@ -184,10 +198,11 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office has provided the service/s that you need.",
                 "choices" => array(
@@ -198,14 +213,16 @@ class EvaluationController extends Controller
                     "Strongly Disagree",
                     "N/A"
                 ),
-                "type" => "eval_question"
+                "type" => "eval_question",
+                "qtype" => "button",
             ),
             array(
-                "title" => $office,
+                "title" => $evaluation->office->name,
                 "sub_title" => "",
                 "question" => "Do you have any other information/ comments/ suggestions/ recommendations? Type none if there aren'nt any.",
                 "choices" => null,
-                "type" => "open_ended"
+                "type" => "suggestions",
+                "qtype" => "open_ended",
             ),
         );
         return Inertia::render('Evaluation', [

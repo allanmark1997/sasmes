@@ -46,9 +46,6 @@ const date_time = (date) => {
                         Role
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Appointment Type
-                    </th>
-                    <th scope="col" class="px-6 py-3">
                         Office
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -63,7 +60,8 @@ const date_time = (date) => {
                 <template v-for="(record, key) in client_record.data" :key="key">
                     <tr class="odd:bg-white even:bg-gray-200 border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                            {{ record.client.lname + ", " }}{{ record.client.fname + " " }}{{ " " + !record.client.mname ? record.client.mname : "" }}
+                            {{ record.client.lname + ", " }}{{ record.client.fname + " " }}{{ " " + !record.client.mname
+                                ? record.client.mname : "" }}
                         </th>
                         <td class="px-6 py-4">
                             {{ record.client.gender == "male" ? "Male" : "Female" }}
@@ -74,14 +72,11 @@ const date_time = (date) => {
                         <td class="px-6 py-4 uppercase">
                             {{ record.role }}
                         </td>
-                        <td class="px-6 py-4 uppercase">
-                            {{ record.appointment_type }}
+                        <td class="px-6 py-4 ">
+                            {{ record.unit_service.unit.office.name }}
                         </td>
                         <td class="px-6 py-4 ">
-                            {{ record.office.name }}
-                        </td>
-                        <td class="px-6 py-4 ">
-                            {{ record.service.unit_service.name }}
+                            {{ record.unit_service.unit_service.name }}
                         </td>
                         <td class="px-6 py-4 ">
                             {{ date_time(record.created_at) }}

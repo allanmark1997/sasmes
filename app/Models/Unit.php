@@ -17,6 +17,11 @@ class Unit extends Model
         return $this->belongsTo(Office::class);
     }
 
+    public function unit_service()
+    {
+        return $this->hasMany(UnitService::class)->with("service");
+    }
+
     public static function initStorage()
     {
         if (!Storage::exists('images/units')) {

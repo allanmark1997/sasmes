@@ -42,6 +42,14 @@ class UnitController extends Controller
         ]);
     }
 
+    public function status(Request $request, Unit $unit)
+    {
+        $unit->update([
+            "status" => $request->status
+        ]);
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -58,21 +66,19 @@ class UnitController extends Controller
         $request->validate([
             'name' => ["required", "unique:units"],
             'abbrevation' => ["required", "unique:units"],
-            'image' => ['required', 'max:1024']
+            'image' => ['max:1024']
         ]);
-
-        $imageName = $request->input('image');
+        $imageName = null;
         if ($request->hasfile('image')) {
             Unit::initStorage();
             $photo = $request->file('image');
             $imageName = $photo->hashName();
             $photo->store('images/units');
         }
-
         $unit = Unit::create([
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
-            "photo" => env('APP_URL') . '/storage/images/units/' . $imageName,
+            "photo" => env('APP_URL') . '/storage/images/units/' . $imageName??1,
             "status" => true,
             "office_id" => $request->office_id
         ]);
@@ -118,7 +124,7 @@ class UnitController extends Controller
             'image' => ['max:1024'],
         ]);
 
-        $imageName = $request->input('image');
+        $imageName = null;
         if ($request->hasfile('image')) {
             Unit::initStorage();
             $photo = $request->file('image');
@@ -132,7 +138,7 @@ class UnitController extends Controller
             $unit->update([
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation,
-                "photo" => env('APP_URL') . '/storage/images/units/' . $imageName
+                "photo" => env('APP_URL') . '/storage/images/units/' . $imageName??1
             ]);
         } else {
             $unit->update([

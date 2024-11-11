@@ -39,7 +39,6 @@ const form_update = useForm({
     user_type: "",
     office_id: "",
     change_pass: false,
-    password: "",
 })
 
 const status_modal = ref(false);
@@ -243,9 +242,6 @@ const access_control = () => {
                     </div>
                     <span class="ms-3 text-sm font-medium text-gray-500">Change Password</span>
                 </label>
-                <Input v-if="form_update.change_pass == true" type="password" label="User New Password"
-                    v-model="form_update.password" />
-                <JetInputError :message="form_update.errors.password" class="mt-2" />
             </div>
 
         </template>

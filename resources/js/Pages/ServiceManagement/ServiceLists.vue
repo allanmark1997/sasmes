@@ -27,9 +27,15 @@ const form_delete = useForm({
     service: null
 })
 
+const form_status = useForm({
+    service: null,
+    status: null
+})
+
 const update_modal = ref(false);
 const delete_modal = ref(false);
 const post_image = ref([]);
+const status_modal = ref(false);
 
 const open_modal = (service) => {
     form_update.reset()
@@ -46,6 +52,13 @@ const open_modal_delete = (service) => {
     form_delete.reset()
     form_delete.service = service
     delete_modal.value = !delete_modal.value
+}
+
+const open_modal_status = (service) => {
+    form_status.reset()
+    form_status.service = service
+    form_status.status = service.status == 1 ? false : true
+    status_modal.value = !status_modal.value
 }
 
 const openFile = () => {
@@ -105,6 +118,21 @@ const confirm_delete = () => {
         }
     });
 }
+
+const confirm_status = () => {
+    form_status.put(route("service.status", { service: form_status.service }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form_status.reset();
+            toast.success("Unit has been successfully updated the status!", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            status_modal.value = !status_modal.value
+        }
+    });
+}
 </script>
 
 <template>
@@ -126,8 +154,10 @@ const confirm_delete = () => {
                         </button>
                         <button
                             v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
-                            @click="open_modal_delete(service)" class="bg-red-500 rounded-md p-1">
-                            <Icon icon="trash" />
+                            @click="open_modal_status(service)" class=" rounded-md p-1"
+                            :class="service.status == 1 ? 'bg-red-500' : 'bg-green-500'">
+                            <Icon v-if="service.status == 1" icon="close_icon" />
+                            <Icon v-else icon="check" />
                         </button>
                     </div>
                     <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg -mt-6"
@@ -138,6 +168,11 @@ const confirm_delete = () => {
                             <small>{{ service.abbrevation }}</small>
                         </div>
                         <small>Own by {{ service.office.name }}({{ service.office.abbrevation }})</small>
+                        <div>
+                            <p class="text-xs p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto"
+                                :class="service.status == 1 ? 'bg-green-500' : 'bg-red-500'">{{ service.status == 1 ?
+                                    'Active' : 'Deactivated' }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,7 +252,7 @@ const confirm_delete = () => {
                     </template>
                 </select>
             </div> -->
-            
+
         </template>
         <template #footer>
             <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">
@@ -255,6 +290,28 @@ const confirm_delete = () => {
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                 </svg>&nbsp;Delete
+            </PrimaryButton>
+        </template>
+    </ConfirmDialogModal>
+
+    <ConfirmDialogModal :show="status_modal" @close="status_modal = false" maxWidth="2xl">
+        <template #title>
+            Are you sure you want to update status of service({{
+                form_status.service.name
+            }})?</template>
+        <template #content>
+        </template>
+        <template #footer>
+            <SecondaryButton @click="status_modal = false" class="mr-2">
+                nevermind
+            </SecondaryButton>
+            <PrimaryButton :class="{ 'opacity-25': form_status.processing }" :disabled="form_status.processing"
+                class="hover:bg-green-400" @click="confirm_status">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>&nbsp;Confirm
             </PrimaryButton>
         </template>
     </ConfirmDialogModal>
