@@ -64,7 +64,7 @@ const date_time = (date) => {
                                 ? record.client.mname : "" }}
                         </th>
                         <td class="px-6 py-4">
-                            {{ record.client.gender == "male" ? "Male" : "Female" }}
+                            {{ record.client.sex == "male" ? "Male" : "Female" }}
                         </td>
                         <td class="px-6 py-4 uppercase">
                             {{ record.type }}

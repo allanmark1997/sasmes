@@ -47,13 +47,13 @@ const search_remove = () => {
         <div class="py-4">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex gap-2 ">
-                    <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
-                        <select v-model="form.office_id"
-                        @change="(search_)"
+                    <div
+                        v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
+                        <select v-model="form.office_id" @change="(search_)"
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
                             :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
                             <option value="" disabled>Select office</option>
-                            <option value="" >All Office</option>
+                            <option value="">All Office</option>
                             <template v-for="(office, key) in props.offices" :key="key">
                                 <option :value="office.id">{{ office.abbrevation }}</option>
                             </template>
@@ -66,15 +66,18 @@ const search_remove = () => {
                         <Input v-model="form.to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date"
                             @keyup.enter="search_" />
                     </div>
+                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_">
+                        <!-- <Icon icon="close_icon" size="sm" /> -->
+                        <small class="bg-green-500 text-white p-2 rounded-lg">Search</small>
+                    </button>
                     <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
                         <!-- <Icon icon="close_icon" size="sm" /> -->
-                        <small class="bg-red-500 text-white p-1 rounded-lg">remove filter</small>
+                        <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
                     </button>
                 </div>
                 <p class="m-2 text-2xl font-normal">
                     Quantity of clients
                 </p>
-
                 <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 w-[150vmin] mx-auto">
                     <column-chart :data="props.client_chart" legend="bottom" />
                 </div>
@@ -88,7 +91,7 @@ const search_remove = () => {
                                 <column-chart :data="office.type" legend="bottom" width="100vmin" />
                             </div>
                             <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                <column-chart :data="office.sex" legend="bottom" :colors="['#4CC9FE', '#FF77B7']"
+                                <pie-chart :data="office.sex" legend="bottom" :colors="['#4CC9FE', '#FF77B7']"
                                     width="500px" />
                             </div>
                         </div>

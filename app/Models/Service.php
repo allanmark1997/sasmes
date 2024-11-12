@@ -17,6 +17,11 @@ class Service extends Model
         return $this->belongsTo(Office::class);
     }
 
+    public function unit_service()
+    {
+        return $this->hasMany(UnitService::class)->with("unit")->distinct();
+    }
+
     public static function initStorage()
     {
         if (!Storage::exists('images/services')) {

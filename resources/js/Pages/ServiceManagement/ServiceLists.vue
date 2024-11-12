@@ -14,13 +14,18 @@ import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["services", "search", "office_id", "office", "offices"])
+const props = defineProps(["services", "search", "office_id", "office", "offices", "units"])
 const form_update = useForm({
     name: null,
     abbrevation: null,
     image: [],
     service: null,
     office_id: "",
+    selected_units: []
+})
+
+onMounted(() => {
+
 })
 
 const form_delete = useForm({
@@ -45,6 +50,10 @@ const open_modal = (service) => {
     form_update.abbrevation = service.abbrevation
     form_update.office_id = service.office_id
     post_image.value.push(service.photo)
+
+    service.unit_service.forEach(unit => {
+        form_update.selected_units.push(unit.unit.id)
+    });
     update_modal.value = !update_modal.value
 }
 
@@ -132,6 +141,16 @@ const confirm_status = () => {
             status_modal.value = !status_modal.value
         }
     });
+}
+
+const check_if_exist = (unit) => {
+    var index = form_update.selected_units.findIndex(x => x === unit);
+    if (index == -1) {
+        return false
+    }
+    else{
+        return true
+    }
 }
 </script>
 
@@ -252,7 +271,18 @@ const confirm_status = () => {
                     </template>
                 </select>
             </div> -->
-
+            <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[40vmin] overflow-y-auto">
+                <template v-for="(unit, key) in props.units" :key="key">
+                    <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
+                        <input :disabled="check_if_exist(unit.id)" type="checkbox" :value="unit.id" v-model="form_update.selected_units"
+                            name="bordered-checkbox"
+                            class="w-4 h-4 text-orange-600 bg-gray-100 border-gray-300 rounded focus:ring-orange-500">
+                        <label for="bordered-checkbox-1" class="w-full py-1 ms-2 text-sm font-medium text-gray-700">
+                            {{ unit.name }}
+                        </label>
+                    </div>
+                </template>
+            </div>
         </template>
         <template #footer>
             <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">

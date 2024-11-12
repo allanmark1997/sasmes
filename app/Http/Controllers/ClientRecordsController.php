@@ -119,7 +119,6 @@ class ClientRecordsController extends Controller
         ClientRecords::create([
             "client_id" => $request->client["id"],
             "unit_services_id" => $request->unit_services_id,
-            "status" => true,
             "type" => $request->type,
             "role" => $request->role,
         ]);

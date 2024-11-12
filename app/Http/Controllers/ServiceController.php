@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Office;
 use App\Models\Service;
+use App\Models\Unit;
 use App\Models\UnitService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -31,20 +32,26 @@ class ServiceController extends Controller
                         $query->whereOfficeId($office);
                     })->orderBy("name", "asc")->paginate(8);
                 $offices = Office::whereId(Auth::user()->office_id)->with("units")->first();
+                $units = Unit::whereOfficeId(Auth::user()->office_id)->get();
             } else {
-                $services = Service::with("office")->when($search != null || $search != "", function ($query) use ($search) {
+                $services = Service::with("office")->with("unit_service")->when($search != null || $search != "", function ($query) use ($search) {
                     $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
                 })
                     ->when($office != null || $office != "", function ($query) use ($office) {
                         $query->whereOfficeId($office);
                     })->orderBy("name", "asc")->paginate(8);
                 $offices = Office::with("units")->get();
+                $units = Unit::get();
             }
+
+
+            // dd($services);
             return Inertia::render('ServiceManagement/Index', [
                 "services" => $services,
                 "search" => $search,
                 "offices" => $offices,
                 "office" => $office,
+                "units" => $units,
             ]);
         } else {
             return redirect()->route('dashboard');
@@ -197,6 +204,19 @@ class ServiceController extends Controller
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation
             ]);
+        }
+
+        if ($request->selected_units != null) {
+            foreach ($request->selected_units as $key => $unit) {
+                $unit_service = UnitService::whereUnitId($unit)->whereServiceId($service->id)->first();
+                if ($unit_service == null) {
+                    UnitService::create([
+                        "service_id" => $service->id,
+                        "unit_id" => $unit,
+                        "status" => true
+                    ]);
+                }
+            }
         }
 
         return back();

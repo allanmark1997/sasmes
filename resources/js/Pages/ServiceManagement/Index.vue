@@ -14,7 +14,7 @@ import { onMounted, ref, watch } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["services", "search", "offices", "office"])
+const props = defineProps(["services", "search", "offices", "office", "units"])
 const form = useForm({
     name: null,
     abbrevation: null,
@@ -228,7 +228,7 @@ watch(
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
                     <ServiceLists :services="props.services" :search="props.search" :office="props.office"
-                        :offices="props.offices" />
+                        :offices="props.offices" :units="props.units" />
                 </div>
             </div>
         </div>

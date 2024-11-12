@@ -26,6 +26,7 @@ class UnitController extends Controller
             $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search) {
                 $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
             })->orderBy("name", "asc")->paginate(8);
+            // dd($units);
         }
         else{
             $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search) {
@@ -83,15 +84,15 @@ class UnitController extends Controller
             "office_id" => $request->office_id
         ]);
 
-        if ($request->selected != null) {
-            foreach ($request->selected as $key => $id) {
-                UnitService::create([
-                    "service_id" => $id,
-                    "unit_id" => $unit->id,
-                    "status" => true
-                ]);
-            }
-        }
+        // if ($request->selected != null) {
+        //     foreach ($request->selected as $key => $id) {
+        //         UnitService::create([
+        //             "service_id" => $id,
+        //             "unit_id" => $unit->id,
+        //             "status" => true
+        //         ]);
+        //     }
+        // }
 
         return back();
     }
