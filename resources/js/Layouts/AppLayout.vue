@@ -46,8 +46,8 @@ const logout = () => {
                             alt="">
                     </div>
                     <ul class="space-y-2 font-medium mt-4">
-                        <li>
-                            <a :href="route('dashboard')" class="flex items-center p-2 text-white rounded-lg group"
+                        <li class="w-[28vmin]">
+                            <a :href="route('dashboard')" class="flex items-center p-2 text-white rounded-lg group w-40"
                                 :class="route().current('dashboard') ? 'bg-[#f9b418]' : ''">
                                 <svg class="w-5 h-5 text-white transition duration-75" aria-hidden="true"
                                     xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">

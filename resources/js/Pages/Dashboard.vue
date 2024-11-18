@@ -60,10 +60,10 @@ const search_remove = () => {
                         </select>
                     </div>
                     <div>
-                        <Input v-model="form.from" class="rounded-lg mb-2 w-[30vmin]" type="date" label="From date" />
+                        <Input v-model="form.from" class="rounded-lg mb-2 w-[25vmin]" type="date" label="From date" />
                     </div>
                     <div>
-                        <Input v-model="form.to" class="rounded-lg mb-2 w-[30vmin]" type="date" label="To date"
+                        <Input v-model="form.to" class="rounded-lg mb-2 w-[25vmin]" type="date" label="To date"
                             @keyup.enter="search_" />
                     </div>
                     <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_">
@@ -75,54 +75,61 @@ const search_remove = () => {
                         <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
                     </button>
                 </div>
-                <p class="m-2 text-2xl font-normal">
-                    Quantity of clients
-                </p>
-                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 w-[150vmin] mx-auto">
-                    <column-chart :data="props.client_chart" legend="bottom" />
+                <div>
+                    <p class="m-2 text-2xl font-normal">
+                        Quantity of clients
+                    </p>
+                    <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                        <column-chart :data="props.client_chart" legend="bottom"  />
+                    </div>
+                    
                 </div>
-                <template v-for="(office, key) in props.office_count_role_gender" :key="key">
-                    <div class="">
-                        <p class="mt-12 text-2xl font-normal">
-                            {{ key }}
-                        </p>
-                        <div class="flex gap-2">
-                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2">
-                                <column-chart :data="office.type" legend="bottom" width="100vmin" />
-                            </div>
-                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                <pie-chart :data="office.sex" legend="bottom" :colors="['#4CC9FE', '#FF77B7']"
-                                    width="500px" />
+
+                <div class="ml-2">
+                    <template v-for="(office, key) in props.office_count_role_gender" :key="key">
+                        <div class="mx-auto">
+                            <p class="mt-12 text-2xl font-normal">
+                                {{ key }}
+                            </p>
+                            <div class="flex gap-2">
+                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                    <column-chart :data="office.type" legend="bottom" width="70vmin" />
+                                </div>
+                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                    <pie-chart :data="office.sex" legend="bottom" :colors="['#4CC9FE', '#FF77B7']"
+                                        width="40vmin" />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="mt-10 text-center font-bold">
-                        <p class="text-xl">
-                            {{ date_time(props.from) }} - {{ date_time(props.to) }}
-                        </p>
-                        <p class="text-xl underline">
-                            Overall Clients: {{ office.overall_count }}
-                        </p>
-                        <div class="grid grid-cols-2 gap-8">
-                            <div class="col-span-1 text-right">
-                                <template v-for="(type, key2) in office.type_text" :key="key2">
-                                    <p class="uppercase">
-                                        {{ key2 }}: {{ type }}
-                                    </p>
-                                </template>
-                            </div>
-                            <div class="col-span-1 text-left">
-                                <template v-for="(type, key2) in office.sex" :key="key2">
-                                    <p class="uppercase">
-                                        {{ key2 }}: {{ type }}
-                                    </p>
-                                </template>
+                        <div class="mt-10 text-center font-bold">
+                            <p class="text-xl">
+                                {{ date_time(props.from) }} - {{ date_time(props.to) }}
+                            </p>
+                            <p class="text-xl underline">
+                                Overall Clients: {{ office.overall_count }}
+                            </p>
+                            <div class="grid grid-cols-2 gap-8">
+                                <div class="col-span-1 text-right">
+                                    <template v-for="(type, key2) in office.type_text" :key="key2">
+                                        <p class="uppercase">
+                                            {{ key2 }}: {{ type }}
+                                        </p>
+                                    </template>
+                                </div>
+                                <div class="col-span-1 text-left">
+                                    <template v-for="(type, key2) in office.sex" :key="key2">
+                                        <p class="uppercase">
+                                            {{ key2 }}: {{ type }}
+                                        </p>
+                                    </template>
+                                </div>
+
                             </div>
 
                         </div>
+                    </template>
+                </div>
 
-                    </div>
-                </template>
             </div>
         </div>
     </AppLayout>

@@ -65,6 +65,7 @@ const add_services = () => {
             });
             form.reset()
             post_image.value = []
+            unit_lists.value = []
             open_modal();
         }
     });
@@ -381,7 +382,7 @@ watch(
                 <JetInputError :message="form_director.errors.abbrevation" class="mt-2" />
             </div>
             <div class="grid grid-cols-12 gap-1 border p-1 mt-1 rounded-lg border-gray-300 h-[40vmin] overflow-y-auto">
-                <template v-for="(unit, key) in props.offices.units" :key="key">
+                <template v-for="(unit, key) in props.offices?.units" :key="key">
                     <div class="col-span-4 flex items-center ps-4 border border-gray-200 rounded">
                         <input id="bordered-checkbox-1" type="checkbox" :value="unit.id" v-model="form_director.selected_units"
                             name="bordered-checkbox"
