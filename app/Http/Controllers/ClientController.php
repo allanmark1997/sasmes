@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\ClientRecords;
+use App\Models\Office;
 use App\Models\UnitService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -33,14 +35,56 @@ class ClientController extends Controller
         $from = $request->from ?? '';
         $to = $request->to ?? '';
         $client = Client::whereId($request->client_id)->first();
-        $unit_services_count = UnitService::get()->count();
-        $offices = ClientRecords::whereClientId($request->client_id)->with("unit_service")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
-            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
-        })->get();
-        foreach ($offices->groupBy("unit_service.unit.office.name") as $key => $office) {
-            $office_visits["text"][$key]["percent"] = round((float)(($office->count() / $unit_services_count) * 100), 2);
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+            $office = $request->office ?? "";
+        } else {
+            $office = Auth::user()->office_id;
+        }
+
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+            $client_record = ClientRecords::whereClientId($request->client_id)->with("unit_service")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+                $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+            })->get();
+        } else {
+            $client_record = ClientRecords::whereClientId($request->client_id)->with("unit_service")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+                $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+            })->with("unit_service")->when($office !=  null || $office != "", function ($query) use ($office) {
+                $query->whereHas("unit_service", function ($query2) use ($office) {
+                    $query2->whereHas("unit", function ($query3) use ($office) {
+                        $query3->whereHas("office", function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        })->with(['office' => function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office) {
+                        $query3->whereHas("office", function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        })->with(['office' => function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        }]);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($office) {
+                    $query2->whereHas("unit", function ($query3) use ($office) {
+                        $query3->whereHas("office", function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        })->with(['office' => function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office) {
+                        $query3->whereHas("office", function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        })->with(['office' => function ($query4) use ($office) {
+                            $query4->whereId($office);
+                        }]);
+                    }]);
+                }]);
+            })->get();
+        }
+
+        foreach ($client_record->groupBy("unit_service.unit.office.name") as $key => $office) {
+            $office_visits["text"][$key]["percent"] = round((float)(($office->count() / $client_record->count()) * 100), 2);
             $office_visits["text"][$key]["count"] = (int)$office->count();
-            $office_visits["chart"][$key] = round((float)(($office->count() / $unit_services_count) * 100), 2);
+            $office_visits["chart"][$key] = round((float)(($office->count() / $client_record->count()) * 100), 2);
 
             $unit_visits[$key]["office_count"] = (int)$office->count();
             foreach ($office->groupBy("unit_service.unit.name") as $key2 => $unit) {
@@ -62,9 +106,9 @@ class ClientController extends Controller
             "from" => $from,
             "to" => $to,
             "client_id" => $request->client_id,
-            "unit_services_count" => $unit_services_count,
-            "office_visits" => $office_visits??[],
-            "unit_visits" => $unit_visits??[],
+            "unit_services_count" => $client_record->count(),
+            "office_visits" => $office_visits ?? [],
+            "unit_visits" => $unit_visits ?? [],
         ]);
     }
 
@@ -91,6 +135,12 @@ class ClientController extends Controller
             // 'photo' => ['required', 'max:1024'],
             // 'id_photo' => ['required', 'max:1024'],
         ]);
+
+        if (Client::whereFname($request->fname)->whereLname($request->lname)->first() != null) {
+            throw ValidationException::withMessages([
+                'name_surname' => "Client has been already in the system",
+            ]);
+        }
 
         // if ($request->photo == null) {
         //     throw ValidationException::withMessages([

@@ -25,7 +25,7 @@ class ServiceController extends Controller
             // $office = Office::whereId(Auth::user()->office_id)->with("units")->first();
             // dd(collect($office)->groupBy("units.name"));
             if (Auth::user()->user_type == "director") {
-                $services = Service::whereOfficeId(Auth::user()->office_id)->with("office")->when($search != null || $search != "", function ($query) use ($search) {
+                $services = Service::whereOfficeId(Auth::user()->office_id)->with("office")->with("unit_service")->when($search != null || $search != "", function ($query) use ($search) {
                     $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
                 })
                     ->when($office != null || $office != "", function ($query) use ($office) {

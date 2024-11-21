@@ -8,6 +8,7 @@ use App\Models\Service;
 use App\Models\UnitService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class ClientRecordsController extends Controller
@@ -19,10 +20,17 @@ class ClientRecordsController extends Controller
     {
         $search = $request->search ?? '';
         $role = $request->role ?? '';
-        $office = $request->office ?? '';
+        // $office = $request->office ?? '';
         $service = $request->service ?? '';
         $from = $request->from ?? '';
         $to = $request->to ?? '';
+
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+            $office = $request->office ?? "";
+        } else {
+            $office = Auth::user()->office_id;
+        }
+        
         $records = ClientRecords::with("client")->has("client")->when($search != null || $search != "", function ($query) use ($search) {
             $query->whereHas("client", function ($query2) use ($search) {
                 $query2->where("fname", "LIKE", "%{$search}%")->orWhere("mname", "LIKE", "%{$search}%")->orWhere("lname", "LIKE", "%{$search}%");

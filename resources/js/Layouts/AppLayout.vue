@@ -36,49 +36,56 @@ const logout = () => {
 
         <Banner />
 
-        <div class="min-h-screen bg-gray-100 flex">
-            <aside class=" top-0 left-0 w-[35vmin]   transition-transform -translate-x-full translate-x-0"
-                aria-label="Sidebar">
-                <div class="h-full px-3 py-4 bg-[#070d31]">
-                    <div class="relative flex left-4 lg:left-8">
-                        <img class="w-[50px] h-[50px]" src="./../CustomComponents/images/sasmes_logo.png" alt="">
-                        <img class="w-[60px] h-[15px] my-auto" src="./../CustomComponents/images/sasmes_text.png"
-                            alt="">
-                    </div>
-                    <ul class="space-y-2 font-medium mt-4">
-                        <li class="w-[28vmin]">
-                            <a :href="route('dashboard')" class="flex items-center p-2 text-white rounded-lg group w-40"
-                                :class="route().current('dashboard') ? 'bg-[#f9b418]' : ''">
-                                <svg class="w-5 h-5 text-white transition duration-75" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                                    <path
-                                        d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                                    <path
-                                        d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                                </svg>
-                                <span class="ms-3">Dashboard</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a :href="route('office.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('office.index') || route().current('unit.index') || route().current('unit_service.index') ? 'bg-[#f9b418]' : ''">
-                                <svg fill="#FFFFFF" class="w-5 h-5 text-white transition duration-75"
-                                    viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M22,7H17V2a1,1,0,0,0-1-1H8A1,1,0,0,0,7,2V7H2A1,1,0,0,0,1,8V22a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V8A1,1,0,0,0,22,7ZM3,9H7V21H3ZM9,8V3h6V21H13V19a1,1,0,0,0-2,0v2H9ZM21,21H17V9h4ZM13,7H11V5h2Zm0,4H11V9h2Zm0,4H11V13h2ZM4,10H6v2H4Zm0,4H6v2H4Zm0,4H6v2H4Zm16-6H18V10h2Zm0,4H18V14h2Zm0,4H18V18h2Z" />
-                                </svg>
-                                <span class="ms-3">Offices</span>
-                            </a>
-                        </li>
+        <div class="min-h-screen bg-gray-100 flex relative">
+            <div class=" top-0 left-0 w-[40vmin]">
 
-                        <li
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
-                            <a :href="route('service.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('service.index') ? 'bg-[#f9b418]' : ''">
-                                <svg fill="#FFFFFF" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                                    xmlns:xlink="http://www.w3.org/1999/xlink" width="3vmin" height="3vmin"
-                                    viewBox="0 0 236 256" enable-background="new 0 0 236 256" xml:space="preserve">
-                                    <path d="M117.5,2c-12.47,0-22.63,10.16-22.63,22.63c0,12.46,10.06,22.62,22.63,22.62c12.37,0,22.62-10.16,22.62-22.62
+            </div>
+            <aside class=" top-0 left-0 w-[35vmin] transition-transform -translate-x-full translate-x-0 fixed"
+                aria-label="Sidebar">
+                <div class="h-screen px-3 py-4 bg-[#070d31] ">
+                    <div class="">
+                        <div class="relative flex left-4 lg:left-8">
+                            <img class="w-[50px] h-[50px]" src="./../CustomComponents/images/sasmes_logo.png" alt="">
+                            <img class="w-[60px] h-[15px] my-auto" src="./../CustomComponents/images/sasmes_text.png"
+                                alt="">
+                        </div>
+                        <ul class="space-y-2 font-medium mt-4">
+                            <li class="w-[28vmin]">
+                                <a :href="route('dashboard')"
+                                    class="flex items-center p-2 text-white rounded-lg group w-full"
+                                    :class="route().current('dashboard') ? 'bg-[#f9b418]' : ''">
+                                    <svg class="w-5 h-5 text-white transition duration-75" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                                        <path
+                                            d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                                        <path
+                                            d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                                    </svg>
+                                    <span class="ms-3">Dashboard</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a :href="route('office.index')"
+                                    class="flex items-center p-2 text-white rounded-lg group"
+                                    :class="route().current('office.index') || route().current('unit.index') || route().current('unit_service.index') ? 'bg-[#f9b418]' : ''">
+                                    <svg fill="#FFFFFF" class="w-5 h-5 text-white transition duration-75"
+                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                            d="M22,7H17V2a1,1,0,0,0-1-1H8A1,1,0,0,0,7,2V7H2A1,1,0,0,0,1,8V22a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V8A1,1,0,0,0,22,7ZM3,9H7V21H3ZM9,8V3h6V21H13V19a1,1,0,0,0-2,0v2H9ZM21,21H17V9h4ZM13,7H11V5h2Zm0,4H11V9h2Zm0,4H11V13h2ZM4,10H6v2H4Zm0,4H6v2H4Zm0,4H6v2H4Zm16-6H18V10h2Zm0,4H18V14h2Zm0,4H18V18h2Z" />
+                                    </svg>
+                                    <span class="ms-3">Offices</span>
+                                </a>
+                            </li>
+
+                            <li
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
+                                <a :href="route('service.index')"
+                                    class="flex items-center p-2 text-white rounded-lg group"
+                                    :class="route().current('service.index') ? 'bg-[#f9b418]' : ''">
+                                    <svg fill="#FFFFFF" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                                        xmlns:xlink="http://www.w3.org/1999/xlink" width="3vmin" height="3vmin"
+                                        viewBox="0 0 236 256" enable-background="new 0 0 236 256" xml:space="preserve">
+                                        <path d="M117.5,2c-12.47,0-22.63,10.16-22.63,22.63c0,12.46,10.06,22.62,22.63,22.62c12.37,0,22.62-10.16,22.62-22.62
 	C140.12,12.16,129.97,2,117.5,2z M146,52H89c-15.59,0-28,13.41-28,29v32h20V86c0-1.71,1.29-3,3-3s3,1.29,3,3v27h61V86
 	c0-1.71,1.29-3,3-3s3,1.29,3,3v27h20V81C174,65.51,161.49,52,146,52z M2,118v27h23v109h185V145h24v-27H2z M136.06,206.81
 	c1.03-0.34,2.02-0.58,3.05-0.58c3.05-0.11,5.66,0.82,7.88,2.84c2.23,1.99,3.43,4.45,3.5,7.57c0.1,0.93,0,2.02-0.24,3.05l-8.74-8.05
@@ -88,37 +95,41 @@ const logout = () => {
 	c-2.23-2.02-3.43-4.49-3.53-7.54c-0.1-0.92,0-2.02,0.24-3.05l8.84,8.02l7.81-8.56l-8.84-8.02c0.93-0.35,2.02-0.59,3.05-0.59
 	c3.05-0.1,5.66,0.83,7.88,2.85c2.23,1.99,3.43,4.59,3.53,7.64c0.11,1.03,0,2.02-0.24,3.05l13.92,12.75l10.17-11l-15.21-13.4
 	l13.81-15.73l39.1,34.41l-13.81,15.73l-15.63-13.78l-9.83,11.62L136.06,206.81z" />
-                                </svg>
-                                <span class="ms-3">Services Management</span>
-                            </a>
-                        </li>
+                                    </svg>
+                                    <span class="ms-3">Services Management</span>
+                                </a>
+                            </li>
 
-                        <li
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
-                            <a :href="route('client.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('client.index') || route().current('client.index_details') ? 'bg-[#f9b418]' : ''">
-                                <Icon icon="user" />
-                                <span class="ms-3">Client Management</span>
-                            </a>
-                        </li>
+                            <li
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
+                                <a :href="route('client.index')"
+                                    class="flex items-center p-2 text-white rounded-lg group"
+                                    :class="route().current('client.index') || route().current('client.index_details') ? 'bg-[#f9b418]' : ''">
+                                    <Icon icon="user" />
+                                    <span class="ms-3">Client Management</span>
+                                </a>
+                            </li>
 
-                        <li>
-                            <a :href="route('record.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('record.index') ? 'bg-[#f9b418]' : ''">
-                                <Icon icon="docs" />
-                                <span class="ms-3">Client Records</span>
-                            </a>
-                        </li>
+                            <li>
+                                <a :href="route('record.index')"
+                                    class="flex items-center p-2 text-white rounded-lg group"
+                                    :class="route().current('record.index') ? 'bg-[#f9b418]' : ''">
+                                    <Icon icon="docs" />
+                                    <span class="ms-3">Client Records</span>
+                                </a>
+                            </li>
 
-                        <li
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
-                            <a :href="route('user.index')" class="flex items-center p-2 text-white rounded-lg group"
-                                :class="route().current('user.index') ? 'bg-[#f9b418]' : ''">
-                                <Icon icon="users" />
-                                <span class="ms-3">User Management</span>
-                            </a>
-                        </li>
-                    </ul>
+                            <li
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
+                                <a :href="route('user.index')" class="flex items-center p-2 text-white rounded-lg group"
+                                    :class="route().current('user.index') ? 'bg-[#f9b418]' : ''">
+                                    <Icon icon="users" />
+                                    <span class="ms-3">User Management</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
                 </div>
             </aside>
             <!-- <nav class="bg-white border-b border-gray-100"> -->

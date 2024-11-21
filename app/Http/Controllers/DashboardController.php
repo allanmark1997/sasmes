@@ -89,7 +89,8 @@ class DashboardController extends Controller
                     }
                     $iteration++;
                 }
-
+                $office_count[$key]["sex"]["male"] = 0;
+                $office_count[$key]["sex"]["female"] = 0;
                 foreach ($office->groupBy("client.sex") as $key4 => $sex) {
                     $office_count[$key]["sex"][$key4] = $sex->count();
                 }
@@ -125,7 +126,9 @@ class DashboardController extends Controller
                     }
                     $iteration++;
                 }
-
+                
+                $office_count[$key]["sex"]["male"] = 0;
+                $office_count[$key]["sex"]["female"] = 0;
                 foreach ($office->groupBy("client.sex") as $key4 => $sex) {
                     $office_count[$key]["sex"][$key4] = $sex->count();
                 }

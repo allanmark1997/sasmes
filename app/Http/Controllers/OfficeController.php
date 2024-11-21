@@ -30,6 +30,14 @@ class OfficeController extends Controller
         ]);
     }
 
+    public function status(Request $request, Office $office)
+    {
+        $office->update([
+            "status" => $request->status
+        ]);
+        return back();
+    }
+
     /**
      * Show the form for creating a new resource.
      */
