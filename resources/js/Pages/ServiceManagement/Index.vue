@@ -19,7 +19,7 @@ const form = useForm({
     name: null,
     abbrevation: null,
     image: [],
-    office_id: "",
+    office:props.office,
     selected_units: [],
 })
 

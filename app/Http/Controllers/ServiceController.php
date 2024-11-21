@@ -20,32 +20,26 @@ class ServiceController extends Controller
     {
         if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "director") {
             $search = $request->search ?? '';
-            $office = $request->office ?? '';
-
-            // $office = Office::whereId(Auth::user()->office_id)->with("units")->first();
-            // dd(collect($office)->groupBy("units.name"));
-            if (Auth::user()->user_type == "director") {
-                $services = Service::whereOfficeId(Auth::user()->office_id)->with("office")->with("unit_service")->when($search != null || $search != "", function ($query) use ($search) {
-                    $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
-                })
-                    ->when($office != null || $office != "", function ($query) use ($office) {
-                        $query->whereOfficeId($office);
-                    })->orderBy("name", "asc")->paginate(8);
-                $offices = Office::whereId(Auth::user()->office_id)->with("units")->first();
-                $units = Unit::whereOfficeId(Auth::user()->office_id)->get();
+            if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+                $office = $request->office ?? '';
             } else {
-                $services = Service::with("office")->with("unit_service")->when($search != null || $search != "", function ($query) use ($search) {
-                    $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
-                })
-                    ->when($office != null || $office != "", function ($query) use ($office) {
-                        $query->whereOfficeId($office);
-                    })->orderBy("name", "asc")->paginate(8);
+                $office = Auth::user()->office_id;
+            }
+            $services = Service::with("office")->with("unit_service")->when($office != null || $office != "", function ($query) use ($office) {
+                $query->whereOfficeId($office);
+            })->when($search != null || $search != "", function ($query) use ($search, $office) {
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($office);
+            })
+                ->orderBy("name", "asc")->paginate(8);
+
+            if (Auth::user()->user_type == "director") {
+                $offices = Office::whereId($office)->with("units")->first();
+                $units = Unit::whereOfficeId($office)->get();
+            } else {
                 $offices = Office::with("units")->get();
                 $units = Unit::get();
             }
 
-
-            // dd($services);
             return Inertia::render('ServiceManagement/Index', [
                 "services" => $services,
                 "search" => $search,
