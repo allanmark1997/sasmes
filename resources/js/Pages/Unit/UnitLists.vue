@@ -14,7 +14,7 @@ import { onMounted, ref } from "vue";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["units", "search", "office_id"])
+const props = defineProps(["units", "search", "office_id", "office"])
 const form_update = useForm({
     name: null,
     abbrevation: null,
@@ -148,7 +148,7 @@ const confirm_status = () => {
                         <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(unit)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
-                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal_status(unit)" class="rounded-md p-1" :class="unit.status == 1 ? 'bg-red-500' : 'bg-green-500'">
+                        <button v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head') && props.office.status == 1" @click="open_modal_status(unit)" class="rounded-md p-1" :class="unit.status == 1 ? 'bg-red-500' : 'bg-green-500'">
                             <Icon v-if="unit.status == 1" icon="close_icon" />
                             <Icon v-else icon="check" />
                         </button>

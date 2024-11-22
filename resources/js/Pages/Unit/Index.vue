@@ -127,7 +127,7 @@ const search_remove = () => {
 
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                    <UnitLists :units="props.units" :search="props.search" :office_id="props.office_id" />
+                    <UnitLists :units="props.units" :search="props.search" :office_id="props.office_id" :office="props.office" />
                 </div>
             </div>
         </div>
