@@ -24,7 +24,7 @@ const to = ref(props.to);
 
 const search_ = () => {
     router.get(
-        route("record.index", { search: search.value, role: role.value, office:office.value, service:service.value, from:from.value, to:to.value })
+        route("record.index", { search: search.value, role: role.value, office: office.value, service: service.value, from: from.value, to: to.value })
     );
 };
 
@@ -36,7 +36,7 @@ const search_remove = () => {
     from.value = "";
     to.value = "";
     router.get(
-        route("record.index", { search: search.value, role: role.value, office:office.value, service:service.value, from:from.value, to:to.value })
+        route("record.index", { search: search.value, role: role.value, office: office.value, service: service.value, from: from.value, to: to.value })
     );
 }
 </script>
@@ -68,8 +68,8 @@ const search_remove = () => {
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 p-1">
                             <option value="" disabled>Select Office</option>
                             <option value="">All Offices</option>
-                            <template v-for="(office, key) in props.offices"  :key="key">
-                                <option  :value="office.id">{{ office.abbrevation }}</option>
+                            <template v-for="(office, key) in props.offices" :key="key">
+                                <option :value="office.id">{{ office.abbrevation }}</option>
                             </template>
                         </select>
                     </div>
@@ -78,7 +78,7 @@ const search_remove = () => {
                             class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[20vmin] h-10 mt-5 break-words p-1">
                             <option value="" disabled>Select Service</option>
                             <option value="">All Services</option>
-                            <template v-for="(service, key) in props.services"  :key="key">
+                            <template v-for="(service, key) in props.services" :key="key">
                                 <option class="w-[5vmin] " :value="service.id">{{ service.name }}</option>
                             </template>
                         </select>
@@ -87,20 +87,26 @@ const search_remove = () => {
                         <Input v-model="from" class="rounded-lg mb-2 w-[20vmin]" type="date" label="From date" />
                     </div>
                     <div>
-                        <Input v-model="to" class="rounded-lg mb-2 w-[20vmin]" type="date" label="To date" @keyup.enter="search_" />
+                        <Input v-model="to" class="rounded-lg mb-2 w-[20vmin]" type="date" label="To date"
+                            @keyup.enter="search_" />
                     </div>
                     <Input v-model="search" class="rounded-lg mb-2 w-[20vmin]" type="text" label="Search Client"
                         @keyup.enter="search_" />
-                    <button v-if="search || role || office || service || from || to" class="h-10 my-auto mt-5" @click="search_remove">
+                    <button class="h-10 my-auto mt-5" @click="search_">
+                        <small class="bg-green-500 text-white p-2 rounded-lg">Search</small>
+                    </button>
+                    <button v-if="search || role || office || service || from || to" class="h-10 my-auto mt-5"
+                        @click="search_remove">
                         <!-- <Icon icon="close_icon" size="sm" /> -->
-                         <small class="bg-red-500 text-white p-1 rounded-lg">remove filter</small>
+                        <small class="bg-red-500 text-white p-1 rounded-lg">remove filter</small>
                     </button>
                 </div>
             </div>
 
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="overflow-hidden">
-                    <RecordLists :client_record="props.client_record" :search="props.search" :role="props.role" :office="props.office" :service="props.service" :from="props.from" :to="props.to" />
+                    <RecordLists :client_record="props.client_record" :search="props.search" :role="props.role"
+                        :office="props.office" :service="props.service" :from="props.from" :to="props.to" />
                 </div>
             </div>
         </div>

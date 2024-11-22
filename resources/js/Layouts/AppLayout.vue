@@ -64,7 +64,7 @@ const logout = () => {
                                     <span class="ms-3">Dashboard</span>
                                 </a>
                             </li>
-                            <li>
+                            <li v-if="$page.props.auth.user.user_type != 'vcsas'">
                                 <a :href="route('office.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
                                     :class="route().current('office.index') || route().current('unit.index') || route().current('unit_service.index') ? 'bg-[#f9b418]' : ''">
@@ -78,7 +78,7 @@ const logout = () => {
                             </li>
 
                             <li
-                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director'">
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
                                 <a :href="route('service.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
                                     :class="route().current('service.index') ? 'bg-[#f9b418]' : ''">
@@ -101,7 +101,7 @@ const logout = () => {
                             </li>
 
                             <li
-                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'vcsas'">
                                 <a :href="route('client.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
                                     :class="route().current('client.index') || route().current('client.index_details') ? 'bg-[#f9b418]' : ''">
@@ -110,7 +110,7 @@ const logout = () => {
                                 </a>
                             </li>
 
-                            <li>
+                            <li  v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'">
                                 <a :href="route('record.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
                                     :class="route().current('record.index') ? 'bg-[#f9b418]' : ''">

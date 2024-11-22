@@ -29,7 +29,9 @@ class DashboardController extends Controller
         }
 
         $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
-        $units = Unit::get();
+        $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use($office_id){
+            $query->whereOfficeId($office_id);
+        })->get();
         $filtered_records = ClientRecords::with("client")->has("client")->with("unit_service")->when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
             $query->whereHas("unit_service", function ($query2) use ($office_id) {
                 $query2->whereHas("unit", function ($query3) use ($office_id) {

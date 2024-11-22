@@ -136,7 +136,7 @@ class ClientController extends Controller
             // 'id_photo' => ['required', 'max:1024'],
         ]);
 
-        if (Client::whereFname($request->fname)->whereLname($request->lname)->first() != null) {
+        if (Client::whereFname($request->fname)->wheremname($request->mname)->whereLname($request->lname)->first() != null) {
             throw ValidationException::withMessages([
                 'name_surname' => "Client has been already in the system",
             ]);

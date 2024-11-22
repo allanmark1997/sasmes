@@ -120,7 +120,7 @@ const search_remove = () => {
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>
-                <PrimaryButton v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
+                <PrimaryButton v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head') && props.office.status == 1" @click="open_modal()" class=" mb-2 mr-12 h-10 mt-5">
                     Add Unit
                 </PrimaryButton>
             </div>

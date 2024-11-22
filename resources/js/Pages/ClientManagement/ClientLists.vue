@@ -111,7 +111,7 @@ const date_time = (date) => {
                                 <Icon icon="docs" />
                             </button> -->
                             <button
-                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
                                 @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
                                 <Icon icon="pencil" />
                             </button>

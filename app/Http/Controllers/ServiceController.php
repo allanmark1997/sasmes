@@ -34,10 +34,10 @@ class ServiceController extends Controller
 
             if (Auth::user()->user_type == "director") {
                 $offices = Office::whereId($office)->with("units")->first();
-                $units = Unit::whereOfficeId($office)->get();
+                $units = Unit::whereOfficeId($office)->whereStatus(1)->get();
             } else {
                 $offices = Office::with("units")->get();
-                $units = Unit::get();
+                $units = Unit::whereStatus(1)->get();
             }
 
             return Inertia::render('ServiceManagement/Index', [

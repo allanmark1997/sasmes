@@ -48,6 +48,9 @@ class UnitController extends Controller
         $unit->update([
             "status" => $request->status
         ]);
+        $unit->unit_service()->update([
+            "status" => $request->status
+        ]);
         return back();
     }
 

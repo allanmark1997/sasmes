@@ -162,7 +162,7 @@ const search_remove = () => {
                         <Icon icon="close_icon" size="sm" />
                     </button>
                 </div>
-                <PrimaryButton @click="open_register_modal()" class=" mb-2 mr-12 h-10 mt-5">
+                <PrimaryButton  v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'" @click="open_register_modal()" class=" mb-2 mr-12 h-10 mt-5">
                     Register New Client
                 </PrimaryButton>
             </div>
@@ -225,6 +225,7 @@ const search_remove = () => {
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Middle Name" v-model="form_register.mname" />
+                <JetInputError :message="form_register.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Surname" v-model="form_register.lname" />

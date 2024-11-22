@@ -14,13 +14,14 @@ class EvaluationController extends Controller
      */
     public function index(Request $request, $code)
     {
-        $evaluation = Evaluation::whereCode($code)->with("office")->has("office")->with("service")->has("service")->with("unit")->has("unit")->first();
+        $evaluation = Evaluation::whereCode($code)->whereStatus("draft")->with("unit_service")->first();
+        // dd($evaluation->unit_service->unit->office->name);
         if ($evaluation == null) {
             # code...
         }
         $questions = array(
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "",
                 "question" => "Region of Residence",
                 "choices" => array(
@@ -45,7 +46,7 @@ class EvaluationController extends Controller
                 "qtype" => "dropdown",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "",
                 "question" => "Sex",
                 "choices" => array(
@@ -57,7 +58,7 @@ class EvaluationController extends Controller
                 "qtype" => "dropdown",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "Which of the following best describes your awareness of a CC?",
                 "choices" => array(
@@ -70,7 +71,7 @@ class EvaluationController extends Controller
                 "qtype" => "radio",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "If aware of CC (answered 1-3 in CC1). Would you say that the CC of this office was?",
                 "choices" => array(
@@ -84,7 +85,7 @@ class EvaluationController extends Controller
                 "qtype" => "radio",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Citizen Charter Questions(CC)",
                 "question" => "If aware of CC (answered 1-3 in CC1). How much did the CC help you in your transaction?",
                 "choices" => array(
@@ -97,7 +98,7 @@ class EvaluationController extends Controller
                 "qtype" => "radio",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office has the willingness to help, assist, and provide prompt service to the client.",
                 "choices" => array(
@@ -112,7 +113,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides effective service that you need.",
                 "choices" => array(
@@ -127,7 +128,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides the convenience of location or accesibility of the service you require.",
                 "choices" => array(
@@ -142,7 +143,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office gives effective ways of providing information.",
                 "choices" => array(
@@ -157,7 +158,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides modest/affordable/justifiable cost, if any, of the service that you require.",
                 "choices" => array(
@@ -172,7 +173,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office was able to deliver the service/s with integrety, honesty, and fairness.",
                 "choices" => array(
@@ -187,7 +188,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office provides a level of competence and capability with satisfying service/s.",
                 "choices" => array(
@@ -202,7 +203,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "Evaluation Questions",
                 "question" => "The office has provided the service/s that you need.",
                 "choices" => array(
@@ -217,7 +218,7 @@ class EvaluationController extends Controller
                 "qtype" => "button",
             ),
             array(
-                "title" => $evaluation->office->name,
+                "title" => $evaluation->unit_service->unit->office->name,
                 "sub_title" => "",
                 "question" => "Do you have any other information/ comments/ suggestions/ recommendations? Type none if there aren'nt any.",
                 "choices" => null,

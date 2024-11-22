@@ -35,6 +35,9 @@ class OfficeController extends Controller
         $office->update([
             "status" => $request->status
         ]);
+        $office->units()->update([
+            "status" => $request->status
+        ]);
         return back();
     }
 

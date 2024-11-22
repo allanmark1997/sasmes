@@ -178,14 +178,15 @@ const search_remove = () => {
         <template #content>
             <div class="col-span-full">
                 <Input type="text" label="Client First Name" v-model="form_register.fname" />
-                <JetInputError :message="form_register.errors.fname" class="mt-2" />
+                <JetInputError :message="form_register.errors.fname || form_register.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Middle Name" v-model="form_register.mname" />
+                <JetInputError :message="form_register.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Surname" v-model="form_register.lname" />
-                <JetInputError :message="form_register.errors.lname" class="mt-2" />
+                <JetInputError :message="form_register.errors.lname || form_register.errors.name_surname" class="mt-2" />
             </div>  
             <div class="col-span-full">
                 <select
