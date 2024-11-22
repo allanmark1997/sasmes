@@ -17,8 +17,8 @@ class Evaluation extends Model
         ];
     }
 
-    public function unit_service()
+    public function client_record()
     {
-        return $this->belongsTo(UnitService::class, "unit_services_id", "id")->with("unit_service")->with("unit");
+        return $this->belongsTo(ClientRecords::class)->with("client")->with("unit_service");
     }
 }

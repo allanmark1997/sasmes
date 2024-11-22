@@ -9,7 +9,7 @@ import { ref } from 'vue';
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 
-const props = defineProps(["questions"])
+const props = defineProps(["questions", "evaluation"])
 
 const form = useForm({
     answer: []
@@ -17,25 +17,107 @@ const form = useForm({
 
 const form_answers = useForm({
     age: null,
-    client_type: null,
-    client_role: null,
+    client_type: props.evaluation?.client_record?.type ?? null,
+    client_role: props.evaluation?.client_record?.role ?? null,
+    client_unit: props.evaluation?.client_record?.unit_service?.unit?.name ?? null,
+    client_service: props.evaluation?.client_record?.unit_service?.unit_service?.name ?? null,
+    client_sex: props.evaluation?.client_record?.client?.sex ?? null,
     client_region: null,
-    client_sex: null,
-    cc_1: null,
-    cc_2: null,
-    cc_3: null,
-    e_1: null,
-    e_2: null,
-    e_3: null,
-    e_4: null,
-    e_5: null,
-    e_6: null,
-    e_7: null,
-    e_8: null,
+    cc_1: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+    },
+    cc_2: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+    },
+    cc_3: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+    },
+    e_1: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+    },
+    e_2: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_3: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_4: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_5: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_6: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_7: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
+    e_8: {
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
+
+    },
     suggestions: null,
 })
 
 const iteration = ref(0)
+const question_set = ref(props.evaluation == null ? 4 : 0)
 const answer = ref("")
 const answer_set = reactive({
     "question": null,
@@ -50,38 +132,66 @@ function handleImageError() {
     document.getElementById('background')?.classList.add('!hidden');
 }
 
-onMounted(() => {
-    props.questions.forEach(element => {
-        form.answer.push(element)
+// const function_next = () => {
+//     // answer_set.question = props.questions[iteration.value]
+//     // answer_set.question_series = "q" + parseInt(iteration.value + 1)
+//     // answer_set.answer = answer.value
+
+//     // form.answer.push(JSON.stringify(answer_set))
+//     form.answer[iteration.value].answer = answer
+//     answer.value = ""
+//     // answer_set.value.question = null
+//     // answer_set.value.question_series = null
+//     // answer_set.value.answer = null
+//     iteration.value++
+// }
+
+const update_answer = () => {
+    form_answers.put(route("evaluation.update", { evaluation: props.evaluation }), {
+        preserveScroll: true,
+        onSuccess: () => {
+            form.reset();
+            toast.success("User has been successfully registered!", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+            form_answers.reset()
+        }
     });
-})
-
-const function_next = () => {
-    // answer_set.question = props.questions[iteration.value]
-    // answer_set.question_series = "q" + parseInt(iteration.value + 1)
-    // answer_set.answer = answer.value
-
-    // form.answer.push(JSON.stringify(answer_set))
-    form.answer[iteration.value].answer = answer
-    answer.value = ""
-    // answer_set.value.question = null
-    // answer_set.value.question_series = null
-    // answer_set.value.answer = null
-    iteration.value++
 }
 
+const function_next = () => {
+    if (question_set.value >= 3) {
+        update_answer()
+    }
+    question_set.value++
+}
 const function_prev = () => {
-    if (iteration.value <= 0) {
-        toast.error("This is the first question", {
+    if (question_set.value <= 0) {
+        toast.error("This is the first set of questions", {
             autoClose: 1000,
             transition: toast.TRANSITIONS.FLIP,
             position: toast.POSITION.TOP_RIGHT,
         });
     }
     else {
-        iteration.value--
+        question_set.value--
     }
 }
+
+// const function_prev = () => {
+//     if (iteration.value <= 0) {
+//         toast.error("This is the first question", {
+//             autoClose: 1000,
+//             transition: toast.TRANSITIONS.FLIP,
+//             position: toast.POSITION.TOP_RIGHT,
+//         });
+//     }
+//     else {
+//         iteration.value--
+//     }
+// }
 </script>
 
 <template>
@@ -150,66 +260,694 @@ const function_prev = () => {
     </div>
 </div> -->
 
-    <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
-        <p class="text-center font-bold text-5xl">
-            {{ props.questions[iteration].title }}
-        </p>
-        <p class="text-lg font-bold text-center">
+    <div v-if="question_set == 0">
+        <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
+            <p class="text-center font-bold text-5xl">
+                {{ props.evaluation?.client_record?.unit_service?.unit?.office?.name }}
+            </p>
+            <!-- <p class="text-lg font-bold text-center">
             {{ props.questions[iteration].sub_title }}
-        </p>
+        </p> -->
+        </div>
+        <div class="bg-gray-50 text-black/50 mt-12 mx-auto w-[75vmin] p-3 rounded-lg">
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-6">
+                    <select
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full cursor-not-allowed"
+                        v-model="form_answers.client_type" disabled>
+                        <option value="null" disabled>Select Client Type</option>
+                        <option value="citizen">Citizen</option>
+                        <option value="business">Business</option>
+                        <option value="government">Government</option>
+                    </select>
+                    <JetInputError :message="form_answers.errors.client_type" class="mt-2" />
+                </div>
+                <div class="col-span-6">
+                    <select v-model="form_answers.client_role"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full cursor-not-allowed"
+                        disabled>
+                        <option value="null" disabled>Select Client Role</option>
+                        <option value="student">Student</option>
+                        <option value="employee">Employee</option>
+                        <option value="alumni">Alumni</option>
+                        <option value="guardian">Guardian</option>
+                        <option value="others">Others</option>
+                    </select>
+                    <JetInputError :message="form_answers.errors.client_role" class="mt-2" />
+                </div>
+                <div class="col-span-6">
+                    <select v-model="form_answers.client_unit"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full"
+                        disabled>
+                        <option :value="form_answers.client_unit">{{ form_answers.client_unit }}</option>
+                    </select>
+                </div>
+                <div class="col-span-6">
+                    <select v-model="form_answers.client_service"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full"
+                        disabled>
+                        <option :value="form_answers.client_service">{{ form_answers.client_service }}</option>
+                    </select>
+                </div>
+                <div class="col-span-12">
+                    <select v-model="form_answers.client_sex"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full uppercase"
+                        disabled>
+                        <option :value="form_answers.client_sex">{{ form_answers.client_sex }}</option>
+                    </select>
+                </div>
+                <div class="col-span-6">
+                    <Input v-model="form_answers.age" label="Enter your age" class="w-full" />
+                </div>
+                <div class="col-span-6">
+                    <select v-model="form_answers.client_region"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
+                        <option value="null" disabled>Select Region</option>
+                        <option value="Bangsamoro Autonomous Region in Muslim Mindanao">Bangsamoro Autonomous Region in
+                            Muslim
+                            Mindanao</option>
+                        <option value="Bicol Region">Bicol Region</option>
+                        <option value="Cagayan Valley">Cagayan Valley</option>
+                        <option value="CALABARZON">CALABARZON</option>
+                        <option value="Caraga Region">Caraga Region</option>
+                        <option value="Central Luzon">Central Luzon</option>
+                        <option value="Central Visayas">Central Visayas</option>
+                        <option value="ordillera Administrative Region">ordillera Administrative Region</option>
+                        <option value="Davao Region">Davao Region</option>
+                        <option value="Ilocos Region">Ilocos Region</option>
+                        <option value="MIMAROPA">MIMAROPA</option>
+                        <option value="National Capital Region">National Capital Region</option>
+                        <option value="Northern Mindanao">Northern Mindanao</option>
+                        <option value="SOCCSKSARGEN">SOCCSKSARGEN</option>
+                        <option value="Western Visayas">Western Visayas</option>
+                        <option value="Zamboanga Peninsula">Zamboanga Peninsula</option>
+                    </select>
+                    <JetInputError :message="form_answers.errors.client_region" class="mt-2" />
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="bg-gray-50 text-black/50 mt-12 mx-auto w-[75vmin] p-3 rounded-lg">
-        <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-6">
-                <Input v-model="form_answers.age" label="Enter your age" class="w-full" />
+    <div v-if="question_set == 1">
+        <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
+            <p class="text-center font-bold text-5xl">
+                {{ props.evaluation.client_record.unit_service.unit.office.name }}
+            </p>
+            <p class="text-lg font-bold text-center">
+                Citizens Charter Questions(CC)
+            </p>
+        </div>
+        <div class="bg-gray-50 text-black/50 mt-12 mx-auto w-[75vmin] p-3 rounded-lg">
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">Which of the following best describes your
+                        awareness
+                        of a CC?</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_1.c1"
+                                @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c4 = 0"
+                                name="notification-method" value="I know what a CC is and I saw this office's CC."
+                                type="radio" class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                I know what a CC is and I saw this office's CC.
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_1.c2"
+                                @change="form_answers.cc_1.c1 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c4 = 0"
+                                name="notification-method"
+                                value="I know what a CC is but I did NOT see this office's CC." type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                I know what a CC is but I did NOT see this office's CC.
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_1.c3"
+                                @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c1 = 0, form_answers.cc_1.c4 = 0"
+                                name="notification-method"
+                                value="I learned of the CC is and I did not see one of this office." type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                I learned of the CC is and I did not see one of this office.
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_1.c4"
+                                @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c1 = 0"
+                                name="notification-method" value="N/A" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">If aware of CC (answered 1-3 in CC1). Would you
+                        say
+                        that the CC of this office was?</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_2.c1"
+                                @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
+                                name="notification-method2" value="Easy to see" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Easy to see
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_2.c2"
+                                @change="form_answers.cc_2.c1 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
+                                name="notification-method2" value="Somewhat easy to see" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Somewhat easy to see
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_2.c3"
+                                @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c1 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
+                                name="notification-method2" value="Difficult to see" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Difficult to see
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_2.c4"
+                                @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c1 = 0, form_answers.cc_2.c5 = 0"
+                                name="notification-method2" value="Not visible at all" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Not visible at all
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_2.c5"
+                                @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c1 = 0"
+                                name="notification-method2" value="N/A" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">If aware of CC (answered 1-3 in CC1). How much
+                        did
+                        the CC help you in your transaction?
+                        of a CC?</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_3.c1"
+                                @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c4 = 0"
+                                name="notification-method3" value="Helped very much" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Helped very much
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_3.c2"
+                                @change="form_answers.cc_3.c1 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c4 = 0"
+                                name="notification-method3" value="Somewhat helped" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Somewhat helped
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_3.c3"
+                                @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c1 = 0, form_answers.cc_3.c4 = 0"
+                                name="notification-method3" value="Did not help" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Did not help
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.cc_3.c4"
+                                @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c1 = 0"
+                                name="notification-method3" value="N/A" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
             </div>
-            <div class="col-span-6">
-                <select
-                    class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                    v-model="form_answers.client_type">
-                    <option value="null" disabled>Select Client Type</option>
-                    <option value="citizen">Citizen</option>
-                    <option value="business">Business</option>
-                    <option value="government">Government</option>
-                </select>
-                <JetInputError :message="form_answers.errors.client_type" class="mt-2" />
+        </div>
+    </div>
+    <div v-if="question_set == 2">
+        <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
+            <p class="text-center font-bold text-5xl">
+                {{ props.evaluation.client_record.unit_service.unit.office.name }}
+            </p>
+            <p class="text-lg font-bold text-center">
+                Evaluation Questions
+            </p>
+        </div>
+        <div class="bg-gray-50 text-black/50 mt-12 mx-auto w-[75vmin] p-3 rounded-lg">
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office has the willingness to help, assist,
+                        and
+                        provide prompt service to the client.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c1" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c2" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c3" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c4" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c5" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_1.c6" name="notification-method4" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office provides effective service that you
+                        need.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c1" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c2" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c3" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c4" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c5" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_2.c6" name="notification-method5" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office provides the convenience of location
+                        or
+                        accesibility of the service you require.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c1" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c2" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c3" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c4" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c5" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_3.c6" name="notification-method6" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office gives effective ways of providing
+                        information.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c1" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c2" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c3" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c4" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c5" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_4.c6" name="notification-method7" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office provides modest/affordable/justifiable
+                        cost, if any, of the service that you require.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c1" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c2" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c3" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c4" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c5" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_5.c6" name="notification-method8" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office was able to deliver the service/s with
+                        integrety, honesty, and fairness.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c1" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c2" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c3" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c4" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c5" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_6.c6" name="notification-method9" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office provides a level of competence and
+                        capability with satisfying service/s</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c1" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c2" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c3" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c4" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c5" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_7.c6" name="notification-method10" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">The office has provided the service/s that you
+                        need.</label>
+                    <fieldset class="mt-2">
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c1" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c2" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Agree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c3" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Neither Agree or Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c4" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c5" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                Strongly Disagree
+                            </label>
+                        </div>
+                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                            <input v-model="form_answers.e_8.c6" name="notification-method11" value="1" type="radio"
+                                class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
+                            <label class="ml-3 block text-sm font-medium text-gray-700">
+                                N/A
+                            </label>
+                        </div>
+                    </fieldset>
+                </div>
             </div>
-            <div class="col-span-6">
-                <select v-model="form_answers.client_role"
-                    class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
-                    <option value="null" disabled>Select Client Role</option>
-                    <option value="student">Student</option>
-                    <option value="employee">Employee</option>
-                    <option value="alumni">Alumni</option>
-                    <option value="guardian">Guardian</option>
-                    <option value="others">Others</option>
-                </select>
-                <JetInputError :message="form_answers.errors.client_role" class="mt-2" />
+        </div>
+    </div>
+
+    <div v-if="question_set == 3">
+        <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
+            <p class="text-center font-bold text-5xl">
+                {{ props.evaluation.client_record.unit_service.unit.office.name }}
+            </p>
+        </div>
+        <div class="bg-gray-50 text-black/50 mt-12 mx-auto w-[75vmin] p-3 rounded-lg">
+            <div class="grid grid-cols-12 gap-2">
+                <div class="col-span-12">
+                    <label class="text-base font-medium text-gray-900">Do you have any other information/ comments/
+                        suggestions/ recommendations? Type none if there aren'nt any.</label>
+                    <fieldset class="mt-2">
+                        <textarea class="rounded-lg focus:ring-yellow-500 w-full" rows="10"></textarea>
+                    </fieldset>
+                </div>
+
             </div>
-            <div class="col-span-6">
-                <select v-model="form_answers.client_region"
-                    class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
-                    <option value="null" disabled>Select Region</option>
-                    <option value="Bangsamoro Autonomous Region in Muslim Mindanao">Bangsamoro Autonomous Region in
-                        Muslim
-                        Mindanao</option>
-                    <option value="Bicol Region">Bicol Region</option>
-                    <option value="Cagayan Valley">Cagayan Valley</option>
-                    <option value="CALABARZON">CALABARZON</option>
-                    <option value="Caraga Region">Caraga Region</option>
-                    <option value="Central Luzon">Central Luzon</option>
-                    <option value="Central Visayas">Central Visayas</option>
-                    <option value="ordillera Administrative Region">ordillera Administrative Region</option>
-                    <option value="Davao Region">Davao Region</option>
-                    <option value="Ilocos Region">Ilocos Region</option>
-                    <option value="MIMAROPA">MIMAROPA</option>
-                    <option value="National Capital Region">National Capital Region</option>
-                    <option value="Northern Mindanao">Northern Mindanao</option>
-                    <option value="SOCCSKSARGEN">SOCCSKSARGEN</option>
-                    <option value="Western Visayas">Western Visayas</option>
-                    <option value="Zamboanga Peninsula">Zamboanga Peninsula</option>
-                </select>
-                <JetInputError :message="form_answers.errors.client_region" class="mt-2" />
+        </div>
+    </div>
+    <div v-if="question_set == 4">
+        <div class="bg-gray-50 text-black/50 mt-[10vmin] mx-auto w-[75vmin] p-3 rounded-lg">
+            <p class="text-center font-bold text-5xl">
+                This survey is done!
+            </p>
+            <p class="text-lg font-bold text-center">
+                Please close it now.
+            </p>
+        </div>
+    </div>
+
+    <div v-if="question_set != 4" class="bg-white text-black/50 mt-12 mx-auto w-[75vmin] p-3 flex">
+        <div class="flex gap-4 ml-[30%]">
+            <div class="">
+                <SecondaryButton class="hover:bg-red-400" @click="function_prev">
+                    << Previous</SecondaryButton>
+            </div>
+            <div class=" ">
+                <PrimaryButton class="hover:bg-green-400" @click="function_next">Next >></PrimaryButton>
             </div>
         </div>
     </div>

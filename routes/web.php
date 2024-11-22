@@ -96,4 +96,5 @@ Route::middleware([
 
 Route::prefix('engine')->name('evaluation.')->group(function () {
     Route::get('/evaluation/{code}', [EvaluationController::class, 'index'])->name('index');
+    Route::put('/evaluation_update/{evaluation}', [EvaluationController::class, 'update'])->name('update');
 });
