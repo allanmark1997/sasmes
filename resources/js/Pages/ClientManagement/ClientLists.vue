@@ -86,7 +86,8 @@ const date_time = (date) => {
                     <th scope="col" class="px-6 py-3">
                         Date & Time
                     </th>
-                    <th scope="col" class="px-6 py-3">
+                    <th v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'"
+                        scope="col" class="px-6 py-3">
                         Action
                     </th>
                 </tr>
@@ -95,9 +96,11 @@ const date_time = (date) => {
                 <template v-for="(client, key) in clients.data" :key="key">
                     <tr class="odd:bg-white even:bg-gray-200 border-b">
                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                            <a class="hover:font-bold hover:underline" :href="route('client.index_details', {client_id:client.id})">
-                                {{ client.lname + ", " }}{{ client.fname + " " }}{{ " " + !client.mname ? client.mname : ""
-                            }}
+                            <a class="hover:font-bold hover:underline"
+                                :href="route('client.index_details', { client_id: client.id })">
+                                {{ client.lname + ", " }}{{ client.fname + " " }}{{ " " + !client.mname ? client.mname :
+                                    ""
+                                }}
                             </a>
                         </th>
                         <td class="px-6 py-4">
@@ -106,13 +109,12 @@ const date_time = (date) => {
                         <td class="px-6 py-4 ">
                             {{ date_time(client.created_at) }}
                         </td>
-                        <td class="px-6 py-4 ">
+                        <td v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'"
+                            class="px-6 py-4 ">
                             <!-- <button @click="open_modal_details(client)" class="bg-green-500 rounded-md p-1 mr-1">
                                 <Icon icon="docs" />
                             </button> -->
-                            <button
-                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'"
-                                @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
+                            <button @click="open_update_modal(client)" class="bg-orange-500 rounded-md p-1 mr-1">
                                 <Icon icon="pencil" />
                             </button>
                         </td>
@@ -197,7 +199,7 @@ const date_time = (date) => {
             </div>
         </template>
         <template #content>
-           
+
         </template>
         <template #footer>
             <SecondaryButton @click="details_modal = false" class="mr-2 hover:bg-red-500">

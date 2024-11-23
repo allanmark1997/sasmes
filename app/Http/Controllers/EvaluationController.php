@@ -235,6 +235,14 @@ class EvaluationController extends Controller
         ]);
     }
 
+    public function results_index()
+    {
+        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->first();
+        return Inertia::render('Evaluation', [
+            "evaluation" => $evaluation
+        ]);
+    }
+
     /**
      * Show the form for creating a new resource.
      */

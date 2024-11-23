@@ -151,7 +151,7 @@ const update_answer = () => {
         preserveScroll: true,
         onSuccess: () => {
             form.reset();
-            toast.success("User has been successfully registered!", {
+            toast.success("Evaluation has been done!", {
                 autoClose: 1000,
                 transition: toast.TRANSITIONS.FLIP,
                 position: toast.POSITION.TOP_RIGHT,
@@ -297,21 +297,21 @@ const function_prev = () => {
                 </div>
                 <div class="col-span-6">
                     <select v-model="form_answers.client_unit"
-                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full cursor-not-allowed"
                         disabled>
                         <option :value="form_answers.client_unit">{{ form_answers.client_unit }}</option>
                     </select>
                 </div>
                 <div class="col-span-6">
                     <select v-model="form_answers.client_service"
-                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full cursor-not-allowed"
                         disabled>
                         <option :value="form_answers.client_service">{{ form_answers.client_service }}</option>
                     </select>
                 </div>
                 <div class="col-span-12">
                     <select v-model="form_answers.client_sex"
-                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full uppercase"
+                        class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full uppercase cursor-not-allowed"
                         disabled>
                         <option :value="form_answers.client_sex">{{ form_answers.client_sex }}</option>
                     </select>
