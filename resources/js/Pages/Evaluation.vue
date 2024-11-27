@@ -519,42 +519,44 @@ const function_prev = () => {
                         provide prompt service to the client.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c1" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c1" 
+                            @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0 , form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
+                            name="notification-method4" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c2" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c2" @change="form_answers.e_1.c1 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0 , form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0" name="notification-method4" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c3" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c3" @change="form_answers.e_1.c2 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c4 = 0 , form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0" name="notification-method4" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c4" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c4" @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c1 = 0 , form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0" name="notification-method4" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c5" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c5" @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0 , form_answers.e_1.c1 = 0, form_answers.e_1.c6 = 0" name="notification-method4" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_1.c6" name="notification-method4" value="1" type="radio"
+                            <input v-model="form_answers.e_1.c6" @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0 , form_answers.e_1.c5 = 0, form_answers.e_1.c1 = 0" name="notification-method4" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -568,28 +570,28 @@ const function_prev = () => {
                         need.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_2.c1" name="notification-method5" value="1" type="radio"
+                            <input v-model="form_answers.e_2.c1" @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0 , form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0" name="notification-method5" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_2.c2" name="notification-method5" value="1" type="radio"
+                            <input v-model="form_answers.e_2.c2" @change="form_answers.e_2.c1 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0 , form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0" name="notification-method5" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_2.c3" name="notification-method5" value="1" type="radio"
+                            <input v-model="form_answers.e_2.c3" @change="form_answers.e_2.c2 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c4 = 0 , form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0" name="notification-method5" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_2.c4" name="notification-method5" value="1" type="radio"
+                            <input v-model="form_answers.e_2.c4" @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c1 = 0 , form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0" name="notification-method5" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
@@ -603,7 +605,7 @@ const function_prev = () => {
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_2.c6" name="notification-method5" value="1" type="radio"
+                            <input v-model="form_answers.e_2.c6" @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0 , form_answers.e_2.c5 = 0, form_answers.e_2.c1 = 0" name="notification-method5" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -618,42 +620,42 @@ const function_prev = () => {
                         accesibility of the service you require.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c1" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c1"  @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0 , form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0" name="notification-method6" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c2" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c2" @change="form_answers.e_3.c1 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0 , form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0" name="notification-method6" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c3" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c3" @change="form_answers.e_3.c2 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c4 = 0 , form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0" name="notification-method6" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c4" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c4" @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c1 = 0 , form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0" name="notification-method6" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c5" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c5" @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0 , form_answers.e_3.c1 = 0, form_answers.e_3.c6 = 0" name="notification-method6" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_3.c6" name="notification-method6" value="1" type="radio"
+                            <input v-model="form_answers.e_3.c6" @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0 , form_answers.e_3.c5 = 0, form_answers.e_3.c1 = 0" name="notification-method6" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -667,42 +669,42 @@ const function_prev = () => {
                         information.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c1" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c1" @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0 , form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0" name="notification-method7" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c2" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c2" @change="form_answers.e_4.c1 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0 , form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0" name="notification-method7" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c3" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c3" @change="form_answers.e_4.c2 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c4 = 0 , form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0" name="notification-method7" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c4" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c4" @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c1 = 0 , form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0" name="notification-method7" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c5" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c5" @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0 , form_answers.e_4.c1 = 0, form_answers.e_4.c6 = 0" name="notification-method7" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_4.c6" name="notification-method7" value="1" type="radio"
+                            <input v-model="form_answers.e_4.c6" @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0 , form_answers.e_4.c5 = 0, form_answers.e_4.c1 = 0"  name="notification-method7" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -716,42 +718,42 @@ const function_prev = () => {
                         cost, if any, of the service that you require.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c1" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c1" @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0 , form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0" name="notification-method8" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c2" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c2" @change="form_answers.e_5.c1 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0 , form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0" name="notification-method8" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c3" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c3" @change="form_answers.e_5.c2 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c4 = 0 , form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0" name="notification-method8" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c4" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c4" @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c1 = 0 , form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0" name="notification-method8" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c5" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c5" @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0 , form_answers.e_5.c1 = 0, form_answers.e_5.c6 = 0" name="notification-method8" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_5.c6" name="notification-method8" value="1" type="radio"
+                            <input v-model="form_answers.e_5.c6" @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0 , form_answers.e_5.c5 = 0, form_answers.e_5.c1 = 0" name="notification-method8" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -765,42 +767,42 @@ const function_prev = () => {
                         integrety, honesty, and fairness.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c1" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c1" @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0 , form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0" name="notification-method9" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c2" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c2" @change="form_answers.e_6.c1 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0 , form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0" name="notification-method9" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c3" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c3" @change="form_answers.e_6.c2 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c4 = 0 , form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0" name="notification-method9" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c4" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c4" @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c1 = 0 , form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0" name="notification-method9" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c5" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c5" @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0 , form_answers.e_6.c1 = 0, form_answers.e_6.c6 = 0" name="notification-method9" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_6.c6" name="notification-method9" value="1" type="radio"
+                            <input v-model="form_answers.e_6.c6" @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0 , form_answers.e_6.c5 = 0, form_answers.e_6.c1 = 0" name="notification-method9" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -814,42 +816,42 @@ const function_prev = () => {
                         capability with satisfying service/s</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c1" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c1" @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0 , form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0" name="notification-method10" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c2" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c2" @change="form_answers.e_7.c1 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0 , form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0" name="notification-method10" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c3" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c3" @change="form_answers.e_7.c2 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c4 = 0 , form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0" name="notification-method10" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c4" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c4" @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c1 = 0 , form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0" name="notification-method10" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c5" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c5" @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0 , form_answers.e_7.c1 = 0, form_answers.e_7.c6 = 0" name="notification-method10" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_7.c6" name="notification-method10" value="1" type="radio"
+                            <input v-model="form_answers.e_7.c6" @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0 , form_answers.e_7.c5 = 0, form_answers.e_7.c1 = 0" name="notification-method10" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -863,42 +865,42 @@ const function_prev = () => {
                         need.</label>
                     <fieldset class="mt-2">
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c1" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c1" @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0 , form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c2" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c2" @change="form_answers.e_8.c1 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0 , form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Agree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c3" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c3" @change="form_answers.e_8.c2 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c4 = 0 , form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Neither Agree or Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c4" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c4" @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c1 = 0 , form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c5" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c5" @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0 , form_answers.e_8.c1 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
                         <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
-                            <input v-model="form_answers.e_8.c6" name="notification-method11" value="1" type="radio"
+                            <input v-model="form_answers.e_8.c6" @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0 , form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0" name="notification-method11" value="0" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
