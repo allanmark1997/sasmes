@@ -77,15 +77,12 @@ const logout = () => {
                                 </a>
                             </li>
 
-                            <li v-if="$page.props.auth.user.user_type != 'vcsas'">
-                                <a :href="route('office.index')"
+                            <li
+                                v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head' || $page.props.auth.user.user_type == 'vcsas'">
+                                <a :href="route('evaluation_result.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
-                                    :class="route().current('office.index') || route().current('unit.index') || route().current('unit_service.index') ? 'bg-[#f9b418]' : ''">
-                                    <svg fill="#FFFFFF" class="w-5 h-5 text-white transition duration-75"
-                                        viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M22,7H17V2a1,1,0,0,0-1-1H8A1,1,0,0,0,7,2V7H2A1,1,0,0,0,1,8V22a1,1,0,0,0,1,1H22a1,1,0,0,0,1-1V8A1,1,0,0,0,22,7ZM3,9H7V21H3ZM9,8V3h6V21H13V19a1,1,0,0,0-2,0v2H9ZM21,21H17V9h4ZM13,7H11V5h2Zm0,4H11V9h2Zm0,4H11V13h2ZM4,10H6v2H4Zm0,4H6v2H4Zm0,4H6v2H4Zm16-6H18V10h2Zm0,4H18V14h2Zm0,4H18V18h2Z" />
-                                    </svg>
+                                    :class="route().current('evaluation_result.index') ? 'bg-[#f9b418]' : ''">
+                                    <Icon icon="docs" />
                                     <span class="ms-3">Evaluation Results</span>
                                 </a>
                             </li>

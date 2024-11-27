@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ClientRecords;
+use App\Models\Evaluation;
 use App\Models\Office;
 use App\Models\Service;
 use App\Models\UnitService;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
+use Illuminate\Support\Str;
 
 class ClientRecordsController extends Controller
 {
@@ -30,7 +32,7 @@ class ClientRecordsController extends Controller
         } else {
             $office = Auth::user()->office_id;
         }
-        
+
         $records = ClientRecords::with("client")->has("client")->when($search != null || $search != "", function ($query) use ($search) {
             $query->whereHas("client", function ($query2) use ($search) {
                 $query2->where("fname", "LIKE", "%{$search}%")->orWhere("mname", "LIKE", "%{$search}%")->orWhere("lname", "LIKE", "%{$search}%");
@@ -87,7 +89,7 @@ class ClientRecordsController extends Controller
             })
             ->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
                 $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
-            })->orderBy("created_at", "desc")->paginate(8);
+            })->orderBy("created_at", "desc")->paginate(12);
         $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
         $services = Service::when($office != null || $office != "", function ($query) use ($office) {
             $query->where("office_id", $office);
@@ -124,12 +126,31 @@ class ClientRecordsController extends Controller
             'type' => ["required"],
         ]);
 
-        ClientRecords::create([
-            "client_id" => $request->client["id"],
-            "unit_services_id" => $request->unit_services_id,
+        $client_record = ClientRecords::create([
+            "client_id" => (int)$request->client["id"],
             "type" => $request->type,
             "role" => $request->role,
+            "unit_services_id" => (int)$request->unit_services_id,
         ]);
+
+        $generated_code = $this->generateCode();
+        Evaluation::create([
+            "code" => $generated_code,
+            "data" => [],
+            "client_record_id" => $client_record->id,
+            "status" => "draft"
+        ]);
+        return redirect()->route('unit_service.index', [ "office_id" => $request->office_id, "unit_id" => $request->unit_id])->with('code', env("APP_URL")."/engine/evaluation/".$generated_code);
+    }
+
+    public function generateCode()
+    {
+        do {
+            $code = Str::random(10);
+            $exists = Evaluation::where('code', $code)->exists();
+        } while ($exists);
+
+        return $code;
     }
 
     /**

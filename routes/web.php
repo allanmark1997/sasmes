@@ -36,13 +36,16 @@ Route::middleware([
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
+    Route::prefix('evaluations')->name('evaluation_result.')->group(function () {
+        Route::get('/evaluation_lists', [EvaluationController::class, 'results_index'])->name('index');
+    });
+
     Route::prefix('offices')->name('office.')->group(function () {
         Route::get('/offices_lists', [OfficeController::class, 'index'])->name('index');
         Route::post('/add_office', [OfficeController::class, 'store'])->name('store');
         Route::post('/update_office/{office}', [OfficeController::class, 'update'])->name('update');
         Route::delete('/delete_office/{office}', [OfficeController::class, 'destroy'])->name('destroy');
         Route::put('/delete_office/{office}', [OfficeController::class, 'status'])->name('status');
-
     });
 
     Route::prefix('units')->name('unit.')->group(function () {

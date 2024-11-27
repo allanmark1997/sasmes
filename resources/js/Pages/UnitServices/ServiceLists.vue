@@ -15,6 +15,8 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import moment from 'moment';
 
+import VueQrcode from '@chenfengyuan/vue-qrcode';
+import html2canvas from 'html2canvas';
 const props = defineProps(["unit_services", "search", "office_id", "unit_id", "clients"])
 
 const form_status = useForm({
@@ -29,6 +31,8 @@ const form_admission = useForm({
     unit_services_id: null,
     role: "",
     type: "",
+    office_id: props.office_id,
+    unit_id: props.unit_id,
 })
 
 const admission_modal = ref(false);
@@ -58,7 +62,7 @@ const update_unit = () => {
                 transition: toast.TRANSITIONS.FLIP,
                 position: toast.POSITION.TOP_RIGHT,
             });
-            admission_modal.value = !admission_modal.value
+            // admission_modal.value = !admission_modal.value
         }
     });
 }
@@ -85,6 +89,12 @@ const open_search_product = () => {
 const date = (date) => {
     return moment(date).format('MMMM Do YYYY');
 }
+
+// const download_qr = () => {
+//     html2canvas(document.querySelector("#capture")).then(canvas => {
+//         document.body.appendChild(canvas)
+//     });
+// }
 </script>
 
 <template>
@@ -136,11 +146,12 @@ const date = (date) => {
         </p>
     </div>
 
-    <JetDialogModal :show="admission_modal" @close="admission_modal = false" maxWidth="2xl">
-        <template #title>Client Admission here!</template>
+    <JetDialogModal :show="admission_modal" maxWidth="2xl">
+        <template #title>{{ $page.props.flash.code ? "Please get the code before closing" : "Client Admission here!"
+            }}</template>
         <template #content>
             <div class="h-[50vmin]">
-                <div class="col-span-full">
+                <div v-if="!$page.props.flash.code" class="col-span-full">
                     <select
                         class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
                         v-model="form_admission.type">
@@ -151,7 +162,7 @@ const date = (date) => {
                     </select>
                     <JetInputError :message="form_admission.errors.type" class="mt-2" />
                 </div>
-                <div>
+                <div v-if="!$page.props.flash.code">
                     <select v-model="form_admission.role"
                         class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-[15vmin] h-10 mt-5 w-full">
                         <option value="" disabled>Select Client Role</option>
@@ -164,7 +175,7 @@ const date = (date) => {
                     <JetInputError :message="form_admission.errors.role" class="mt-2" />
 
                 </div>
-                <div class="col-span-full grid grid-cols-6 gap-1">
+                <div v-if="!$page.props.flash.code" class="col-span-full grid grid-cols-6 gap-1">
                     <div class="col-span-5">
                         <Input type="text" label="Search Client name" v-model="form_admission.search" />
                         <JetInputError :message="form_admission.errors.client" class="mt-2" />
@@ -216,11 +227,27 @@ const date = (date) => {
                         </button>
                     </div>
                 </div>
+                <div class="grid grid-cols-1 mx-auto my-auto text-center item-center" id="captured">
+                    <div v-if="$page.props.flash.code" class="col-span-full mx-auto">
+                        <vue-qrcode :value="$page.props.flash.code" :options="{ width: 200 }" />
+                    </div>
+                    <div v-if="$page.props.flash.code" class="col-span-full mx-auto">
+                        <p>
+                            <small> {{ $page.props.flash.code }}</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 mx-auto my-auto text-center item-center">
+                    <div v-if="$page.props.flash.code" class="col-span-full mx-auto mt-2 mx-auto">
+                    </div>
+                </div>
 
                 <div v-if="form_admission.client" class="mt-6">
                     <div class="w-full mx-auto max-w-sm bg-white border border-gray-200 rounded-lg shadow">
                         <div class="flex flex-col items-center ">
-                            <h5 class="mb-1 text-xl font-medium text-gray-700">{{ form_admission.client?.fname }}</h5>
+                            <h5 class="mb-1 text-xl font-medium text-gray-700 mt-2 mr-2 ml-2 text-center">
+                                {{ form_admission.client?.lname }} , {{ form_admission.client?.fname }} {{
+                                    form_admission.client?.mname }}</h5>
                             <div class="grid grid-cols-12 gap-1">
                                 <div class="col-span-6 flex  text-left">
                                     <Icon icon="sex" /><span class="text-sm text-gray-500 uppercase">{{
@@ -232,12 +259,13 @@ const date = (date) => {
                                 </div>
                             </div>
                             <div>
-                                <button v-if="form_admission.id" class="w-[10vmin] bg-red-500 rounded-lg mt-6 mb-2 text-white" @click="
-                                    (search_results_client_to_add = false),
-                                    (form_admission.client = ''),
-                                    (form_admission.id = false),
-                                    (form_admission.search = '')
-                                    ">
+                                <button v-if="form_admission.id"
+                                    class="w-[10vmin] bg-red-500 rounded-lg mt-6 mb-2 text-white" @click="
+                                        (search_results_client_to_add = false),
+                                        (form_admission.client = ''),
+                                        (form_admission.id = false),
+                                        (form_admission.search = '')
+                                        ">
                                     Remove
                                 </button>
                             </div>
@@ -248,11 +276,12 @@ const date = (date) => {
             </div>
         </template>
         <template #footer>
-            <SecondaryButton @click="admission_modal = false" class="mr-2 hover:bg-red-500">
-                Cancel
+            <SecondaryButton @click="admission_modal = false, $page.props.flash.code = null"
+                class="mr-2 hover:bg-red-500">
+                {{ $page.props.flash.code ? "Close" : "Cancel" }}
             </SecondaryButton>
-            <PrimaryButton :class="{ 'opacity-25': form_admission.processing }" :disabled="form_admission.processing"
-                class="hover:bg-green-300" @click="update_unit">
+            <PrimaryButton v-if="!$page.props.flash.code" :class="{ 'opacity-25': form_admission.processing }"
+                :disabled="form_admission.processing" class="hover:bg-green-300" @click="update_unit">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
