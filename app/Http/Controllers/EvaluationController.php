@@ -20,7 +20,7 @@ class EvaluationController extends Controller
      */
     public function index(Request $request, $code)
     {
-        $evaluation = Evaluation::whereCode($code)->whereStatus("draft")->with("client_record")->first();
+        $evaluation = Evaluation::whereCode($code)->with("client_record")->first();
         // dd($evaluation);
         // if ($evaluation == null) {
         //     throw ValidationException::withMessages([
@@ -242,7 +242,6 @@ class EvaluationController extends Controller
 
     public function results_index(Request $request)
     {
-        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->first();
 
         $from = $request->from ?? date("Y-m-d");
         $to = $request->to ?? date("Y-m-d");
@@ -376,7 +375,42 @@ class EvaluationController extends Controller
             return $office;
         })->toArray();
 
+        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+        })->get();
+
+
+        $offices_mean = [];
+        $sum_q = [];
+        foreach ($evaluation->groupBy("client_record.unit_service.unit.office.name") as $prime => $office) {
+            $plucked_data = $office->pluck("data");
+            foreach ($plucked_data as $key => $set) {
+                for ($i = 1; $i < 9; $i++) {
+                    $revalued__data[$key][] = $set["e_" . $i];
+                }
+            }
+
+            foreach ($revalued__data as $key => $set) {
+                foreach ($set as $key2 => $answers) {
+                    foreach ($answers as $key3 => $answer) {
+                        $revalued_data2[$key2][] = $answer;
+                    }
+                }
+            }
+
+            foreach ($revalued_data2 as $key => $q) {
+                $sum_q[$prime][] = array_sum($q) / $office->count();
+            }
+        }
+        foreach ($sum_q as $key => $office) {
+            $offices_mean[$prime] = array_sum($office)/count($office);
+         }
+
+        
+
         return Inertia::render('EvaluationResult', [
+            "evaluation_result" => $evaluation,
+            "offices_mean" => $offices_mean,
             "client_chart" => $overall_count,
             "office_count_role_gender" => $office_count ?? [],
             "from" => $from,

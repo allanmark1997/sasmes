@@ -20,7 +20,7 @@ const form = useForm({
 
 const search_ = () => {
     form.get(
-        route("dashboard")
+        route("evaluation_result.index")
     );
 };
 
@@ -31,7 +31,7 @@ const search_remove = () => {
     form.office_id = "";
     form.unit = "";
     form.get(
-        route("dashboard")
+        route("evaluation_result.index")
     );
 };
 </script>
