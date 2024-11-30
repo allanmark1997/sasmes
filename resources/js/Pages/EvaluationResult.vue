@@ -10,7 +10,7 @@ const date_time = (date) => {
     return moment(date).format('MMMM Do YYYY');
 }
 
-const props = defineProps(["client_chart", "from", "to", "offices", "office_id", "office_count_role_gender"])
+const props = defineProps(["mean", "adjectival", "client_chart", "from", "to", "offices", "office_id", "office_count_role_gender"])
 
 const form = useForm({
     from: props.from,
@@ -81,13 +81,13 @@ const search_remove = () => {
                     </p>
                 </div>
                 <div class="w-full grid grid-cols-2 gap-2 mt-6">
-                    <div class="col-span-1">
+                    <div class="col-span-2">
                         <p class="text-center font-bold">Mean</p>
                         <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
                             <column-chart :data="props.client_chart" legend="bottom" />
                         </div>
                     </div>
-                    <div class="col-span-1">
+                    <div class="col-span-2">
                         <p class="text-center font-bold">Standard Deviation</p>
                         <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
                             <column-chart :data="props.client_chart" legend="bottom" />
@@ -97,15 +97,33 @@ const search_remove = () => {
                 <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
                     <div class="col-span-1  border-r-2 border-gray-700">
                         <p class="text-center font-bold">Mean</p>
-                        asdas
+                        <ul class="list-disc">
+                            <template v-for="(mean, key) in props.mean" :key="key">
+                                <li>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="col-span-1">{{ key }}</div>
+                                        <div class="col-span-1">= {{ mean }}</div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
                     <div class="col-span-1  border-r-2 border-gray-700">
                         <p class="text-center font-bold">Standard Deviation</p>
                         asdas
                     </div>
-                    <div class="col-span-1">
+                    <div class="col-span-1 ml-4">
                         <p class="text-center font-bold">Adjectival Result</p>
-                        asdas
+                        <ul class="list-disc">
+                            <template v-for="(adjectival, key) in props.adjectival" :key="key">
+                                <li>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="col-span-1">{{ key }}</div>
+                                        <div class="col-span-1 font-bold">= <span :class="((adjectival == 'Excellent') || (adjectival == 'Above Average')) ? 'text-green-500':(adjectival == 'Average' ? 'text-orange-500':(adjectival == 'Poor' ? 'text-red-400':'text-red-500'))">{{ adjectival }}</span></div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
                 </div>
                 <div class="w-full grid grid-cols-1 gap-2 mt-10 p-2">
@@ -113,38 +131,38 @@ const search_remove = () => {
                         <p class="text-left font-bold">Suggestions</p>
                         <div class=" relative overflow-x-auto overflow-y-auto rounded-lg">
                             <table class="w-full text-sm text-left rtl:text-right text-gray-700 ">
-                            <thead class="text-xs text-white uppercase bg-yellow-500 ">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3">
-                                        Suggestion
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Office
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Service
-                                    </th>
-                                    <th scope="col" class="px-6 py-3">
-                                        Date
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <template >
-                                    <tr class="odd:bg-white even:bg-gray-200 border-b">
-                                        <th scope="row"
-                                            class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                                           asd
+                                <thead class="text-xs text-white uppercase bg-yellow-500 ">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3">
+                                            Suggestion
                                         </th>
-                                        <td class="px-6 py-4">
-                                           asdasd
-                                        </td>
+                                        <th scope="col" class="px-6 py-3">
+                                            Office
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Service
+                                        </th>
+                                        <th scope="col" class="px-6 py-3">
+                                            Date
+                                        </th>
                                     </tr>
-                                </template>
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody>
+                                    <template>
+                                        <tr class="odd:bg-white even:bg-gray-200 border-b">
+                                            <th scope="row"
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
+                                                asd
+                                            </th>
+                                            <td class="px-6 py-4">
+                                                asdasd
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>

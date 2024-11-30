@@ -71,7 +71,8 @@ class OfficeController extends Controller
         Office::create([
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
-            "photo" => env('APP_URL') . '/storage/images/offices/' . $imageName
+            "photo" => env('APP_URL') . '/storage/images/offices/' . $imageName,
+            "status" => true
         ]);
 
         return back();

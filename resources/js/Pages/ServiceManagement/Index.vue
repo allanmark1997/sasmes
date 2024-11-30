@@ -19,7 +19,7 @@ const form = useForm({
     name: null,
     abbrevation: null,
     image: [],
-    office:props.office,
+    office_id:props.office,
     selected_units: [],
 })
 
@@ -181,7 +181,7 @@ watch(
     (id) => {
         form.selected_units = []
         var index = props.offices.findIndex(x => x.id === id);
-        unit_lists.value = props.offices[index].units
+        unit_lists.value = props.offices[index]?.units
         console.log(index, id, unit_lists.value)
     },
     { deep: true }

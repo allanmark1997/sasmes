@@ -380,37 +380,42 @@ class EvaluationController extends Controller
         })->get();
 
 
-        $offices_mean = [];
+        $mean = [];
+        $adjectival_result = [];
         $sum_q = [];
-        foreach ($evaluation->groupBy("client_record.unit_service.unit.office.name") as $prime => $office) {
+        foreach ($evaluation->groupBy("client_record.unit_service.unit.office.name") as $office_name => $office) {
             $plucked_data = $office->pluck("data");
             foreach ($plucked_data as $key => $set) {
                 for ($i = 1; $i < 9; $i++) {
-                    $revalued__data[$key][] = $set["e_" . $i];
+                    $revalued_data[$key][] = $set["e_" . $i];
                 }
             }
-
-            foreach ($revalued__data as $key => $set) {
-                foreach ($set as $key2 => $answers) {
-                    foreach ($answers as $key3 => $answer) {
-                        $revalued_data2[$key2][] = $answer;
-                    }
+            // dd($revalued_data);
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    dd($answer, $choice);
+                    // foreach ($answers as $key3 => $answer) {
+                    //     $revalued_data2[$key2][] = $answer;
+                    // }
                 }
             }
-
+            // dd($revalued_data2);
             foreach ($revalued_data2 as $key => $q) {
-                $sum_q[$prime][] = array_sum($q) / $office->count();
+                $sum_q[$office_name][$key] = array_sum($q) / $office->count();
             }
+            // dd($sum_q);
         }
+        dd($sum_q);
         foreach ($sum_q as $key => $office) {
-            $offices_mean[$prime] = array_sum($office)/count($office);
-         }
+            $mean[$key][] = array_sum($office) / 8;
+            $adjectival_result[$key] = ((array_sum($office) / count($office)) <= 1.80) ? "Very Poor" : (((array_sum($office) / count($office)) >= 1.81 && (array_sum($office) / count($office)) <= 2.6) ? "Poor" : (((array_sum($office) / count($office)) >= 2.61) && ((array_sum($office) / count($office)) <= 3.40) ? "Average" : (((array_sum($office) / count($office)) >= 3.41) && ((array_sum($office) / count($office)) <= 4.20) ? "Above Average" : "Excellent")));
+        }
 
-        
-
+        // dd($adjectival_result, $mean, $sum_q);
         return Inertia::render('EvaluationResult', [
             "evaluation_result" => $evaluation,
-            "offices_mean" => $offices_mean,
+            "mean" => $mean,
+            "adjectival" => $adjectival_result,
             "client_chart" => $overall_count,
             "office_count_role_gender" => $office_count ?? [],
             "from" => $from,
