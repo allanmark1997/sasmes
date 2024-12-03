@@ -7,10 +7,14 @@ import Icon from '@/CustomComponents/Icon.vue';
 import moment from 'moment';
 
 const date_time = (date) => {
+    return moment(date).format('MMMM Do YYYY, h:mm:ss a');
+}
+
+const date = (date) => {
     return moment(date).format('MMMM Do YYYY');
 }
 
-const props = defineProps(["mean", "adjectival", "client_chart", "from", "to", "offices", "office_id", "office_count_role_gender"])
+const props = defineProps(["mean", "standard_deviation", "adjectival", "suggestions", "mean_chart", "standard_deviation_chart", "from", "to", "offices", "office_id"])
 
 const form = useForm({
     from: props.from,
@@ -34,6 +38,10 @@ const search_remove = () => {
         route("evaluation_result.index")
     );
 };
+
+const number_format = (number) => {
+    return new Intl.NumberFormat('en-US').format(number)
+}
 </script>
 
 <template>
@@ -77,20 +85,20 @@ const search_remove = () => {
                         Overall Ratings of SAS Offices
                     </p>
                     <p class="text-xl text-center">
-                        {{ date_time(props.from) }} - {{ date_time(props.to) }}
+                        {{ date(props.from) }} - {{ date(props.to) }}
                     </p>
                 </div>
                 <div class="w-full grid grid-cols-2 gap-2 mt-6">
-                    <div class="col-span-2">
+                    <div class="col-span-1">
                         <p class="text-center font-bold">Mean</p>
                         <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                            <column-chart :data="props.client_chart" legend="bottom" />
+                            <column-chart :data="props.mean_chart" legend="bottom" />
                         </div>
                     </div>
-                    <div class="col-span-2">
+                    <div class="col-span-1">
                         <p class="text-center font-bold">Standard Deviation</p>
                         <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                            <column-chart :data="props.client_chart" legend="bottom" />
+                            <column-chart :data="props.standard_deviation_chart" legend="bottom" />
                         </div>
                     </div>
                 </div>
@@ -102,7 +110,7 @@ const search_remove = () => {
                                 <li>
                                     <div class="grid grid-cols-2 gap-2">
                                         <div class="col-span-1">{{ key }}</div>
-                                        <div class="col-span-1">= {{ mean }}</div>
+                                        <div class="col-span-1">= {{ number_format(mean) }}</div>
                                     </div>
                                 </li>
                             </template>
@@ -110,7 +118,16 @@ const search_remove = () => {
                     </div>
                     <div class="col-span-1  border-r-2 border-gray-700">
                         <p class="text-center font-bold">Standard Deviation</p>
-                        asdas
+                        <ul class="list-disc ml-4">
+                            <template v-for="(standard_deviation, key) in props.standard_deviation" :key="key">
+                                <li>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div class="col-span-1">{{ key }}</div>
+                                        <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
                     <div class="col-span-1 ml-4">
                         <p class="text-center font-bold">Adjectival Result</p>
@@ -119,7 +136,9 @@ const search_remove = () => {
                                 <li>
                                     <div class="grid grid-cols-2 gap-2">
                                         <div class="col-span-1">{{ key }}</div>
-                                        <div class="col-span-1 font-bold">= <span :class="((adjectival == 'Excellent') || (adjectival == 'Above Average')) ? 'text-green-500':(adjectival == 'Average' ? 'text-orange-500':(adjectival == 'Poor' ? 'text-red-400':'text-red-500'))">{{ adjectival }}</span></div>
+                                        <div class="col-span-1 font-bold">= <span
+                                                :class="((adjectival == 'Excellent') || (adjectival == 'Above Average')) ? 'text-green-500' : (adjectival == 'Average' ? 'text-orange-500' : (adjectival == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
+                                                adjectival }}</span></div>
                                     </div>
                                 </li>
                             </template>
@@ -148,14 +167,20 @@ const search_remove = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <template>
+                                    <template v-for="(suggestion, key) in props.suggestions" :key="key">
                                         <tr class="odd:bg-white even:bg-gray-200 border-b">
                                             <th scope="row"
                                                 class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                                                asd
+                                                {{ suggestion.suggestion??"None" }}
                                             </th>
                                             <td class="px-6 py-4">
-                                                asdasd
+                                                {{ suggestion.office }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ suggestion.client_service }}
+                                            </td>
+                                            <td class="px-6 py-4">
+                                                {{ date_time(suggestion.date) }}
                                             </td>
                                         </tr>
                                     </template>
@@ -167,92 +192,5 @@ const search_remove = () => {
                 </div>
             </div>
         </div>
-
-        <!-- <div class="py-4">
-            <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex gap-2 ">
-                    <div
-                        v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
-                        <select v-model="form.office_id" @change="(search_)"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                            :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            <option value="" disabled>Select office</option>
-                            <option value="">All Office</option>
-                            <template v-for="(office, key) in props.offices" :key="key">
-                                <option :value="office.id">{{ office.abbrevation }}</option>
-                            </template>
-                        </select>
-                    </div>
-                    <div>
-                        <Input v-model="form.from" class="rounded-lg mb-2 w-[25vmin]" type="date" label="From date" />
-                    </div>
-                    <div>
-                        <Input v-model="form.to" class="rounded-lg mb-2 w-[25vmin]" type="date" label="To date"
-                            @keyup.enter="search_" />
-                    </div>
-                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_">
-                        <small class="bg-green-500 text-white p-2 rounded-lg">Search</small>
-                    </button>
-                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
-                        <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
-                    </button>
-                </div>
-                <div>
-                    <p class="m-2 text-2xl font-normal">
-                        Quantity of clients
-                    </p>
-                    <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                        <column-chart :data="props.client_chart" legend="bottom" />
-                    </div>
-
-                </div>
-
-                <div class="ml-2">
-                    <template v-for="(office, key) in props.office_count_role_gender" :key="key">
-                        <div class="mx-auto">
-                            <p class="mt-12 text-2xl font-normal">
-                                {{ key }}
-                            </p>
-                            <div class="flex gap-2">
-                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                    <column-chart :data="office.type" legend="bottom" width="70vmin" />
-                                </div>
-                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                    <pie-chart :data="office.sex" legend="bottom" :colors="['#4CC9FE', '#FF77B7']"
-                                        width="40vmin" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-10 text-center font-bold">
-                            <p class="text-xl">
-                                {{ date_time(props.from) }} - {{ date_time(props.to) }}
-                            </p>
-                            <p class="text-xl underline">
-                                Overall Clients: {{ office.overall_count }}
-                            </p>
-                            <div class="grid grid-cols-2 gap-8">
-                                <div class="col-span-1 text-right">
-                                    <template v-for="(type, key2) in office.type_text" :key="key2">
-                                        <p class="uppercase">
-                                            {{ key2 }}: {{ type }}
-                                        </p>
-                                    </template>
-                                </div>
-                                <div class="col-span-1 text-left">
-                                    <template v-for="(type, key2) in office.sex" :key="key2">
-                                        <p class="uppercase">
-                                            {{ key2 }}: {{ type }}
-                                        </p>
-                                    </template>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </template>
-                </div>
-
-            </div>
-        </div> -->
     </AppLayout>
 </template>

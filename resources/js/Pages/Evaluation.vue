@@ -317,7 +317,7 @@ const function_prev = () => {
                     </select>
                 </div>
                 <div class="col-span-6">
-                    <Input v-model="form_answers.age" label="Enter your age" class="w-full" />
+                    <Input type="number" v-model="form_answers.age" label="Enter your age" class="w-full" />
                 </div>
                 <div class="col-span-6">
                     <select v-model="form_answers.client_region"
@@ -363,7 +363,8 @@ const function_prev = () => {
                         awareness
                         of a CC?</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
+                            <div></div>
                             <input v-model="form_answers.cc_1.c1"
                                 @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c4 = 0"
                                 name="notification-method" value="I know what a CC is and I saw this office's CC."
@@ -372,7 +373,7 @@ const function_prev = () => {
                                 I know what a CC is and I saw this office's CC.
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_1.c2"
                                 @change="form_answers.cc_1.c1 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c4 = 0"
                                 name="notification-method"
@@ -382,7 +383,7 @@ const function_prev = () => {
                                 I know what a CC is but I did NOT see this office's CC.
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_1.c3"
                                 @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c1 = 0, form_answers.cc_1.c4 = 0"
                                 name="notification-method"
@@ -392,7 +393,7 @@ const function_prev = () => {
                                 I learned of the CC is and I did not see one of this office.
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_1.c4"
                                 @change="form_answers.cc_1.c2 = 0, form_answers.cc_1.c3 = 0, form_answers.cc_1.c1 = 0"
                                 name="notification-method" value="N/A" type="radio"
@@ -408,7 +409,7 @@ const function_prev = () => {
                         say
                         that the CC of this office was?</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_2.c1"
                                 @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
                                 name="notification-method2" value="Easy to see" type="radio"
@@ -417,7 +418,7 @@ const function_prev = () => {
                                 Easy to see
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_2.c2"
                                 @change="form_answers.cc_2.c1 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
                                 name="notification-method2" value="Somewhat easy to see" type="radio"
@@ -426,7 +427,7 @@ const function_prev = () => {
                                 Somewhat easy to see
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_2.c3"
                                 @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c1 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c5 = 0"
                                 name="notification-method2" value="Difficult to see" type="radio"
@@ -435,7 +436,7 @@ const function_prev = () => {
                                 Difficult to see
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_2.c4"
                                 @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c1 = 0, form_answers.cc_2.c5 = 0"
                                 name="notification-method2" value="Not visible at all" type="radio"
@@ -444,7 +445,7 @@ const function_prev = () => {
                                 Not visible at all
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_2.c5"
                                 @change="form_answers.cc_2.c2 = 0, form_answers.cc_2.c3 = 0, form_answers.cc_2.c4 = 0, form_answers.cc_2.c1 = 0"
                                 name="notification-method2" value="N/A" type="radio"
@@ -461,7 +462,7 @@ const function_prev = () => {
                         the CC help you in your transaction?
                         of a CC?</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_3.c1"
                                 @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c4 = 0"
                                 name="notification-method3" value="Helped very much" type="radio"
@@ -470,7 +471,7 @@ const function_prev = () => {
                                 Helped very much
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_3.c2"
                                 @change="form_answers.cc_3.c1 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c4 = 0"
                                 name="notification-method3" value="Somewhat helped" type="radio"
@@ -479,7 +480,7 @@ const function_prev = () => {
                                 Somewhat helped
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_3.c3"
                                 @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c1 = 0, form_answers.cc_3.c4 = 0"
                                 name="notification-method3" value="Did not help" type="radio"
@@ -488,7 +489,7 @@ const function_prev = () => {
                                 Did not help
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.cc_3.c4"
                                 @change="form_answers.cc_3.c2 = 0, form_answers.cc_3.c3 = 0, form_answers.cc_3.c1 = 0"
                                 name="notification-method3" value="N/A" type="radio"
@@ -518,7 +519,7 @@ const function_prev = () => {
                         and
                         provide prompt service to the client.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c1"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
                                 name="notification-method4" value="5" type="radio"
@@ -527,7 +528,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c2"
                                 @change="form_answers.e_1.c1 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
                                 name="notification-method4" value="4" type="radio"
@@ -536,7 +537,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c3"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
                                 name="notification-method4" value="3" type="radio"
@@ -545,7 +546,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c4"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
                                 name="notification-method4" value="2" type="radio"
@@ -554,7 +555,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c5"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c6 = 0"
                                 name="notification-method4" value="1" type="radio"
@@ -563,7 +564,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_1.c6"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c1 = 0"
                                 name="notification-method4" value="0" type="radio"
@@ -579,7 +580,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office provides effective service that you
                         need.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c1"
                                 @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
                                 name="notification-method5" value="5" type="radio"
@@ -588,7 +589,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c2"
                                 @change="form_answers.e_2.c1 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
                                 name="notification-method5" value="4" type="radio"
@@ -597,7 +598,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c3"
                                 @change="form_answers.e_2.c2 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
                                 name="notification-method5" value="3" type="radio"
@@ -606,7 +607,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c4"
                                 @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
                                 name="notification-method5" value="2" type="radio"
@@ -615,14 +616,14 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c5" name="notification-method5" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_2.c6"
                                 @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c1 = 0"
                                 name="notification-method5" value="0" type="radio"
@@ -639,7 +640,7 @@ const function_prev = () => {
                         or
                         accesibility of the service you require.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c1"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
                                 name="notification-method6" value="5" type="radio"
@@ -648,7 +649,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c2"
                                 @change="form_answers.e_3.c1 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
                                 name="notification-method6" value="4" type="radio"
@@ -657,7 +658,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c3"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
                                 name="notification-method6" value="3" type="radio"
@@ -666,7 +667,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c4"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
                                 name="notification-method6" value="2" type="radio"
@@ -675,7 +676,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c5"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c6 = 0"
                                 name="notification-method6" value="1" type="radio"
@@ -684,7 +685,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_3.c6"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c1 = 0"
                                 name="notification-method6" value="0" type="radio"
@@ -700,7 +701,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office gives effective ways of providing
                         information.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c1"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
                                 name="notification-method7" value="5" type="radio"
@@ -709,7 +710,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c2"
                                 @change="form_answers.e_4.c1 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
                                 name="notification-method7" value="4" type="radio"
@@ -718,7 +719,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c3"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
                                 name="notification-method7" value="3" type="radio"
@@ -727,7 +728,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c4"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
                                 name="notification-method7" value="2" type="radio"
@@ -736,7 +737,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c5"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c6 = 0"
                                 name="notification-method7" value="1" type="radio"
@@ -745,7 +746,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_4.c6"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c1 = 0"
                                 name="notification-method7" value="0" type="radio"
@@ -761,7 +762,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office provides modest/affordable/justifiable
                         cost, if any, of the service that you require.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c1"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
                                 name="notification-method8" value="5" type="radio"
@@ -770,7 +771,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c2"
                                 @change="form_answers.e_5.c1 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
                                 name="notification-method8" value="4" type="radio"
@@ -779,7 +780,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c3"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
                                 name="notification-method8" value="3" type="radio"
@@ -788,7 +789,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c4"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
                                 name="notification-method8" value="2" type="radio"
@@ -797,7 +798,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c5"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c6 = 0"
                                 name="notification-method8" value="1" type="radio"
@@ -806,7 +807,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_5.c6"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c1 = 0"
                                 name="notification-method8" value="0" type="radio"
@@ -822,7 +823,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office was able to deliver the service/s with
                         integrety, honesty, and fairness.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c1"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
                                 name="notification-method9" value="5" type="radio"
@@ -831,7 +832,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c2"
                                 @change="form_answers.e_6.c1 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
                                 name="notification-method9" value="4" type="radio"
@@ -840,7 +841,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c3"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
                                 name="notification-method9" value="3" type="radio"
@@ -849,7 +850,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c4"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
                                 name="notification-method9" value="2" type="radio"
@@ -858,7 +859,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c5"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c6 = 0"
                                 name="notification-method9" value="1" type="radio"
@@ -867,7 +868,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_6.c6"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c1 = 0"
                                 name="notification-method9" value="0" type="radio"
@@ -883,7 +884,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office provides a level of competence and
                         capability with satisfying service/s</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c1"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
                                 name="notification-method10" value="5" type="radio"
@@ -892,7 +893,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c2"
                                 @change="form_answers.e_7.c1 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
                                 name="notification-method10" value="4" type="radio"
@@ -901,7 +902,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c3"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
                                 name="notification-method10" value="3" type="radio"
@@ -910,7 +911,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c4"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
                                 name="notification-method10" value="2" type="radio"
@@ -919,7 +920,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c5"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c6 = 0"
                                 name="notification-method10" value="1" type="radio"
@@ -928,7 +929,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_7.c6"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c1 = 0"
                                 name="notification-method10" value="0" type="radio"
@@ -944,7 +945,7 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">The office has provided the service/s that you
                         need.</label>
                     <fieldset class="mt-2">
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c1"
                                 @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="5" type="radio"
@@ -953,7 +954,7 @@ const function_prev = () => {
                                 Strongly Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c2"
                                 @change="form_answers.e_8.c1 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="4" type="radio"
@@ -962,7 +963,7 @@ const function_prev = () => {
                                 Agree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c3"
                                 @change="form_answers.e_8.c2 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="3" type="radio"
@@ -971,7 +972,7 @@ const function_prev = () => {
                                 Neither Agree or Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c4"
                                 @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="2" type="radio"
@@ -980,7 +981,7 @@ const function_prev = () => {
                                 Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c5"
                                 @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="1" type="radio"
@@ -989,7 +990,7 @@ const function_prev = () => {
                                 Strongly Disagree
                             </label>
                         </div>
-                        <div class="space-y-4 sm:flex sm:items-center sm:space-y-0 sm:space-x-3">
+                        <div class="flex">
                             <input v-model="form_answers.e_8.c6"
                                 @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
                                 name="notification-method11" value="0" type="radio"
@@ -1045,7 +1046,7 @@ const function_prev = () => {
     </div>
 
     <div v-if="question_set != 4 && question_set != 5" class="bg-white text-black/50 mt-12 mx-auto w-[75vmin] p-3 flex">
-        <div class="flex gap-4 ml-[30%]">
+        <div class="flex gap-4 mx-auto">
             <div class="">
                 <SecondaryButton class="hover:bg-red-400" @click="function_prev">
                     << Previous</SecondaryButton>

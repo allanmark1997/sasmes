@@ -256,170 +256,152 @@ class EvaluationController extends Controller
         $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
             $query->whereOfficeId($office_id);
         })->get();
-        $filtered_records = ClientRecords::with("client")->has("client")->with("unit_service")->when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
-            $query->whereHas("unit_service", function ($query2) use ($office_id) {
-                $query2->whereHas("unit", function ($query3) use ($office_id) {
-                    $query3->whereHas("office", function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
-                    })->with(['office' => function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
+
+        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+            $query->whereBetween('updated_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+        })->when($office_id !=  null || $office_id != "", function ($query5) use ($office_id) {
+            $query5->whereHas("client_record", function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
                     }]);
-                })->with(['unit' => function ($query3) use ($office_id) {
-                    $query3->whereHas("office", function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
-                    })->with(['office' => function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
                     }]);
                 }]);
-            })->with(['unit_service' => function ($query2) use ($office_id) {
-                $query2->whereHas("unit", function ($query3) use ($office_id) {
-                    $query3->whereHas("office", function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
-                    })->with(['office' => function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
+            })->with(["client_record" => function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
                     }]);
-                })->with(['unit' => function ($query3) use ($office_id) {
-                    $query3->whereHas("office", function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
-                    })->with(['office' => function ($query4) use ($office_id) {
-                        $query4->whereId($office_id);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
                     }]);
                 }]);
             }]);
-        })->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
-            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
-        })->get();
-        $data = [];
-
-        if ($office_id == "") {
-            $office_sample = collect($offices)->map(function ($office) use ($filtered_records, $data) {
-                foreach ($filtered_records as $key => $record) {
-                    if ($office->id == $record->unit_service->unit->office->id) {
-                        $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
-                    }
-                }
-                $office = (object)array(
-                    "chart" => array(
-                        "name" => $office->abbrevation,
-                        "data" => $data
-                    )
-                );
-                return $office;
-            })->toArray();
-            foreach ($filtered_records->groupBy("unit_service.unit.office.name") as $key => $office) {
-                $iteration = 0;
-                foreach ($office->groupBy("role") as $key2 => $role) {
-                    $office_count[$key]["type"][$iteration]["name"] = $key2;
-                    foreach ($role->groupBy("type") as $key3 => $type) {
-                        $office_count[$key]["type"][$iteration]["data"][$key3] = $type->count();
-                    }
-                    $iteration++;
-                }
-                $office_count[$key]["sex"]["male"] = 0;
-                $office_count[$key]["sex"]["female"] = 0;
-                foreach ($office->groupBy("client.sex") as $key4 => $sex) {
-                    $office_count[$key]["sex"][$key4] = $sex->count();
-                }
-
-                $office_count[$key]["overall_count"] = $office->count();
-
-                foreach ($office->groupBy("type") as $key2 => $type) {
-                    $office_count[$key]["type_text"][$key2] = $type->count();
-                }
-            }
-        } else {
-            $office_sample = collect($units)->map(function ($unit) use ($filtered_records, $data) {
-                foreach ($filtered_records as $key => $record) {
-                    if ($unit->id == $record->unit_service->unit->id) {
-                        $data[Carbon::parse($record->created_at)->format("Y-m-d")][$key] = $record;
-                    }
-                }
-                $office = (object)array(
-                    "chart" => array(
-                        "name" => $unit->abbrevation,
-                        "data" => $data
-                    )
-                );
-                return $office;
-            })->toArray();
-
-            foreach ($filtered_records->groupBy("unit_service.unit.name") as $key => $office) {
-                $iteration = 0;
-                foreach ($office->groupBy("role") as $key2 => $role) {
-                    $office_count[$key]["type"][$iteration]["name"] = $key2;
-                    foreach ($role->groupBy("type") as $key3 => $type) {
-                        $office_count[$key]["type"][$iteration]["data"][$key3] = $type->count();
-                    }
-                    $iteration++;
-                }
-
-                $office_count[$key]["sex"]["male"] = 0;
-                $office_count[$key]["sex"]["female"] = 0;
-                foreach ($office->groupBy("client.sex") as $key4 => $sex) {
-                    $office_count[$key]["sex"][$key4] = $sex->count();
-                }
-
-                $office_count[$key]["overall_count"] = $office->count();
-
-                foreach ($office->groupBy("type") as $key2 => $type) {
-                    $office_count[$key]["type_text"][$key2] = $type->count();
-                }
-            }
-        }
-
-        $overall_count = collect($office_sample)->map(function ($office) {
-            $office = (object)array(
-                "name" => $office->chart["name"],
-                "data" => (object)$this->collect_data($office->chart["data"]),
-            );
-            return $office;
-        })->toArray();
-
-        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
-            $query->whereBetween('created_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
-        })->get();
+        })->orderBy("updated_at", "desc")->get();
 
 
         $mean = [];
+        $standard_deviation = [];
         $adjectival_result = [];
+        $suggestions = [];
         $sum_q = [];
+        $mean_chart = [];
+        $standard_deviation_chart = [];
+        foreach ($evaluation as $key => $data) {
+            $suggestions[$key]["suggestion"] = $data->data["suggestions"];
+            $suggestions[$key]["client_service"] = $data->data["client_service"];
+            $suggestions[$key]["office"] = $data->client_record->unit_service->unit->office->name;
+            $suggestions[$key]["date"] = $data->updated_at;
+        }
+
         foreach ($evaluation->groupBy("client_record.unit_service.unit.office.name") as $office_name => $office) {
             $plucked_data = $office->pluck("data");
+            $revalued_data = [];
             foreach ($plucked_data as $key => $set) {
                 for ($i = 1; $i < 9; $i++) {
                     $revalued_data[$key][] = $set["e_" . $i];
                 }
             }
-            // dd($revalued_data);
+
+            $revalued_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    dd($answer, $choice);
-                    // foreach ($answers as $key3 => $answer) {
-                    //     $revalued_data2[$key2][] = $answer;
-                    // }
+                    $revalued_data2[$choice][] = array_sum($answer);
                 }
             }
-            // dd($revalued_data2);
             foreach ($revalued_data2 as $key => $q) {
-                $sum_q[$office_name][$key] = array_sum($q) / $office->count();
+
+                $temp_mean = array_sum($q) / $office->count();
+                $sum_q[$office_name][$key] = $temp_mean;
+
+                $temp_data = [];
+                foreach ($revalued_data as $respondent => $questions) {
+                    foreach ($questions as $choice => $answer) {
+                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
+                    }
+                }
+                $temp_standard = [];
+                foreach ($temp_data as $key2 => $respondents) {
+                    $temp_standard[$key2] = (count($respondents) != 1) ? (array_sum($respondents) / (count($respondents) - 1)) : 0;
+                }
+                $standard_deviation[$office_name] = sqrt(array_sum($temp_standard) / 8);
             }
-            // dd($sum_q);
         }
-        dd($sum_q);
         foreach ($sum_q as $key => $office) {
-            $mean[$key][] = array_sum($office) / 8;
+            $mean_overall = array_sum($office) / 8;
+            $mean[$key] = $mean_overall;
             $adjectival_result[$key] = ((array_sum($office) / count($office)) <= 1.80) ? "Very Poor" : (((array_sum($office) / count($office)) >= 1.81 && (array_sum($office) / count($office)) <= 2.6) ? "Poor" : (((array_sum($office) / count($office)) >= 2.61) && ((array_sum($office) / count($office)) <= 3.40) ? "Average" : (((array_sum($office) / count($office)) >= 3.41) && ((array_sum($office) / count($office)) <= 4.20) ? "Above Average" : "Excellent")));
+
+            $mean_chart[] = array(
+                "name" => $key,
+                "data" => array(
+                    $from . " - " . $to => $mean_overall
+                )
+            );
         }
 
-        // dd($adjectival_result, $mean, $sum_q);
+        foreach ($standard_deviation as $office => $data) {
+            $standard_deviation_chart[] = array(
+                "name" => $office,
+                "data" => array(
+                    $from . " - " . $to => $data
+                )
+            );
+        }
         return Inertia::render('EvaluationResult', [
-            "evaluation_result" => $evaluation,
+            "mean_chart" => $mean_chart,
+            "standard_deviation_chart" => $standard_deviation_chart,
             "mean" => $mean,
+            "standard_deviation" => $standard_deviation,
             "adjectival" => $adjectival_result,
-            "client_chart" => $overall_count,
-            "office_count_role_gender" => $office_count ?? [],
+            "suggestions" => $suggestions,
             "from" => $from,
             "offices" => $offices,
+            "units" => $units,
             "to" => $to,
             "office_id" => $office_id,
         ]);
