@@ -253,8 +253,11 @@ class EvaluationController extends Controller
         }
 
         $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
+        $office = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+            $query->whereId($office_id);
+        })->first();
         $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
-            $query->whereOfficeId($office_id);
+            $query->whereOfficeId($office_id)->whereNotIn("abbrevation", ["Admin", "VCSAS"]);
         })->get();
 
         $evaluation = Evaluation::whereStatus("complete")->with("client_record")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
@@ -323,14 +326,27 @@ class EvaluationController extends Controller
             }]);
         })->orderBy("updated_at", "desc")->get();
 
+        $questions_label = array(
+            "The office has the willingness to help, assist, and provide prompt service to the client.",
+            "The office provides effective service that you need.",
+            "The office provides the convenience of location or accesibility of the service you require.",
+            "The office gives effective ways of providing information.",
+            "The office provides modest/affordable/justifiable cost, if any, of the service that you require.",
+            "The office was able to deliver the service/s with integrety, honesty, and fairness.",
+            "The office provides a level of competence and capability with satisfying service/s.",
+            "The office has provided the service/s that you need.",
+        );
 
         $mean = [];
         $standard_deviation = [];
+        $standard_per_q = [];
         $adjectival_result = [];
         $suggestions = [];
         $sum_q = [];
         $mean_chart = [];
         $standard_deviation_chart = [];
+
+        $result_per_question = [];
         foreach ($evaluation as $key => $data) {
             $suggestions[$key]["suggestion"] = $data->data["suggestions"];
             $suggestions[$key]["client_service"] = $data->data["client_service"];
@@ -354,8 +370,14 @@ class EvaluationController extends Controller
                 }
             }
             foreach ($revalued_data2 as $key => $q) {
+                $counter_zero = 0;
+                foreach ($q as $key3 => $ans) {
+                    if ($ans == 0) {
+                        $counter_zero++;
+                    }
+                }
+                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
 
-                $temp_mean = array_sum($q) / $office->count();
                 $sum_q[$office_name][$key] = $temp_mean;
 
                 $temp_data = [];
@@ -366,15 +388,36 @@ class EvaluationController extends Controller
                 }
                 $temp_standard = [];
                 foreach ($temp_data as $key2 => $respondents) {
-                    $temp_standard[$key2] = (count($respondents) != 1) ? (array_sum($respondents) / (count($respondents) - 1)) : 0;
+                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
                 }
-                $standard_deviation[$office_name] = sqrt(array_sum($temp_standard) / 8);
+
+                $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
+                $standard_per_q[$office_name] = $temp_standard;
             }
+
         }
         foreach ($sum_q as $key => $office) {
-            $mean_overall = array_sum($office) / 8;
+            for ($i = 0; $i < count($office); $i++) {
+                $result_per_question[$questions_label[$i]]["mean_label"][$key]["result"] = $office[$i];
+                $result_per_question[$questions_label[$i]]["mean_label"][$key]["adjectival_result"] = (($office[$i]) <= 1.80) ? "Very Poor" : ((($office[$i]) >= 1.81 && ($office[$i]) <= 2.6) ? "Poor" : ((($office[$i]) >= 2.61) && (($office[$i]) <= 3.40) ? "Average" : ((($office[$i]) >= 3.41) && (($office[$i]) <= 4.20) ? "Above Average" : "Excellent")));
+                $result_per_question[$questions_label[$i]]["mean_chart"][] = array(
+                    "name" => $key,
+                    "data" => array(
+                        "Mean" => $office[$i]
+                    )
+                );
+                $result_per_question[$questions_label[$i]]["standard_deviation_label"][$key] = $standard_per_q[$key][$i];
+                $result_per_question[$questions_label[$i]]["standard_deviation_chart"][] = array(
+                    "name" => $key,
+                    "data" => array(
+                        "Standard Deviation" => $standard_per_q[$key][$i]
+                    )
+                );
+            }
+
+            $mean_overall = array_sum($office) / count($office);
             $mean[$key] = $mean_overall;
-            $adjectival_result[$key] = ((array_sum($office) / count($office)) <= 1.80) ? "Very Poor" : (((array_sum($office) / count($office)) >= 1.81 && (array_sum($office) / count($office)) <= 2.6) ? "Poor" : (((array_sum($office) / count($office)) >= 2.61) && ((array_sum($office) / count($office)) <= 3.40) ? "Average" : (((array_sum($office) / count($office)) >= 3.41) && ((array_sum($office) / count($office)) <= 4.20) ? "Above Average" : "Excellent")));
+            $adjectival_result[$key] = (($mean_overall) <= 1.80) ? "Very Poor" : ((($mean_overall) >= 1.81 && ($mean_overall) <= 2.6) ? "Poor" : ((($mean_overall) >= 2.61) && (($mean_overall) <= 3.40) ? "Average" : ((($mean_overall) >= 3.41) && (($mean_overall) <= 4.20) ? "Above Average" : "Excellent")));
 
             $mean_chart[] = array(
                 "name" => $key,
@@ -393,6 +436,7 @@ class EvaluationController extends Controller
             );
         }
         return Inertia::render('EvaluationResult', [
+            "result_per_question" => $result_per_question,
             "mean_chart" => $mean_chart,
             "standard_deviation_chart" => $standard_deviation_chart,
             "mean" => $mean,
@@ -401,6 +445,7 @@ class EvaluationController extends Controller
             "suggestions" => $suggestions,
             "from" => $from,
             "offices" => $offices,
+            "office" => $office,
             "units" => $units,
             "to" => $to,
             "office_id" => $office_id,

@@ -14,7 +14,7 @@ const date = (date) => {
     return moment(date).format('MMMM Do YYYY');
 }
 
-const props = defineProps(["mean", "standard_deviation", "adjectival", "suggestions", "mean_chart", "standard_deviation_chart", "from", "to", "offices", "office_id"])
+const props = defineProps(["mean", "standard_deviation", "adjectival", "suggestions", "mean_chart", "standard_deviation_chart", "result_per_question", "from", "to", "offices", "office", "office_id"])
 
 const form = useForm({
     from: props.from,
@@ -80,71 +80,143 @@ const number_format = (number) => {
                         <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
                     </button>
                 </div>
-                <div class="w-full">
-                    <p class="m-2 text-2xl font-bold text-center">
-                        Overall Ratings of SAS Offices
-                    </p>
-                    <p class="text-xl text-center">
-                        {{ date(props.from) }} - {{ date(props.to) }}
-                    </p>
-                </div>
-                <div class="w-full grid grid-cols-2 gap-2 mt-6">
-                    <div class="col-span-1">
-                        <p class="text-center font-bold">Mean</p>
-                        <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                            <column-chart :data="props.mean_chart" legend="bottom" />
+                <div>
+                    <div class="w-full">
+                        <p class="m-2 text-2xl font-bold text-center">
+                            Overall Ratings of {{ props.office_id == "" ? "SAS Offices" : props.office.name }}
+                        </p>
+                        <p class="text-xl text-center">
+                            {{ date(props.from) }} - {{ date(props.to) }}
+                        </p>
+                    </div>
+                    <div class="w-full grid grid-cols-2 gap-2 mt-6">
+                        <div class="col-span-1">
+                            <p class="text-center font-bold">Mean</p>
+                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                <column-chart :data="props.mean_chart" legend="bottom" />
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <p class="text-center font-bold">Standard Deviation</p>
+                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                <column-chart :data="props.standard_deviation_chart" legend="bottom" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-span-1">
-                        <p class="text-center font-bold">Standard Deviation</p>
-                        <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                            <column-chart :data="props.standard_deviation_chart" legend="bottom" />
+                    <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
+                        <div class="col-span-1  border-r-2 border-gray-700">
+                            <p class="text-center font-bold">Mean</p>
+                            <ul class="list-disc">
+                                <template v-for="(mean, key) in props.mean" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1">= {{ number_format(mean) }}</div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-span-1  border-r-2 border-gray-700">
+                            <p class="text-center font-bold">Standard Deviation</p>
+                            <ul class="list-disc ml-4">
+                                <template v-for="(standard_deviation, key) in props.standard_deviation" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-span-1 ml-4">
+                            <p class="text-center font-bold">Adjectival Result</p>
+                            <ul class="list-disc">
+                                <template v-for="(adjectival, key) in props.adjectival" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1 font-bold">= <span
+                                                    :class="((adjectival == 'Excellent') || (adjectival == 'Above Average')) ? 'text-green-500' : (adjectival == 'Average' ? 'text-orange-500' : (adjectival == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
+                                                        adjectival }}</span></div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
-                    <div class="col-span-1  border-r-2 border-gray-700">
-                        <p class="text-center font-bold">Mean</p>
-                        <ul class="list-disc">
-                            <template v-for="(mean, key) in props.mean" :key="key">
-                                <li>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div class="col-span-1">{{ key }}</div>
-                                        <div class="col-span-1">= {{ number_format(mean) }}</div>
-                                    </div>
-                                </li>
-                            </template>
-                        </ul>
+                <div class="w-full mt-10">
+                        <p class="m-2 text-2xl font-bold text-center">
+                            Survey Question Results
+                        </p>
                     </div>
-                    <div class="col-span-1  border-r-2 border-gray-700">
-                        <p class="text-center font-bold">Standard Deviation</p>
-                        <ul class="list-disc ml-4">
-                            <template v-for="(standard_deviation, key) in props.standard_deviation" :key="key">
-                                <li>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div class="col-span-1">{{ key }}</div>
-                                        <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
-                                    </div>
-                                </li>
-                            </template>
-                        </ul>
+                <template v-for="(question, key, i) in props.result_per_question" :key="key, i">
+                    <div class="mt-12">
+                    <div class="w-full">
+                        <p class="text-xl text-center">
+                            {{ i+1 }} . {{ key }}
+                        </p>
                     </div>
-                    <div class="col-span-1 ml-4">
-                        <p class="text-center font-bold">Adjectival Result</p>
-                        <ul class="list-disc">
-                            <template v-for="(adjectival, key) in props.adjectival" :key="key">
-                                <li>
-                                    <div class="grid grid-cols-2 gap-2">
-                                        <div class="col-span-1">{{ key }}</div>
-                                        <div class="col-span-1 font-bold">= <span
-                                                :class="((adjectival == 'Excellent') || (adjectival == 'Above Average')) ? 'text-green-500' : (adjectival == 'Average' ? 'text-orange-500' : (adjectival == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
-                                                adjectival }}</span></div>
-                                    </div>
-                                </li>
-                            </template>
-                        </ul>
+                    <div class="w-full grid grid-cols-2 gap-2 ">
+                        <div class="col-span-1">
+                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                <column-chart :data="question.mean_chart" legend="bottom" />
+                            </div>
+                        </div>
+                        <div class="col-span-1">
+                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                <column-chart :data="question.standard_deviation_chart" legend="bottom" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
+                        <div class="col-span-1  border-r-2 border-gray-700">
+                            <p class="text-center font-bold">Mean</p>
+                            <ul class="list-disc">
+                                <template v-for="(mean, key) in question.mean_label" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1">= {{ number_format(mean.result) }}</div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-span-1  border-r-2 border-gray-700">
+                            <p class="text-center font-bold">Standard Deviation</p>
+                            <ul class="list-disc ml-4">
+                                <template v-for="(standard_deviation, key) in question.standard_deviation_label" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                        <div class="col-span-1 ml-4">
+                            <p class="text-center font-bold">Adjectival Result</p>
+                            <ul class="list-disc">
+                                <template v-for="(adjectival, key) in question.mean_label" :key="key">
+                                    <li>
+                                        <div class="grid grid-cols-2 gap-2">
+                                            <div class="col-span-1">{{ key }}</div>
+                                            <div class="col-span-1 font-bold">= <span
+                                                    :class="((adjectival.adjectival_result == 'Excellent') || (adjectival.adjectival_result == 'Above Average')) ? 'text-green-500' : (adjectival.adjectival_result == 'Average' ? 'text-orange-500' : (adjectival.adjectival_result == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
+                                                        adjectival.adjectival_result }}</span></div>
+                                        </div>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
                     </div>
                 </div>
+                </template>
+
                 <div class="w-full grid grid-cols-1 gap-2 mt-10 p-2">
                     <div class="col-span-1">
                         <p class="text-left font-bold">Suggestions</p>
@@ -170,8 +242,8 @@ const number_format = (number) => {
                                     <template v-for="(suggestion, key) in props.suggestions" :key="key">
                                         <tr class="odd:bg-white even:bg-gray-200 border-b">
                                             <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex">
-                                                {{ suggestion.suggestion??"None" }}
+                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex w-[10vmin] break-words">
+                                                {{ suggestion.suggestion ?? "None" }}
                                             </th>
                                             <td class="px-6 py-4">
                                                 {{ suggestion.office }}
