@@ -29,11 +29,9 @@ const search_ = () => {
 };
 
 const search_remove = () => {
-    form.filter = "";
     form.from = "";
     form.to = "";
     form.office_id = "";
-    form.unit = "";
     form.get(
         route("evaluation_result.index")
     );
@@ -53,33 +51,40 @@ const number_format = (number) => {
         </template>
         <div class="py-4">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
-                <div class="flex gap-2 ">
-                    <div
-                        v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
-                        <select v-model="form.office_id" @change="(search_)"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
-                            :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            <option value="" disabled>Select office</option>
-                            <option value="">All Office</option>
-                            <template v-for="(office, key) in props.offices" :key="key">
-                                <option :value="office.id">{{ office.abbrevation }}</option>
-                            </template>
-                        </select>
+                <div class="flex justify-between">
+                    <div class="flex  gap-2 ">
+                        <div
+                            v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas')">
+                            <select v-model="form.office_id" @change="(search_)"
+                                class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full"
+                                :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
+                                <option value="" disabled>Select office</option>
+                                <option value="">All Office</option>
+                                <template v-for="(office, key) in props.offices" :key="key">
+                                    <option :value="office.id">{{ office.abbrevation }}</option>
+                                </template>
+                            </select>
+                        </div>
+                        <div>
+                            <Input v-model="form.from" class="rounded-lg mb-2 w-[25vmin]" type="date"
+                                label="From date" />
+                        </div>
+                        <div>
+                            <Input v-model="form.to" class="rounded-lg mb-2 w-[25vmin]" type="date" label="To date"
+                                @keyup.enter="search_" />
+                        </div>
+                        <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_">
+                            <small class="bg-green-500 text-white p-2 rounded-lg">Search</small>
+                        </button>
+                        <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
+                            <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
+                        </button>
                     </div>
-                    <div>
-                        <Input v-model="form.from" class="rounded-lg mb-2 w-[25vmin]" type="date" label="From date" />
+                    <div class="mt-7">
+                        <a class="bg-orange-500 hover:bg-orange-400 rounded-lg p-1 mt-3 text-white " :href="route('evaluation_result.comparison')">Comparison Results</a>
                     </div>
-                    <div>
-                        <Input v-model="form.to" class="rounded-lg mb-2 w-[25vmin]" type="date" label="To date"
-                            @keyup.enter="search_" />
-                    </div>
-                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_">
-                        <small class="bg-green-500 text-white p-2 rounded-lg">Search</small>
-                    </button>
-                    <button v-if="filter || from || to" class="h-10 my-auto mt-5" @click="search_remove">
-                        <small class="bg-red-500 text-white p-2 rounded-lg">remove filter</small>
-                    </button>
                 </div>
+
                 <div>
                     <div class="w-full">
                         <p class="m-2 text-2xl font-bold text-center">
@@ -124,7 +129,9 @@ const number_format = (number) => {
                                     <li>
                                         <div class="grid grid-cols-2 gap-2">
                                             <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
+                                            <div class="col-span-1">=
+                                                {{ number_format(standard_deviation) == 0 ?
+                                                    "Not enough samples" : number_format(standard_deviation) }}</div>
                                         </div>
                                     </li>
                                 </template>
@@ -148,73 +155,75 @@ const number_format = (number) => {
                     </div>
                 </div>
                 <div class="w-full mt-10">
-                        <p class="m-2 text-2xl font-bold text-center">
-                            Survey Question Results
-                        </p>
-                    </div>
+                    <p class="m-2 text-2xl font-bold text-center">
+                        Survey Question Results
+                    </p>
+                </div>
                 <template v-for="(question, key, i) in props.result_per_question" :key="key, i">
                     <div class="mt-12">
-                    <div class="w-full">
-                        <p class="text-xl text-center">
-                            {{ i+1 }} . {{ key }}
-                        </p>
-                    </div>
-                    <div class="w-full grid grid-cols-2 gap-2 ">
-                        <div class="col-span-1">
-                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                <column-chart :data="question.mean_chart" legend="bottom" />
+                        <div class="w-full">
+                            <p class="text-xl text-center">
+                                {{ i + 1 }} . {{ key }}
+                            </p>
+                        </div>
+                        <div class="w-full grid grid-cols-2 gap-2 ">
+                            <div class="col-span-1">
+                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                    <column-chart :data="question.mean_chart" legend="bottom" />
+                                </div>
+                            </div>
+                            <div class="col-span-1">
+                                <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
+                                    <column-chart :data="question.standard_deviation_chart" legend="bottom" />
+                                </div>
                             </div>
                         </div>
-                        <div class="col-span-1">
-                            <div class="bg-[#fff7d1] overflow-hidden shadow-xl sm:rounded-lg mt-2 mx-auto">
-                                <column-chart :data="question.standard_deviation_chart" legend="bottom" />
+                        <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
+                            <div class="col-span-1  border-r-2 border-gray-700">
+                                <p class="text-center font-bold">Mean</p>
+                                <ul class="list-disc">
+                                    <template v-for="(mean, key) in question.mean_label" :key="key">
+                                        <li>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <div class="col-span-1">{{ key }}</div>
+                                                <div class="col-span-1">= {{ number_format(mean.result) }}</div>
+                                            </div>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                            <div class="col-span-1  border-r-2 border-gray-700">
+                                <p class="text-center font-bold">Standard Deviation</p>
+                                <ul class="list-disc ml-4">
+                                    <template v-for="(standard_deviation, key) in question.standard_deviation_label"
+                                        :key="key">
+                                        <li>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <div class="col-span-1">{{ key }}</div>
+                                                <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ?
+                                                    "Not enough samples" : number_format(standard_deviation) }}</div>
+                                            </div>
+                                        </li>
+                                    </template>
+                                </ul>
+                            </div>
+                            <div class="col-span-1 ml-4">
+                                <p class="text-center font-bold">Adjectival Result</p>
+                                <ul class="list-disc">
+                                    <template v-for="(adjectival, key) in question.mean_label" :key="key">
+                                        <li>
+                                            <div class="grid grid-cols-2 gap-2">
+                                                <div class="col-span-1">{{ key }}</div>
+                                                <div class="col-span-1 font-bold">= <span
+                                                        :class="((adjectival.adjectival_result == 'Excellent') || (adjectival.adjectival_result == 'Above Average')) ? 'text-green-500' : (adjectival.adjectival_result == 'Average' ? 'text-orange-500' : (adjectival.adjectival_result == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
+                                                            adjectival.adjectival_result }}</span></div>
+                                            </div>
+                                        </li>
+                                    </template>
+                                </ul>
                             </div>
                         </div>
                     </div>
-                    <div class="w-full grid grid-cols-3 gap-2 mt-10 p-2">
-                        <div class="col-span-1  border-r-2 border-gray-700">
-                            <p class="text-center font-bold">Mean</p>
-                            <ul class="list-disc">
-                                <template v-for="(mean, key) in question.mean_label" :key="key">
-                                    <li>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1">= {{ number_format(mean.result) }}</div>
-                                        </div>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-span-1  border-r-2 border-gray-700">
-                            <p class="text-center font-bold">Standard Deviation</p>
-                            <ul class="list-disc ml-4">
-                                <template v-for="(standard_deviation, key) in question.standard_deviation_label" :key="key">
-                                    <li>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ? "Not enough samples":number_format(standard_deviation) }}</div>
-                                        </div>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                        <div class="col-span-1 ml-4">
-                            <p class="text-center font-bold">Adjectival Result</p>
-                            <ul class="list-disc">
-                                <template v-for="(adjectival, key) in question.mean_label" :key="key">
-                                    <li>
-                                        <div class="grid grid-cols-2 gap-2">
-                                            <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1 font-bold">= <span
-                                                    :class="((adjectival.adjectival_result == 'Excellent') || (adjectival.adjectival_result == 'Above Average')) ? 'text-green-500' : (adjectival.adjectival_result == 'Average' ? 'text-orange-500' : (adjectival.adjectival_result == 'Poor' ? 'text-red-400' : 'text-red-500'))">{{
-                                                        adjectival.adjectival_result }}</span></div>
-                                        </div>
-                                    </li>
-                                </template>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
                 </template>
 
                 <div class="w-full grid grid-cols-1 gap-2 mt-10 p-2">

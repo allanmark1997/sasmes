@@ -426,7 +426,6 @@ class EvaluationController extends Controller
                 )
             );
         }
-
         foreach ($standard_deviation as $office => $data) {
             $standard_deviation_chart[] = array(
                 "name" => $office,
@@ -436,13 +435,13 @@ class EvaluationController extends Controller
             );
         }
         return Inertia::render('EvaluationResult', [
-            "result_per_question" => $result_per_question,
-            "mean_chart" => $mean_chart,
-            "standard_deviation_chart" => $standard_deviation_chart,
-            "mean" => $mean,
-            "standard_deviation" => $standard_deviation,
-            "adjectival" => $adjectival_result,
-            "suggestions" => $suggestions,
+            "result_per_question" => count($evaluation) == 1 ? []:$result_per_question,
+            "mean_chart" => count($evaluation) == 1 ? []:$mean_chart,
+            "standard_deviation_chart" => count($evaluation) == 1 ? []:$standard_deviation_chart,
+            "mean" => count($evaluation) == 1 ? []:$mean,
+            "standard_deviation" => count($evaluation) == 1 ? []:$standard_deviation,
+            "adjectival" => count($evaluation) == 1 ? []:$adjectival_result,
+            "suggestions" => count($evaluation) == 1 ? []:$suggestions,
             "from" => $from,
             "offices" => $offices,
             "office" => $office,
@@ -452,37 +451,322 @@ class EvaluationController extends Controller
         ]);
     }
 
-    public function generateCode()
+    public function comparison(Request $request)
     {
-        do {
-            $code = Str::random(10);
-            $exists = Evaluation::where('code', $code)->exists();
-        } while ($exists);
+        $from = $request->from ?? date("Y-m-d");
+        $to = $request->to ?? date("Y-m-d");
 
-        return $code;
-    }
-
-    public function collect_data($datas)
-    {
-        $temp_data = [];
-        foreach ($datas as $key => $data) {
-            $temp_data[$key] = count($data);
+        #first
+        if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
+            $office_id = $request->office_id ?? "";
+        } else {
+            $office_id = Auth::user()->office_id;
         }
-        return $temp_data;
-    }
 
-    public function count_male_female($datas)
-    {
-        $temp_data = [];
-        foreach ($datas as $key => $data) {
-            $temp_data[$key] = count(collect($data)->pluck("client")->pluck("sex"));
-            // foreach ($data as $key2 => $client) {
-            //     $temp_data[$key][$key2] = $client;
-            // }
+        $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
+        $office = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+            $query->whereId($office_id);
+        })->first();
+        $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+            $query->whereOfficeId($office_id)->whereNotIn("abbrevation", ["Admin", "VCSAS"]);
+        })->get();
+
+        $evaluation = Evaluation::whereStatus("complete")->with("client_record")->when($from !=  null || $from != "" && $to != null || $to != "", function ($query) use ($from, $to) {
+            $query->whereBetween('updated_at', [$from, Carbon::parse($to)->addDays(1)->format("Y-m-d")]);
+        })->when($office_id !=  null || $office_id != "", function ($query5) use ($office_id) {
+            $query5->whereHas("client_record", function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                }]);
+            })->with(["client_record" => function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                }]);
+            }]);
+        })->orderBy("updated_at", "desc")->get();
+
+        $mean = [];
+        $standard_deviation = [];
+        $adjectival_result = [];
+        $sum_q = [];
+        $mean_chart = [];
+        $standard_deviation_chart = [];
+
+        foreach ($evaluation->groupBy("client_record.unit_service.unit.office.name") as $office_name => $office) {
+            $plucked_data = $office->pluck("data");
+            $revalued_data = [];
+            foreach ($plucked_data as $key => $set) {
+                for ($i = 1; $i < 9; $i++) {
+                    $revalued_data[$key][] = $set["e_" . $i];
+                }
+            }
+
+            $revalued_data2 = [];
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    $revalued_data2[$choice][] = array_sum($answer);
+                }
+            }
+            foreach ($revalued_data2 as $key => $q) {
+                $counter_zero = 0;
+                foreach ($q as $key3 => $ans) {
+                    if ($ans == 0) {
+                        $counter_zero++;
+                    }
+                }
+                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
+
+                $sum_q[$office_name][$key] = $temp_mean;
+
+                $temp_data = [];
+                foreach ($revalued_data as $respondent => $questions) {
+                    foreach ($questions as $choice => $answer) {
+                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
+                    }
+                }
+                $temp_standard = [];
+                foreach ($temp_data as $key2 => $respondents) {
+                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
+                }
+
+                $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
+            }
+
         }
-        return $temp_data;
-    }
+        foreach ($sum_q as $key => $office) {
+            $mean_overall = array_sum($office) / count($office);
+            $mean[$key] = $mean_overall;
+            $adjectival_result[$key] = (($mean_overall) <= 1.80) ? "Very Poor" : ((($mean_overall) >= 1.81 && ($mean_overall) <= 2.6) ? "Poor" : ((($mean_overall) >= 2.61) && (($mean_overall) <= 3.40) ? "Average" : ((($mean_overall) >= 3.41) && (($mean_overall) <= 4.20) ? "Above Average" : "Excellent")));
 
+            $mean_chart[] = array(
+                "name" => $key,
+                "data" => array(
+                    $from . " - " . $to => $mean_overall
+                )
+            );
+        }
+        foreach ($standard_deviation as $office => $data) {
+            $standard_deviation_chart[] = array(
+                "name" => $office,
+                "data" => array(
+                    $from . " - " . $to => $data
+                )
+            );
+        }
+
+        #second
+
+        $from2 = $request->from2 ?? date("Y-m-d");
+        $to2 = $request->to2 ?? date("Y-m-d");
+
+        #first
+        $evaluation2 = Evaluation::whereStatus("complete")->with("client_record")->when($from2 !=  null || $from2 != "" && $to2 != null || $to2 != "", function ($query) use ($from2, $to2) {
+            $query->whereBetween('updated_at', [$from2, Carbon::parse($to2)->addDays(1)->format("Y-m-d")]);
+        })->when($office_id !=  null || $office_id != "", function ($query5) use ($office_id) {
+            $query5->whereHas("client_record", function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                }]);
+            })->with(["client_record" => function ($query) use ($office_id) {
+                $query->whereHas("unit_service", function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                })->with(['unit_service' => function ($query2) use ($office_id) {
+                    $query2->whereHas("unit", function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    })->with(['unit' => function ($query3) use ($office_id) {
+                        $query3->whereHas("office", function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        })->with(['office' => function ($query4) use ($office_id) {
+                            $query4->whereId($office_id);
+                        }]);
+                    }]);
+                }]);
+            }]);
+        })->orderBy("updated_at", "desc")->get();
+
+        $mean2 = [];
+        $standard_deviation2 = [];
+        $adjectival_result2 = [];
+        $sum_q2 = [];
+        $mean_chart2 = [];
+        $standard_deviation_chart2 = [];
+
+        foreach ($evaluation2->groupBy("client_record.unit_service.unit.office.name") as $office_name => $office) {
+            $plucked_data = $office->pluck("data");
+            $revalued_data = [];
+            foreach ($plucked_data as $key => $set) {
+                for ($i = 1; $i < 9; $i++) {
+                    $revalued_data[$key][] = $set["e_" . $i];
+                }
+            }
+
+            $revalued_data2 = [];
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    $revalued_data2[$choice][] = array_sum($answer);
+                }
+            }
+            foreach ($revalued_data2 as $key => $q) {
+                $counter_zero = 0;
+                foreach ($q as $key3 => $ans) {
+                    if ($ans == 0) {
+                        $counter_zero++;
+                    }
+                }
+                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
+
+                $sum_q2[$office_name][$key] = $temp_mean;
+
+                $temp_data = [];
+                foreach ($revalued_data as $respondent => $questions) {
+                    foreach ($questions as $choice => $answer) {
+                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
+                    }
+                }
+                $temp_standard = [];
+                foreach ($temp_data as $key2 => $respondents) {
+                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
+                }
+
+                $standard_deviation2[$office_name] = array_sum($temp_standard) / 8;
+            }
+
+        }
+        foreach ($sum_q2 as $key => $office) {
+            $mean_overall = array_sum($office) / count($office);
+            $mean2[$key] = $mean_overall;
+            $adjectival_result2[$key] = (($mean_overall) <= 1.80) ? "Very Poor" : ((($mean_overall) >= 1.81 && ($mean_overall) <= 2.6) ? "Poor" : ((($mean_overall) >= 2.61) && (($mean_overall) <= 3.40) ? "Average" : ((($mean_overall) >= 3.41) && (($mean_overall) <= 4.20) ? "Above Average" : "Excellent")));
+
+            $mean_chart2[] = array(
+                "name" => $key,
+                "data" => array(
+                    $from . " - " . $to => $mean_overall
+                )
+            );
+        }
+        foreach ($standard_deviation2 as $office => $data) {
+            $standard_deviation_chart2[] = array(
+                "name" => $office,
+                "data" => array(
+                    $from2 . " - " . $to2 => $data
+                )
+            );
+        }
+        return Inertia::render('EvaluationComparison', [
+            "mean_chart" => count($evaluation) == 1 ? []:$mean_chart,
+            "mean_chart2" =>count($evaluation2) == 1 ? []: $mean_chart2,
+            "standard_deviation_chart" => count($evaluation) == 1 ? []:$standard_deviation_chart,
+            "standard_deviation_chart2" => count($evaluation2) == 1 ? []:$standard_deviation_chart2,
+            "mean" => count($evaluation) == 1 ? []:$mean,
+            "mean2" => count($evaluation2) == 1 ? []:$mean2,
+            "standard_deviation" => count($evaluation) == 1 ? []:$standard_deviation,
+            "standard_deviation2" => count($evaluation2) == 1 ? []:$standard_deviation2,
+            "adjectival" => count($evaluation) == 1 ? []:$adjectival_result,
+            "adjectival2" => count($evaluation2) == 1 ? []:$adjectival_result2,
+            "from" => $from,
+            "from2" => $from2,
+            "offices" => $offices,
+            "office" => $office,
+            "units" => $units,
+            "to" => $to,
+            "to2" => $to2,
+            "office_id" => $office_id,
+        ]);
+    }
     /**
      * Show the form for creating a new resource.
      */

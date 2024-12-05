@@ -38,6 +38,7 @@ Route::middleware([
 
     Route::prefix('evaluations')->name('evaluation_result.')->group(function () {
         Route::get('/evaluation_lists', [EvaluationController::class, 'results_index'])->name('index');
+        Route::get('/comparison', [EvaluationController::class, 'comparison'])->name('comparison');
     });
 
     Route::prefix('offices')->name('office.')->group(function () {

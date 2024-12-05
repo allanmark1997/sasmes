@@ -81,7 +81,7 @@ const logout = () => {
                                 v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head' || $page.props.auth.user.user_type == 'vcsas'">
                                 <a :href="route('evaluation_result.index')"
                                     class="flex items-center p-2 text-white rounded-lg group"
-                                    :class="route().current('evaluation_result.index') ? 'bg-[#f9b418]' : ''">
+                                    :class="route().current('evaluation_result.index') || route().current('evaluation_result.comparison') ? 'bg-[#f9b418]' : ''">
                                     <Icon icon="docs" />
                                     <span class="ms-3">Evaluation Results</span>
                                 </a>
