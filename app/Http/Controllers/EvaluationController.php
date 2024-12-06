@@ -378,7 +378,7 @@ class EvaluationController extends Controller
                 }
                 // dd($office->count(), $counter_zero);
                 // $sample[] = array(array_sum($q), $office->count(), $counter_zero);
-                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ((int)$office->count() - (int)$counter_zero));
+                $temp_mean = (((int)$office->count() - (int)$counter_zero) == 0) ? 0 : (array_sum($q) / ((int)$office->count() - (int)$counter_zero));
 
                 $sum_q[$office_name][$key] = $temp_mean;
 

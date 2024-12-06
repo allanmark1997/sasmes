@@ -176,7 +176,7 @@ const date = (date) => {
 
                 </div>
                 <div v-if="!$page.props.flash.code" class="col-span-full grid grid-cols-6 gap-1">
-                    <div class="col-span-5">
+                    <div v-if="!form_admission.client" class="col-span-5">
                         <Input type="text" label="Search Client name" v-model="form_admission.search" />
                         <JetInputError :message="form_admission.errors.client" class="mt-2" />
                         <div v-if="form_admission.search && !form_admission.client"
@@ -216,7 +216,7 @@ const date = (date) => {
                             </a>
                         </div>
                     </div>
-                    <div class="col-span-1 my-auto flex">
+                    <div v-if="!form_admission.client" class="col-span-1 my-auto flex">
                         <button v-if="form_admission.client" class="h-10 my-auto mt-5" @click="
                             (search_results_client_to_add = false),
                             (form_admission.client = ''),
@@ -227,7 +227,7 @@ const date = (date) => {
                         </button>
                     </div>
                 </div>
-                <div class="grid grid-cols-1 mx-auto my-auto text-center item-center" id="captured">
+                <div  class="grid grid-cols-1 mx-auto my-auto text-center item-center" id="captured">
                     <div v-if="$page.props.flash.code" class="col-span-full mx-auto">
                         <vue-qrcode :value="$page.props.flash.code" :options="{ width: 200 }" />
                     </div>

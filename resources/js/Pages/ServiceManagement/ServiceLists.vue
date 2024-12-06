@@ -228,7 +228,7 @@ const confirm_status = () => {
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
                     <template v-for="(image, key) in post_image" :key="key">
                         <div class="flex-shrink-0">
-                            <img class="w-64 h-64 rounded-lg " :src="image" />
+                            <img class="w-64 h-64 rounded-lg " :src="image" :onerror="`this.src='${default_image}'`" />
                             <button @click="remove_image(key)"
                                 class="flex text-gray-400 hover:text-gray-600 mt-2 mx-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -270,12 +270,12 @@ const confirm_status = () => {
             </div>
             <div class="grid grid-cols-12 gap-1">
                 <div class="col-span-12">
-                    <Input type="text" label="Office name" v-model="form_update.name" />
+                    <Input type="text" label="Service name" v-model="form_update.name" />
                     <JetInputError :message="form_update.errors.name" class="mt-2" />
                 </div>
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Office abbrevation" v-model="form_update.abbrevation" />
+                <Input type="text" label="Service abbrevation" v-model="form_update.abbrevation" />
                 <JetInputError :message="form_update.errors.abbrevation" class="mt-2" />
             </div>
             <!-- <div v-if="$page.props.auth.user.user_type != 'director'">

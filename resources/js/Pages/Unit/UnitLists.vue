@@ -145,10 +145,10 @@ const confirm_status = () => {
                 <div
                     class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
-                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'" @click="open_modal(unit)" class="bg-orange-500 rounded-md p-1 mr-1">
+                        <button v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'" @click="open_modal(unit)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
-                        <button v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head') && props.office.status == 1" @click="open_modal_status(unit)" class="rounded-md p-1" :class="unit.status == 1 ? 'bg-red-500' : 'bg-green-500'">
+                        <button v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director') && props.office.status == 1" @click="open_modal_status(unit)" class="rounded-md p-1" :class="unit.status == 1 ? 'bg-red-500' : 'bg-green-500'">
                             <Icon v-if="unit.status == 1" icon="close_icon" />
                             <Icon v-else icon="check" />
                         </button>
@@ -189,7 +189,7 @@ const confirm_status = () => {
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
                     <template v-for="(image, key) in post_image" :key="key">
                         <div class="flex-shrink-0">
-                            <img class="w-64 h-64 rounded-lg " :src="image" />
+                            <img class="w-64 h-64 rounded-lg " :src="image" :onerror="`this.src='${default_image}'`" />
                             <button @click="remove_image(key)"
                                 class="flex text-gray-400 hover:text-gray-600 mt-2 mx-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -231,12 +231,12 @@ const confirm_status = () => {
             </div>
             <div class="grid grid-cols-12 gap-1">
                 <div class="col-span-12">
-                    <Input type="text" label="Office name" v-model="form_update.name" />
+                    <Input type="text" label="Unit name" v-model="form_update.name" />
                     <JetInputError :message="form_update.errors.name" class="mt-2" />
                 </div>
             </div>
             <div class="col-span-full">
-                <Input type="text" label="Office abbrevation" v-model="form_update.abbrevation" />
+                <Input type="text" label="Unit abbrevation" v-model="form_update.abbrevation" />
                 <JetInputError :message="form_update.errors.abbrevation" class="mt-2" />
             </div>
         </template>

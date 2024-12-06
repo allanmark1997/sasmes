@@ -101,7 +101,7 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => ["required"],
-            'email' => ["required", "unique:users"],
+            'email' => ["required", "email", "unique:users"],
             'user_type' => ["required"],
             'office_id' => ["required"],
         ]);
@@ -157,14 +157,13 @@ class UserController extends Controller
             'user_type' => ["required"],
             'office_id' => ["required"],
         ]);
-
         if ($request->email == $user->email) {
             $request->validate([
-                'email' => ["required"]
+                'email' => ["required", "email"]
             ]);
         } else {
             $request->validate([
-                'email' => ["required", "unique:users"],
+                'email' => ["required", "email", "unique:users"],
             ]);
         }
         $generated_password = Str::random(8);

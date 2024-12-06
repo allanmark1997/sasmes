@@ -23,14 +23,14 @@ class UnitController extends Controller
         
         $services = Service::whereOfficeId($request->office_id)->get();
         if (count(collect(Auth::user()->load("access_control"))["access_control"]["units"]) == 0) {
-            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search) {
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
+            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($request->office_id);
             })->orderBy("name", "asc")->paginate(8);
             // dd($units);
         }
         else{
-            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search) {
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
+            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($request->office_id);
             })->whereIn("id", collect(Auth::user()->load("access_control"))["access_control"]["units"])->orderBy("name", "asc")->paginate(8);
         }
 

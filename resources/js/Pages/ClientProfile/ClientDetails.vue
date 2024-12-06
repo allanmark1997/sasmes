@@ -118,7 +118,10 @@ const number_format = (number) => {
                 <div class="grid grid-cols-3 gap-4 mt-4">
                     <template v-for="(units, key2) in office.text" :key="key2">
                         <div>
-                            <p class="text-center underline cursor-pointer" @click="open_modal(units.services)">
+                            <p v-if="$page.props.auth.user.user_type == 'vcsas'" class="text-center underline cursor-pointer">
+                                {{ key2 }}
+                            </p>
+                            <p v-else class="text-center underline cursor-pointer" @click="open_modal(units.services)">
                                 {{ key2 }}
                             </p>
                             <p class="text-center text-xs">

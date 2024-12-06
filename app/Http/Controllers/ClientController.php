@@ -32,8 +32,8 @@ class ClientController extends Controller
 
     public function index_details(Request $request)
     {
-        $from = $request->from ?? '';
-        $to = $request->to ?? '';
+        $from = $request->from ?? date("Y-m-d");
+        $to = $request->to ?? date("Y-m-d");
         $client = Client::whereId($request->client_id)->first();
         if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin" || Auth::user()->user_type == "vcsas") {
             $office = $request->office ?? "";
@@ -218,6 +218,17 @@ class ClientController extends Controller
             // 'photo' => ['max:1024'],
             // 'id_photo' => ['max:1024'],
         ]);
+
+        if (($request->fname == $client->fname) && ($request->mname == $client->mname) && ($request->lname == $client->lname)) {
+           
+        }
+        else {
+            if (Client::whereFname($request->fname)->wheremname($request->mname)->whereLname($request->lname)->first() != null) {
+                throw ValidationException::withMessages([
+                    'name_surname' => "Client has been already in the system",
+                ]);
+            }
+        }
 
         // $profileName = $request->input('photo');
         // if ($request->hasfile('photo')) {

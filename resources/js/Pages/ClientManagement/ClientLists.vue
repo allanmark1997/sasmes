@@ -28,7 +28,7 @@ const details_modal = ref(false);
 
 const open_update_modal = (client) => {
     form_update.reset()
-
+    form_update.errors.name_surname = null
     form_update.client = client
     form_update.fname = client.fname
     form_update.mname = client.mname
@@ -135,14 +135,15 @@ const date_time = (date) => {
         <template #content>
             <div class="col-span-full">
                 <Input type="text" label="Client First Name" v-model="form_update.fname" />
-                <JetInputError :message="form_update.errors.fname" class="mt-2" />
+                <JetInputError :message="form_update.errors.fname || form_update.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Middle Name" v-model="form_update.mname" />
+                <JetInputError :message="form_update.errors.name || form_update.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <Input type="text" label="Client Surname" v-model="form_update.lname" />
-                <JetInputError :message="form_update.errors.lname" class="mt-2" />
+                <JetInputError :message="form_update.errors.lname || form_update.errors.name_surname" class="mt-2" />
             </div>
             <div class="col-span-full">
                 <select

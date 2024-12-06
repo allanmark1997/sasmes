@@ -195,7 +195,7 @@ const confirm_status = () => {
                 <div v-if="post_image.length != 0" class="col-span-12 mx-auto">
                     <template v-for="(image, key) in post_image" :key="key">
                         <div class="flex-shrink-0">
-                            <img class="w-64 h-64 rounded-lg " :src="image" />
+                            <img class="w-64 h-64 rounded-lg " :src="image" :onerror="`this.src='${default_image}'`" />
                             <button @click="remove_image(key)"
                                 class="flex text-gray-400 hover:text-gray-600 mt-2 mx-auto">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
