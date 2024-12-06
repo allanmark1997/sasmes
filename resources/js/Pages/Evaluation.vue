@@ -165,7 +165,115 @@ const function_next = () => {
     if (question_set.value >= 3) {
         update_answer()
     }
-    question_set.value++
+    if (question_set.value == 0) {
+        if (form_answers.age == null || form_answers.age == "") {
+            toast.error("Age is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.client_region == null) {
+            toast.error("You must select Region", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else {
+            question_set.value++
+        }
+    }
+    else if (question_set.value == 1) {
+        if (form_answers.cc_1.c1 == 0 && form_answers.cc_1.c2 == 0 && form_answers.cc_1.c3 == 0 && form_answers.cc_1.c4 == 0) {
+            toast.error("Citizens Charter Question 1 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.cc_2.c1 == 0 && form_answers.cc_2.c2 == 0 && form_answers.cc_2.c3 == 0 && form_answers.cc_2.c4 == 0) {
+            toast.error("Citizens Charter Question 2 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.cc_3.c1 == 0 && form_answers.cc_3.c2 == 0 && form_answers.cc_3.c3 == 0 && form_answers.cc_3.c4 == 0) {
+            toast.error("Citizens Charter Question 3 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else {
+            question_set.value++
+        }
+    }
+    else if (question_set.value == 2) {
+        if (form_answers.e_1.c1 == null && form_answers.e_1.c2 == null && form_answers.e_1.c3 == null && form_answers.e_1.c4 == null && form_answers.e_1.c5 == null && form_answers.e_1.c6 == null) {
+            toast.error("Evaluation Question 1 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_2.c1 == null && form_answers.e_2.c2 == null && form_answers.e_2.c3 == null && form_answers.e_2.c4 == null && form_answers.e_2.c5 == null && form_answers.e_2.c6 == null) {
+            toast.error("Evaluation Question 2 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_3.c1 == null && form_answers.e_3.c2 == null && form_answers.e_3.c3 == null && form_answers.e_3.c4 == null && form_answers.e_3.c5 == null && form_answers.e_3.c6 == null) {
+            toast.error("Evaluation Question 3 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_4.c1 == null && form_answers.e_4.c2 == null && form_answers.e_4.c3 == null && form_answers.e_4.c4 == null && form_answers.e_4.c5 == null && form_answers.e_4.c6 == null) {
+            toast.error("Evaluation Question 4 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_5.c1 == null && form_answers.e_5.c2 == null && form_answers.e_5.c3 == null && form_answers.e_5.c4 == null && form_answers.e_5.c5 == null && form_answers.e_5.c6 == null) {
+            toast.error("Evaluation Question 5 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_6.c1 == null && form_answers.e_6.c2 == null && form_answers.e_6.c3 == null && form_answers.e_6.c4 == null && form_answers.e_6.c5 == null && form_answers.e_6.c6 == null) {
+            toast.error("Evaluation Question 6 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_7.c1 == null && form_answers.e_7.c2 == null && form_answers.e_7.c3 == null && form_answers.e_7.c4 == null && form_answers.e_7.c5 == null && form_answers.e_7.c6 == null) {
+            toast.error("Evaluation Question 7 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else if (form_answers.e_8.c1 == null && form_answers.e_8.c2 == null && form_answers.e_8.c3 == null && form_answers.e_8.c4 == null && form_answers.e_8.c5 == null && form_answers.e_8.c6 == null) {
+            toast.error("Evaluation Question 8 is required to be answered", {
+                autoClose: 1000,
+                transition: toast.TRANSITIONS.FLIP,
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+        else {
+            question_set.value++
+        }
+    }
+    else if (question_set.value == 3) {
+        question_set.value++
+    }
 }
 const function_prev = () => {
     if (question_set.value <= 0) {
@@ -332,7 +440,7 @@ const function_prev = () => {
                         <option value="Caraga Region">Caraga Region</option>
                         <option value="Central Luzon">Central Luzon</option>
                         <option value="Central Visayas">Central Visayas</option>
-                        <option value="ordillera Administrative Region">ordillera Administrative Region</option>
+                        <option value="ordillera Administrative Region">Cordillera Administrative Region</option>
                         <option value="Davao Region">Davao Region</option>
                         <option value="Ilocos Region">Ilocos Region</option>
                         <option value="MIMAROPA">MIMAROPA</option>
@@ -1017,7 +1125,8 @@ const function_prev = () => {
                     <label class="text-base font-medium text-gray-900">Do you have any other information/ comments/
                         suggestions/ recommendations? Type none if there aren'nt any.</label>
                     <fieldset class="mt-2">
-                        <textarea v-model="form_answers.suggestions" class="rounded-lg focus:ring-yellow-500 w-full" rows="10"></textarea>
+                        <textarea v-model="form_answers.suggestions" class="rounded-lg focus:ring-yellow-500 w-full"
+                            rows="10"></textarea>
                     </fieldset>
                 </div>
 

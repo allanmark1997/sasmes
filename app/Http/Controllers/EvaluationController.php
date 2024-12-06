@@ -376,7 +376,9 @@ class EvaluationController extends Controller
                         $counter_zero++;
                     }
                 }
-                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
+                // dd($office->count(), $counter_zero);
+                // $sample[] = array(array_sum($q), $office->count(), $counter_zero);
+                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ((int)$office->count() - (int)$counter_zero));
 
                 $sum_q[$office_name][$key] = $temp_mean;
 
@@ -394,7 +396,7 @@ class EvaluationController extends Controller
                 $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
                 $standard_per_q[$office_name] = $temp_standard;
             }
-
+            // dd($sample);
         }
         foreach ($sum_q as $key => $office) {
             for ($i = 0; $i < count($office); $i++) {
