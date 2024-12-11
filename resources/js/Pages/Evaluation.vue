@@ -166,49 +166,49 @@ const function_next = () => {
         update_answer()
     }
     if (question_set.value == 0) {
-        if (form_answers.age == null || form_answers.age == "") {
-            toast.error("Age is required to be answered", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-        else if (form_answers.client_region == null) {
-            toast.error("You must select Region", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-        else {
+        // if (form_answers.age == null || form_answers.age == "") {
+        //     toast.error("Age is required to be answered", {
+        //         autoClose: 1000,
+        //         transition: toast.TRANSITIONS.FLIP,
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     });
+        // }
+        // else if (form_answers.client_region == null) {
+        //     toast.error("You must select Region", {
+        //         autoClose: 1000,
+        //         transition: toast.TRANSITIONS.FLIP,
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     });
+        // }
+        // else {
             question_set.value++
-        }
+        // }
     }
     else if (question_set.value == 1) {
-        if (form_answers.cc_1.c1 == 0 && form_answers.cc_1.c2 == 0 && form_answers.cc_1.c3 == 0 && form_answers.cc_1.c4 == 0) {
-            toast.error("Citizens Charter Question 1 is required to be answered", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-        else if (form_answers.cc_2.c1 == 0 && form_answers.cc_2.c2 == 0 && form_answers.cc_2.c3 == 0 && form_answers.cc_2.c4 == 0) {
-            toast.error("Citizens Charter Question 2 is required to be answered", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-        else if (form_answers.cc_3.c1 == 0 && form_answers.cc_3.c2 == 0 && form_answers.cc_3.c3 == 0 && form_answers.cc_3.c4 == 0) {
-            toast.error("Citizens Charter Question 3 is required to be answered", {
-                autoClose: 1000,
-                transition: toast.TRANSITIONS.FLIP,
-                position: toast.POSITION.TOP_RIGHT,
-            });
-        }
-        else {
+        // if (form_answers.cc_1.c1 == 0 && form_answers.cc_1.c2 == 0 && form_answers.cc_1.c3 == 0 && form_answers.cc_1.c4 == 0) {
+        //     toast.error("Citizens Charter Question 1 is required to be answered", {
+        //         autoClose: 1000,
+        //         transition: toast.TRANSITIONS.FLIP,
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     });
+        // }
+        // else if (form_answers.cc_2.c1 == 0 && form_answers.cc_2.c2 == 0 && form_answers.cc_2.c3 == 0 && form_answers.cc_2.c4 == 0) {
+        //     toast.error("Citizens Charter Question 2 is required to be answered", {
+        //         autoClose: 1000,
+        //         transition: toast.TRANSITIONS.FLIP,
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     });
+        // }
+        // else if (form_answers.cc_3.c1 == 0 && form_answers.cc_3.c2 == 0 && form_answers.cc_3.c3 == 0 && form_answers.cc_3.c4 == 0) {
+        //     toast.error("Citizens Charter Question 3 is required to be answered", {
+        //         autoClose: 1000,
+        //         transition: toast.TRANSITIONS.FLIP,
+        //         position: toast.POSITION.TOP_RIGHT,
+        //     });
+        // }
+        // else {
             question_set.value++
-        }
+        // }
     }
     else if (question_set.value == 2) {
         if (form_answers.e_1.c1 == null && form_answers.e_1.c2 == null && form_answers.e_1.c3 == null && form_answers.e_1.c4 == null && form_answers.e_1.c5 == null && form_answers.e_1.c6 == null) {
