@@ -22,13 +22,13 @@ class UnitServiceController extends Controller
         $search = $request->search ?? '';
         $office = Office::whereId($request->office_id)->first();
         $unit = Unit::whereId($request->unit_id)->first();
-        $unit_services = UnitService::whereUnitId($request->unit_id)->with("unit_service")->has("unit_service")->when($search != null || $search != "", function ($query) use ($search) {
+        $unit_services = UnitService::with("unit_service")->has("unit_service")->when($search != null || $search != "", function ($query) use ($search, $request) {
             $query->whereHas("unit_service", function ($query2) use ($search) {
                 $query2->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
             })->with(['unit_service' => function ($query2) use ($search) {
                 $query2->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%");
-            }]);
-        })->orderBy("created_at", "asc")->paginate(12);
+            }])->whereIn("id", [$request->unit_id]);
+        })->whereUnitId($request->unit_id)->orderBy("created_at", "asc")->paginate(12);
         $except_already_exist_service = collect(UnitService::whereUnitId($request->unit_id)->get())->pluck("service_id")->toArray();
         $services = Service::whereOfficeId($request->office_id)->whereNotIn("id", $except_already_exist_service)->get();
         $clients = Client::get();

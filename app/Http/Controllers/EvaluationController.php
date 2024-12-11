@@ -253,7 +253,7 @@ class EvaluationController extends Controller
         }
 
         $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
-        $office = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+        $office_selected = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
             $query->whereId($office_id);
         })->first();
         $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
@@ -446,7 +446,7 @@ class EvaluationController extends Controller
             "suggestions" => count($evaluation) == 1 ? []:$suggestions,
             "from" => $from,
             "offices" => $offices,
-            "office" => $office,
+            "office" => $office_selected,
             "units" => $units,
             "to" => $to,
             "office_id" => $office_id,

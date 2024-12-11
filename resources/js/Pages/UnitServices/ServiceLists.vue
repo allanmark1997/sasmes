@@ -113,7 +113,7 @@ const date = (date) => {
                             class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="user" />
                         </button>
-                        <button @click="open_modal_status(service)" class="rounded-md p-1"
+                        <button v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director')" @click="open_modal_status(service)" class="rounded-md p-1"
                             :class="service.status == 1 ? 'bg-red-500' : 'bg-green-500'">
                             <Icon v-if="service.status == 1" icon="close_icon" />
                             <Icon v-else icon="check" />

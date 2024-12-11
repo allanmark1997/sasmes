@@ -41,9 +41,24 @@ const search_remove = () => {
     );
 };
 
-const number_format = (number) => {
-    return new Intl.NumberFormat('en-US').format(number)
-}
+// const number_format = (number) => {
+//     return new Intl.NumberFormat('en-US').format(number)
+// }
+const number_format = (data) => {
+  const formatter = new Intl.NumberFormat("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 20,
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 20
+  });
+  let total = formatter.format(data);
+  let split_data = total.split(".")
+  let decimal = String(split_data[1])
+  let slice_decimal = decimal.slice(0, 2)
+  let validate_decimal = slice_decimal == "un" ? String("00") : slice_decimal
+  let final_data = String(split_data[0]) + "." + validate_decimal
+  return final_data;
+};
 </script>
 
 <template>

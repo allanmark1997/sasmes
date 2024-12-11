@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Mail\RegisterNotificationEmail;
+use App\Mail\ResetPasswordNotificationEmail;
 use App\Models\AccessControl;
 use App\Models\Office;
 use App\Models\Service;
@@ -169,7 +170,7 @@ class UserController extends Controller
         $generated_password = Str::random(8);
         if ($request->change_pass == true) {
             try {
-                Mail::to($request->email)->send(new RegisterNotificationEmail($request->name, $request->email, $generated_password));
+                Mail::to($request->email)->send(new ResetPasswordNotificationEmail($request->name, $request->email, $generated_password));
             } catch (\Throwable $th) {
                 //throw $th;
             }

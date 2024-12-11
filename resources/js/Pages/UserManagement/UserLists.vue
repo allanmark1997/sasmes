@@ -43,6 +43,7 @@ const form_update = useForm({
 
 const status_modal = ref(false);
 const update_modal = ref(false);
+const change_password_modal = ref(false);
 const access_control_modal = ref(false);
 
 const open_modal_access_control = (user) => {
@@ -97,6 +98,7 @@ const update = () => {
                 position: toast.POSITION.TOP_RIGHT,
             });
             update_modal.value = !update_modal.value
+            change_password_modal.value = false
         }
     });
 }
@@ -131,7 +133,8 @@ const access_control = () => {
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button
                             v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin') && $page.props.auth.user.id != user.id"
-                            @click="open_modal_update(user)" class="bg-orange-500 rounded-md p-1 mr-1" title="Update User">
+                            @click="open_modal_update(user)" class="bg-orange-500 rounded-md p-1 mr-1"
+                            title="Update User">
                             <Icon icon="pencil" />
                         </button>
                         <button
@@ -141,7 +144,8 @@ const access_control = () => {
                             <Icon v-if="user.status == 1" icon="close_icon" />
                             <Icon v-else icon="check" />
                         </button>
-                        <button @click="open_modal_access_control(user)" class="rounded-md p-1 ml-1 bg-teal-500" title="Access Control">
+                        <button @click="open_modal_access_control(user)" class="rounded-md p-1 ml-1 bg-teal-500"
+                            title="Access Control">
                             <Icon icon="option" />
                         </button>
                     </div>
@@ -249,13 +253,21 @@ const access_control = () => {
             <SecondaryButton @click="update_modal = false" class="mr-2 hover:bg-red-500">
                 Cancel
             </SecondaryButton>
-            <PrimaryButton :class="{ 'opacity-25': form_update.processing }" :disabled="form_update.processing"
+            <PrimaryButton v-if="form_update.change_pass == false" :class="{ 'opacity-25': form_update.processing }" :disabled="form_update.processing"
                 class="hover:bg-green-300" @click="update">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
                 </svg>&nbsp;Update
+            </PrimaryButton>
+            <PrimaryButton v-else :class="{ 'opacity-25': form_update.processing }" :disabled="form_update.processing"
+                class="hover:bg-green-300" @click="change_password_modal = true">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>&nbsp;Updates
             </PrimaryButton>
         </template>
     </JetDialogModal>
@@ -290,4 +302,24 @@ const access_control = () => {
             </PrimaryButton>
         </template>
     </JetDialogModal>
+
+    <ConfirmDialogModal :show="change_password_modal" maxWidth="2xl">
+        <template #title>
+            Are you sure you want to reset password of ({{ form_update.name }})?</template>
+        <template #content>
+        </template>
+        <template #footer>
+            <SecondaryButton @click="(change_password_modal = false, update_modal = true)" class="mr-2">
+                nevermind
+            </SecondaryButton>
+            <PrimaryButton :class="{ 'opacity-25': form_status.processing }" :disabled="form_status.processing"
+                class="hover:bg-green-400" @click="update">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-auto" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>&nbsp;Confirm
+            </PrimaryButton>
+        </template>
+    </ConfirmDialogModal>
 </template>

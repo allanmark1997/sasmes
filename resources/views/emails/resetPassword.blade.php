@@ -2,7 +2,7 @@
 <html lang="en">
 <body>
     <p></p>
-    <h1>env('APP_NAME')</h1>
+    <h1>{{ config('app.name') }}</h1>
     <h3>Dear {{$name}},</h3>
     <p>
         As you requested in admin to reset, here's your new credentials

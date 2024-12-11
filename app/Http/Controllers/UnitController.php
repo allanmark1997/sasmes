@@ -20,18 +20,19 @@ class UnitController extends Controller
     {
         $search = $request->search ?? '';
         $office = Office::whereId($request->office_id)->first();
-        
+
         $services = Service::whereOfficeId($request->office_id)->get();
+        $units["data"] = [];
         if (count(collect(Auth::user()->load("access_control"))["access_control"]["units"]) == 0) {
-            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($request->office_id);
+            if (Auth::user()->user_type == "root" || Auth::user()->user_type == "admin") {
+                $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
+                    $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($request->office_id);
+                })->orderBy("name", "asc")->paginate(8);
+            }
+        } else {
+            $units = Unit::whereIn("id", collect(Auth::user()->load("access_control"))["access_control"]["units"])->whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
+                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereIn("id", collect(Auth::user()->load("access_control"))["access_control"]["units"]);
             })->orderBy("name", "asc")->paginate(8);
-            // dd($units);
-        }
-        else{
-            $units = Unit::whereOfficeId($request->office_id)->when($search != null || $search != "", function ($query) use ($search, $request) {
-                $query->where("name", "LIKE", "%{$search}%")->orWhere("abbrevation", "LIKE", "%{$search}%")->whereOfficeId($request->office_id);
-            })->whereIn("id", collect(Auth::user()->load("access_control"))["access_control"]["units"])->orderBy("name", "asc")->paginate(8);
         }
 
         return Inertia::render('Unit/Index', [
@@ -82,7 +83,7 @@ class UnitController extends Controller
         $unit = Unit::create([
             "name" => $request->name,
             "abbrevation" => $request->abbrevation,
-            "photo" => env('APP_URL') . '/storage/images/units/' . $imageName??1,
+            "photo" => env('APP_URL') . '/storage/images/units/' . $imageName ?? 1,
             "status" => true,
             "office_id" => $request->office_id
         ]);
@@ -142,7 +143,7 @@ class UnitController extends Controller
             $unit->update([
                 "name" => $request->name,
                 "abbrevation" => $request->abbrevation,
-                "photo" => env('APP_URL') . '/storage/images/units/' . $imageName??1
+                "photo" => env('APP_URL') . '/storage/images/units/' . $imageName ?? 1
             ]);
         } else {
             $unit->update([

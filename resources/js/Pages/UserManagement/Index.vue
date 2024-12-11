@@ -78,11 +78,12 @@ const create_user = () => {
                     
                     <div v-if="($page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin')">
                         <select v-model="office" @change="search_"
-                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-full">
+                            class="border border-gray-300 text-gray-500 text-sm rounded-lg focus:ring-yellow-500 focus:border-yellow-500 block w-auto h-10 mt-5 w-[10vmin]">
                             <option value="" disabled>Select Office</option>
                             <option value="">All Offices</option>
                             <template v-for="(office, key) in props.offices" :key="key">
-                                <option :value="office.id">{{ office.abbrevation }} ({{ office.name }})</option>
+                                <!-- <option :value="office.id">{{ office.abbrevation }} ({{ office.name }})</option> -->
+                                <option :value="office.id">{{ office.abbrevation }}</option>
                             </template>
                         </select>
                     </div>

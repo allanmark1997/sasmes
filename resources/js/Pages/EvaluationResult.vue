@@ -40,6 +40,22 @@ const search_remove = () => {
 const number_format = (number) => {
     return new Intl.NumberFormat('en-US').format(number)
 }
+
+const number_format2 = (data) => {
+  const formatter = new Intl.NumberFormat("en-PH", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 20,
+    minimumSignificantDigits: 1,
+    maximumSignificantDigits: 20
+  });
+  let total = formatter.format(data);
+  let split_data = total.split(".")
+  let decimal = String(split_data[1])
+  let slice_decimal = decimal.slice(0, 2)
+  let validate_decimal = slice_decimal == "un" ? String("00") : slice_decimal
+  let final_data = String(split_data[0]) + "." + validate_decimal
+  return final_data;
+};
 </script>
 
 <template>
@@ -116,7 +132,7 @@ const number_format = (number) => {
                                     <li>
                                         <div class="grid grid-cols-2 gap-2">
                                             <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1">= {{ number_format(mean) }}</div>
+                                            <div class="col-span-1">= {{ number_format2(mean) }}</div>
                                         </div>
                                     </li>
                                 </template>
@@ -130,8 +146,8 @@ const number_format = (number) => {
                                         <div class="grid grid-cols-2 gap-2">
                                             <div class="col-span-1">{{ key }}</div>
                                             <div class="col-span-1">=
-                                                {{ number_format(standard_deviation) == 0 ?
-                                                    "Not enough samples" : number_format(standard_deviation) }}</div>
+                                                {{ standard_deviation == 0 ?
+                                                    "Not enough samples" : number_format2(standard_deviation) }}</div>
                                         </div>
                                     </li>
                                 </template>
@@ -186,7 +202,7 @@ const number_format = (number) => {
                                         <li>
                                             <div class="grid grid-cols-2 gap-2">
                                                 <div class="col-span-1">{{ key }}</div>
-                                                <div class="col-span-1">= {{ number_format(mean.result) }}</div>
+                                                <div class="col-span-1">= {{ number_format2(mean.result) }}</div>
                                             </div>
                                         </li>
                                     </template>
@@ -200,8 +216,8 @@ const number_format = (number) => {
                                         <li>
                                             <div class="grid grid-cols-2 gap-2">
                                                 <div class="col-span-1">{{ key }}</div>
-                                                <div class="col-span-1">= {{ number_format(standard_deviation) == 0 ?
-                                                    "Not enough samples" : number_format(standard_deviation) }}</div>
+                                                <div class="col-span-1">= {{ standard_deviation == 0 ?
+                                                    "Not enough samples" : number_format2(standard_deviation) }}</div>
                                             </div>
                                         </li>
                                     </template>
@@ -251,7 +267,7 @@ const number_format = (number) => {
                                     <template v-for="(suggestion, key) in props.suggestions" :key="key">
                                         <tr class="odd:bg-white even:bg-gray-200 border-b">
                                             <th scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap flex w-[10vmin] break-words">
+                                                class="px-6 py-4 font-medium text-gray-900 w-[50vmin] break-words">
                                                 {{ suggestion.suggestion ?? "None" }}
                                             </th>
                                             <td class="px-6 py-4">

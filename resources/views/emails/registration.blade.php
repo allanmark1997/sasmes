@@ -2,10 +2,10 @@
 <html lang="en">
 <body>
     <p></p>
-    <h1>env('APP_NAME')</h1>
+    <h1>{{ config('app.name') }}</h1>
     <h3>Dear {{$name}},</h3>
     <p>
-        You are now registered to CMU Alumni system.
+        You are now registered to {{ config('app.name') }} system.
     </p>
     <p>
         Your email: {{$email}}
