@@ -183,12 +183,12 @@ const confirm_status = () => {
                     class="w-full h-[38vmin] max-w-sm bg-white border border-gray-200 rounded-lg shadow group relative">
                     <div class="absolute hidden group-hover:block top-0 right-0 text-white p-2 rounded ">
                         <button
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director' && service.status == 1"
                             @click="open_modal(service)" class="bg-orange-500 rounded-md p-1 mr-1">
                             <Icon icon="pencil" />
                         </button>
                         <button
-                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'vcsas' || $page.props.auth.user.user_type == 'director' || $page.props.auth.user.user_type == 'unit_head'"
+                            v-if="$page.props.auth.user.user_type == 'root' || $page.props.auth.user.user_type == 'admin' || $page.props.auth.user.user_type == 'director'"
                             @click="open_modal_status(service)" class=" rounded-md p-1"
                             :class="service.status == 1 ? 'bg-red-500' : 'bg-green-500'">
                             <Icon v-if="service.status == 1" icon="close_icon" />
