@@ -366,37 +366,36 @@ class EvaluationController extends Controller
             $revalued_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    $revalued_data2[$choice][] = array_sum($answer);
+                    $revalued_data2[$choice][] = array_sum(array_filter($answer));
                 }
             }
             foreach ($revalued_data2 as $key => $q) {
-                $counter_zero = 0;
-                foreach ($q as $key3 => $ans) {
-                    if ($ans == 0) {
-                        $counter_zero++;
-                    }
-                }
-                // dd($office->count(), $counter_zero);
-                // $sample[] = array(array_sum($q), $office->count(), $counter_zero);
-                $temp_mean = (((int)$office->count() - (int)$counter_zero) == 0) ? 0 : (array_sum($q) / ((int)$office->count() - (int)$counter_zero));
+                $array_clean = array_filter($q);
+                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
 
                 $sum_q[$office_name][$key] = $temp_mean;
 
-                $temp_data = [];
-                foreach ($revalued_data as $respondent => $questions) {
-                    foreach ($questions as $choice => $answer) {
-                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
+            }
+
+            $temp_data = [];
+            $temp_data2 = [];
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    $array_clean_standard_diviation = array_filter($answer);
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    if ($array_clean_standard_diviation != []) {
+                        $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q[$office_name][$choice]), 2);
                     }
                 }
-                $temp_standard = [];
-                foreach ($temp_data as $key2 => $respondents) {
-                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
-                }
-
-                $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
-                $standard_per_q[$office_name] = $temp_standard;
             }
-            // dd($sample);
+            $temp_standard = [];
+            foreach ($temp_data as $key2 => $respondents) {
+                $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
+            }
+
+            $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
+            $standard_per_q[$office_name] = $temp_standard;
+
         }
         foreach ($sum_q as $key => $office) {
             for ($i = 0; $i < count($office); $i++) {
@@ -437,13 +436,13 @@ class EvaluationController extends Controller
             );
         }
         return Inertia::render('EvaluationResult', [
-            "result_per_question" => count($evaluation) == 1 ? []:$result_per_question,
-            "mean_chart" => count($evaluation) == 1 ? []:$mean_chart,
-            "standard_deviation_chart" => count($evaluation) == 1 ? []:$standard_deviation_chart,
-            "mean" => count($evaluation) == 1 ? []:$mean,
-            "standard_deviation" => count($evaluation) == 1 ? []:$standard_deviation,
-            "adjectival" => count($evaluation) == 1 ? []:$adjectival_result,
-            "suggestions" => count($evaluation) == 1 ? []:$suggestions,
+            "result_per_question" => count($evaluation) == 1 ? [] : $result_per_question,
+            "mean_chart" => count($evaluation) == 1 ? [] : $mean_chart,
+            "standard_deviation_chart" => count($evaluation) == 1 ? [] : $standard_deviation_chart,
+            "mean" => count($evaluation) == 1 ? [] : $mean,
+            "standard_deviation" => count($evaluation) == 1 ? [] : $standard_deviation,
+            "adjectival" => count($evaluation) == 1 ? [] : $adjectival_result,
+            "suggestions" => count($evaluation) == 1 ? [] : $suggestions,
             "from" => $from,
             "offices" => $offices,
             "office" => $office_selected,
@@ -585,7 +584,6 @@ class EvaluationController extends Controller
 
                 $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
             }
-
         }
         foreach ($sum_q as $key => $office) {
             $mean_overall = array_sum($office) / count($office);
@@ -726,7 +724,6 @@ class EvaluationController extends Controller
 
                 $standard_deviation2[$office_name] = array_sum($temp_standard) / 8;
             }
-
         }
         foreach ($sum_q2 as $key => $office) {
             $mean_overall = array_sum($office) / count($office);
@@ -749,16 +746,16 @@ class EvaluationController extends Controller
             );
         }
         return Inertia::render('EvaluationComparison', [
-            "mean_chart" => count($evaluation) == 1 ? []:$mean_chart,
-            "mean_chart2" =>count($evaluation2) == 1 ? []: $mean_chart2,
-            "standard_deviation_chart" => count($evaluation) == 1 ? []:$standard_deviation_chart,
-            "standard_deviation_chart2" => count($evaluation2) == 1 ? []:$standard_deviation_chart2,
-            "mean" => count($evaluation) == 1 ? []:$mean,
-            "mean2" => count($evaluation2) == 1 ? []:$mean2,
-            "standard_deviation" => count($evaluation) == 1 ? []:$standard_deviation,
-            "standard_deviation2" => count($evaluation2) == 1 ? []:$standard_deviation2,
-            "adjectival" => count($evaluation) == 1 ? []:$adjectival_result,
-            "adjectival2" => count($evaluation2) == 1 ? []:$adjectival_result2,
+            "mean_chart" => count($evaluation) == 1 ? [] : $mean_chart,
+            "mean_chart2" => count($evaluation2) == 1 ? [] : $mean_chart2,
+            "standard_deviation_chart" => count($evaluation) == 1 ? [] : $standard_deviation_chart,
+            "standard_deviation_chart2" => count($evaluation2) == 1 ? [] : $standard_deviation_chart2,
+            "mean" => count($evaluation) == 1 ? [] : $mean,
+            "mean2" => count($evaluation2) == 1 ? [] : $mean2,
+            "standard_deviation" => count($evaluation) == 1 ? [] : $standard_deviation,
+            "standard_deviation2" => count($evaluation2) == 1 ? [] : $standard_deviation2,
+            "adjectival" => count($evaluation) == 1 ? [] : $adjectival_result,
+            "adjectival2" => count($evaluation2) == 1 ? [] : $adjectival_result2,
             "from" => $from,
             "from2" => $from2,
             "offices" => $offices,

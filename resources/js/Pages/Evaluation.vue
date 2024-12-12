@@ -43,74 +43,74 @@ const form_answers = useForm({
         c4: 0,
     },
     e_1: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
     },
     e_2: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_3: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_4: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_5: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_6: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_7: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     e_8: {
-        c1: null,
-        c2: null,
-        c3: null,
-        c4: null,
-        c5: null,
-        c6: null,
+        c1: 0,
+        c2: 0,
+        c3: 0,
+        c4: 0,
+        c5: 0,
+        c6: 0,
 
     },
     suggestions: null,
@@ -629,7 +629,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_1.c1"
-                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
+                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = null"
                                 name="notification-method4" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -638,7 +638,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_1.c2"
-                                @change="form_answers.e_1.c1 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
+                                @change="form_answers.e_1.c1 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = null"
                                 name="notification-method4" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -647,7 +647,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_1.c3"
-                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
+                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = null"
                                 name="notification-method4" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -656,7 +656,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_1.c4"
-                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = 0"
+                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c6 = null"
                                 name="notification-method4" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -665,7 +665,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_1.c5"
-                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c6 = 0"
+                                @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c1 = 0, form_answers.e_1.c6 = null"
                                 name="notification-method4" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -675,7 +675,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_1.c6"
                                 @change="form_answers.e_1.c2 = 0, form_answers.e_1.c3 = 0, form_answers.e_1.c4 = 0, form_answers.e_1.c5 = 0, form_answers.e_1.c1 = 0"
-                                name="notification-method4" value="0" type="radio"
+                                name="notification-method4" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -690,7 +690,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_2.c1"
-                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
+                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = null"
                                 name="notification-method5" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -699,7 +699,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_2.c2"
-                                @change="form_answers.e_2.c1 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
+                                @change="form_answers.e_2.c1 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = null"
                                 name="notification-method5" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -708,7 +708,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_2.c3"
-                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
+                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = null"
                                 name="notification-method5" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -717,7 +717,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_2.c4"
-                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = 0"
+                                @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c1 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c6 = null"
                                 name="notification-method5" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -734,7 +734,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_2.c6"
                                 @change="form_answers.e_2.c2 = 0, form_answers.e_2.c3 = 0, form_answers.e_2.c4 = 0, form_answers.e_2.c5 = 0, form_answers.e_2.c1 = 0"
-                                name="notification-method5" value="0" type="radio"
+                                name="notification-method5" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -750,7 +750,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_3.c1"
-                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
+                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = null"
                                 name="notification-method6" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -759,7 +759,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_3.c2"
-                                @change="form_answers.e_3.c1 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
+                                @change="form_answers.e_3.c1 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = null"
                                 name="notification-method6" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -768,7 +768,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_3.c3"
-                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
+                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = null"
                                 name="notification-method6" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -777,7 +777,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_3.c4"
-                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = 0"
+                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c6 = null"
                                 name="notification-method6" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -786,7 +786,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_3.c5"
-                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c6 = 0"
+                                @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c1 = 0, form_answers.e_3.c6 = null"
                                 name="notification-method6" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -796,7 +796,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_3.c6"
                                 @change="form_answers.e_3.c2 = 0, form_answers.e_3.c3 = 0, form_answers.e_3.c4 = 0, form_answers.e_3.c5 = 0, form_answers.e_3.c1 = 0"
-                                name="notification-method6" value="0" type="radio"
+                                name="notification-method6" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -811,7 +811,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_4.c1"
-                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
+                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = null"
                                 name="notification-method7" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -820,7 +820,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_4.c2"
-                                @change="form_answers.e_4.c1 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
+                                @change="form_answers.e_4.c1 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = null"
                                 name="notification-method7" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -829,7 +829,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_4.c3"
-                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
+                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = null"
                                 name="notification-method7" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -838,7 +838,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_4.c4"
-                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = 0"
+                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c6 = null"
                                 name="notification-method7" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -847,7 +847,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_4.c5"
-                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c6 = 0"
+                                @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c1 = 0, form_answers.e_4.c6 = null"
                                 name="notification-method7" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -857,7 +857,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_4.c6"
                                 @change="form_answers.e_4.c2 = 0, form_answers.e_4.c3 = 0, form_answers.e_4.c4 = 0, form_answers.e_4.c5 = 0, form_answers.e_4.c1 = 0"
-                                name="notification-method7" value="0" type="radio"
+                                name="notification-method7" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -872,7 +872,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_5.c1"
-                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
+                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = null"
                                 name="notification-method8" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -881,7 +881,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_5.c2"
-                                @change="form_answers.e_5.c1 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
+                                @change="form_answers.e_5.c1 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = null"
                                 name="notification-method8" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -890,7 +890,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_5.c3"
-                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
+                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = null"
                                 name="notification-method8" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -899,7 +899,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_5.c4"
-                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = 0"
+                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c6 = null"
                                 name="notification-method8" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -908,7 +908,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_5.c5"
-                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c6 = 0"
+                                @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c1 = 0, form_answers.e_5.c6 = null"
                                 name="notification-method8" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -918,7 +918,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_5.c6"
                                 @change="form_answers.e_5.c2 = 0, form_answers.e_5.c3 = 0, form_answers.e_5.c4 = 0, form_answers.e_5.c5 = 0, form_answers.e_5.c1 = 0"
-                                name="notification-method8" value="0" type="radio"
+                                name="notification-method8" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -933,7 +933,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_6.c1"
-                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
+                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = null"
                                 name="notification-method9" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -942,7 +942,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_6.c2"
-                                @change="form_answers.e_6.c1 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
+                                @change="form_answers.e_6.c1 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = null"
                                 name="notification-method9" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -951,7 +951,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_6.c3"
-                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
+                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = null"
                                 name="notification-method9" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -960,7 +960,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_6.c4"
-                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = 0"
+                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c6 = null"
                                 name="notification-method9" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -969,7 +969,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_6.c5"
-                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c6 = 0"
+                                @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c1 = 0, form_answers.e_6.c6 = null"
                                 name="notification-method9" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -979,7 +979,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_6.c6"
                                 @change="form_answers.e_6.c2 = 0, form_answers.e_6.c3 = 0, form_answers.e_6.c4 = 0, form_answers.e_6.c5 = 0, form_answers.e_6.c1 = 0"
-                                name="notification-method9" value="0" type="radio"
+                                name="notification-method9" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -994,7 +994,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_7.c1"
-                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
+                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = null"
                                 name="notification-method10" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1003,7 +1003,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_7.c2"
-                                @change="form_answers.e_7.c1 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
+                                @change="form_answers.e_7.c1 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = null"
                                 name="notification-method10" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1012,7 +1012,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_7.c3"
-                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
+                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = null"
                                 name="notification-method10" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1021,7 +1021,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_7.c4"
-                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = 0"
+                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c6 = null"
                                 name="notification-method10" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1030,7 +1030,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_7.c5"
-                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c6 = 0"
+                                @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c1 = 0, form_answers.e_7.c6 = null"
                                 name="notification-method10" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1040,7 +1040,7 @@ const function_prev = () => {
                         <div class="flex">
                             <input v-model="form_answers.e_7.c6"
                                 @change="form_answers.e_7.c2 = 0, form_answers.e_7.c3 = 0, form_answers.e_7.c4 = 0, form_answers.e_7.c5 = 0, form_answers.e_7.c1 = 0"
-                                name="notification-method10" value="0" type="radio"
+                                name="notification-method10" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
@@ -1055,7 +1055,7 @@ const function_prev = () => {
                     <fieldset class="mt-2">
                         <div class="flex">
                             <input v-model="form_answers.e_8.c1"
-                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
+                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = null"
                                 name="notification-method11" value="5" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1064,7 +1064,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_8.c2"
-                                @change="form_answers.e_8.c1 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
+                                @change="form_answers.e_8.c1 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = null"
                                 name="notification-method11" value="4" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1073,7 +1073,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_8.c3"
-                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
+                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = null"
                                 name="notification-method11" value="3" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1082,7 +1082,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_8.c4"
-                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
+                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = null"
                                 name="notification-method11" value="2" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1091,7 +1091,7 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_8.c5"
-                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c6 = 0"
+                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c1 = 0, form_answers.e_8.c6 = null"
                                 name="notification-method11" value="1" type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
@@ -1100,8 +1100,8 @@ const function_prev = () => {
                         </div>
                         <div class="flex">
                             <input v-model="form_answers.e_8.c6"
-                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c6 = 0"
-                                name="notification-method11" value="0" type="radio"
+                                @change="form_answers.e_8.c2 = 0, form_answers.e_8.c3 = 0, form_answers.e_8.c4 = 0, form_answers.e_8.c5 = 0, form_answers.e_8.c1 = 0"
+                                name="notification-method11" value='' type="radio"
                                 class="focus:ring-yellow-500 h-4 w-4 text-yellow-600 border-gray-300" />
                             <label class="ml-3 block text-sm font-medium text-gray-700">
                                 N/A
