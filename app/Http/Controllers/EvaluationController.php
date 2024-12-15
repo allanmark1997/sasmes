@@ -465,7 +465,7 @@ class EvaluationController extends Controller
         }
 
         $offices = Office::whereNotIn("abbrevation", ["Admin", "VCSAS"])->get();
-        $office = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
+        $office_selected = Office::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
             $query->whereId($office_id);
         })->first();
         $units = Unit::when($office_id !=  null || $office_id != "", function ($query) use ($office_id) {
@@ -557,35 +557,38 @@ class EvaluationController extends Controller
             $revalued_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    $revalued_data2[$choice][] = array_sum($answer);
+                    $revalued_data2[$choice][] = array_sum(array_filter($answer));
                 }
             }
             foreach ($revalued_data2 as $key => $q) {
-                $counter_zero = 0;
-                foreach ($q as $key3 => $ans) {
-                    if ($ans == 0) {
-                        $counter_zero++;
-                    }
-                }
-                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
+                $array_clean = array_filter($q);
+                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
 
                 $sum_q[$office_name][$key] = $temp_mean;
 
-                $temp_data = [];
-                foreach ($revalued_data as $respondent => $questions) {
-                    foreach ($questions as $choice => $answer) {
-                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
+            }
+
+            $temp_data = [];
+            $temp_data2 = [];
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    $array_clean_standard_diviation = array_filter($answer);
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    if ($array_clean_standard_diviation != []) {
+                        $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q[$office_name][$choice]), 2);
                     }
                 }
-                $temp_standard = [];
-                foreach ($temp_data as $key2 => $respondents) {
-                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
-                }
-
-                $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
             }
+            $temp_standard = [];
+            foreach ($temp_data as $key2 => $respondents) {
+                $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
+            }
+
+            $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
+
         }
         foreach ($sum_q as $key => $office) {
+
             $mean_overall = array_sum($office) / count($office);
             $mean[$key] = $mean_overall;
             $adjectival_result[$key] = (($mean_overall) <= 1.80) ? "Very Poor" : ((($mean_overall) >= 1.81 && ($mean_overall) <= 2.6) ? "Poor" : ((($mean_overall) >= 2.61) && (($mean_overall) <= 3.40) ? "Average" : ((($mean_overall) >= 3.41) && (($mean_overall) <= 4.20) ? "Above Average" : "Excellent")));
@@ -611,7 +614,7 @@ class EvaluationController extends Controller
         $from2 = $request->from2 ?? date("Y-m-d");
         $to2 = $request->to2 ?? date("Y-m-d");
 
-        #first
+        #second
         $evaluation2 = Evaluation::whereStatus("complete")->with("client_record")->when($from2 !=  null || $from2 != "" && $to2 != null || $to2 != "", function ($query) use ($from2, $to2) {
             $query->whereBetween('updated_at', [$from2, Carbon::parse($to2)->addDays(1)->format("Y-m-d")]);
         })->when($office_id !=  null || $office_id != "", function ($query5) use ($office_id) {
@@ -685,10 +688,10 @@ class EvaluationController extends Controller
         $mean_chart2 = [];
         $standard_deviation_chart2 = [];
 
-        foreach ($evaluation2->groupBy("client_record.unit_service.unit.office.name") as $office_name => $office) {
-            $plucked_data = $office->pluck("data");
+        foreach ($evaluation2->groupBy("client_record.unit_service.unit.office.name") as $office_name2 => $office2) {
+            $plucked_data2 = $office2->pluck("data");
             $revalued_data = [];
-            foreach ($plucked_data as $key => $set) {
+            foreach ($plucked_data2 as $key => $set) {
                 for ($i = 1; $i < 9; $i++) {
                     $revalued_data[$key][] = $set["e_" . $i];
                 }
@@ -697,49 +700,51 @@ class EvaluationController extends Controller
             $revalued_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    $revalued_data2[$choice][] = array_sum($answer);
+                    $revalued_data2[$choice][] = array_sum(array_filter($answer));
                 }
             }
             foreach ($revalued_data2 as $key => $q) {
-                $counter_zero = 0;
-                foreach ($q as $key3 => $ans) {
-                    if ($ans == 0) {
-                        $counter_zero++;
-                    }
-                }
-                $temp_mean = (count($q) == 1) ? 0 : (array_sum($q) / ($office->count() - $counter_zero));
+                $array_clean = array_filter($q);
+                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
 
-                $sum_q2[$office_name][$key] = $temp_mean;
+                $sum_q2[$office_name2][$key] = $temp_mean;
 
-                $temp_data = [];
-                foreach ($revalued_data as $respondent => $questions) {
-                    foreach ($questions as $choice => $answer) {
-                        $temp_data[$choice][] = pow((array_sum($answer) - $temp_mean), 2);
-                    }
-                }
-                $temp_standard = [];
-                foreach ($temp_data as $key2 => $respondents) {
-                    $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
-                }
-
-                $standard_deviation2[$office_name] = array_sum($temp_standard) / 8;
             }
+
+            $temp_data = [];
+            $temp_data2 = [];
+            foreach ($revalued_data as $respondent => $questions) {
+                foreach ($questions as $choice => $answer) {
+                    $array_clean_standard_diviation = array_filter($answer);
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    if ($array_clean_standard_diviation != []) {
+                        $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q2[$office_name2][$choice]), 2);
+                    }
+                }
+            }
+            $temp_standard = [];
+            foreach ($temp_data as $key2 => $respondents) {
+                $temp_standard[$key2] = (count($respondents) != 1) ? sqrt((array_sum($respondents) / (count($respondents) - 1))) : 0;
+            }
+
+            $standard_deviation2[$office_name2] = array_sum($temp_standard) / 8;
+
         }
-        foreach ($sum_q2 as $key => $office) {
-            $mean_overall = array_sum($office) / count($office);
-            $mean2[$key] = $mean_overall;
-            $adjectival_result2[$key] = (($mean_overall) <= 1.80) ? "Very Poor" : ((($mean_overall) >= 1.81 && ($mean_overall) <= 2.6) ? "Poor" : ((($mean_overall) >= 2.61) && (($mean_overall) <= 3.40) ? "Average" : ((($mean_overall) >= 3.41) && (($mean_overall) <= 4.20) ? "Above Average" : "Excellent")));
+        foreach ($sum_q2 as $key90 => $office2) {
+            $mean_overall2 = array_sum($office2) / count($office2);
+            $mean2[$key90] = $mean_overall2;
+            $adjectival_result2[$key90] = (($mean_overall2) <= 1.80) ? "Very Poor" : ((($mean_overall2) >= 1.81 && ($mean_overall2) <= 2.6) ? "Poor" : ((($mean_overall2) >= 2.61) && (($mean_overall2) <= 3.40) ? "Average" : ((($mean_overall2) >= 3.41) && (($mean_overall2) <= 4.20) ? "Above Average" : "Excellent")));
 
             $mean_chart2[] = array(
-                "name" => $key,
+                "name" => $key90,
                 "data" => array(
-                    $from . " - " . $to => $mean_overall
+                    $from2 . " - " . $to2 => $mean_overall2
                 )
             );
         }
-        foreach ($standard_deviation2 as $office => $data) {
+        foreach ($standard_deviation2 as $office3 => $data) {
             $standard_deviation_chart2[] = array(
-                "name" => $office,
+                "name" => $office3,
                 "data" => array(
                     $from2 . " - " . $to2 => $data
                 )
@@ -759,7 +764,7 @@ class EvaluationController extends Controller
             "from" => $from,
             "from2" => $from2,
             "offices" => $offices,
-            "office" => $office,
+            "office" => $office_selected,
             "units" => $units,
             "to" => $to,
             "to2" => $to2,
