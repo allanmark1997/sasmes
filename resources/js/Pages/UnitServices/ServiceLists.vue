@@ -120,13 +120,13 @@ const date = (date) => {
                         </button>
                     </div>
                     <img class="object-scale-down p-8 rounded-t-lg h-[25vmin] w-[25vmin] mx-auto rounded-lg -mt-6"
-                        :src="service.unit_service.photo" :onerror="`this.src='${default_image}'`"
+                        :src="service.service.photo" :onerror="`this.src='${default_image}'`"
                         alt="Service image" />
                     <div class="px-5 pb-5">
                         <div>
-                            <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ service.unit_service.name
+                            <h5 class="text-md font-semibold tracking-tight text-gray-900">{{ service.service.name
                                 }}</h5>
-                            <small>{{ service.unit_service.abbrevation }}</small>
+                            <small>{{ service.service.abbrevation }}</small>
                         </div>
                         <div>
                             <p class="text-xs p-1 text-center text-white rounded-lg font-bold w-[10vmin] mx-auto"
