@@ -13,7 +13,7 @@ class UnitService extends Model
 
     public function unit_service()
     {
-        return $this->belongsTo(Service::class);
+        return $this->belongsTo(Service::class, "service_id", "id");
     }
 
     public function service()
