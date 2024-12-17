@@ -181,7 +181,7 @@ const function_next = () => {
         //     });
         // }
         // else {
-            question_set.value++
+        question_set.value++
         // }
     }
     else if (question_set.value == 1) {
@@ -207,7 +207,7 @@ const function_next = () => {
         //     });
         // }
         // else {
-            question_set.value++
+        question_set.value++
         // }
     }
     else if (question_set.value == 2) {
@@ -268,7 +268,16 @@ const function_next = () => {
             });
         }
         else {
-            question_set.value++
+            if (form_answers.e_1.c6 == '' && form_answers.e_2.c6 == '' && form_answers.e_3.c6 == '' && form_answers.e_4.c6 == '' && form_answers.e_5.c6 == '' && form_answers.e_6.c6 == '' && form_answers.e_7.c6 == '' && form_answers.e_8.c6 == '') {
+                toast.error("Answering all questions with N/A or empty is invalid, please answer it properly", {
+                    autoClose: 1000,
+                    transition: toast.TRANSITIONS.FLIP,
+                    position: toast.POSITION.TOP_RIGHT,
+                });
+            }
+            else {
+                question_set.value++
+            }
         }
     }
     else if (question_set.value == 3) {
