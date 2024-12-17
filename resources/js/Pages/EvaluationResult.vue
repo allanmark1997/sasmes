@@ -42,19 +42,19 @@ const number_format = (number) => {
 }
 
 const number_format2 = (data) => {
-  const formatter = new Intl.NumberFormat("en-PH", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 20,
-    minimumSignificantDigits: 1,
-    maximumSignificantDigits: 20
-  });
-  let total = formatter.format(data);
-  let split_data = total.split(".")
-  let decimal = String(split_data[1])
-  let slice_decimal = decimal.slice(0, 2)
-  let validate_decimal = slice_decimal == "un" ? String("00") : slice_decimal
-  let final_data = String(split_data[0]) + "." + validate_decimal
-  return final_data;
+    const formatter = new Intl.NumberFormat("en-PH", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 20,
+        minimumSignificantDigits: 1,
+        maximumSignificantDigits: 20
+    });
+    let total = formatter.format(data);
+    let split_data = total.split(".")
+    let decimal = String(split_data[1])
+    let slice_decimal = decimal.slice(0, 2)
+    let validate_decimal = slice_decimal == "un" ? String("00") : slice_decimal
+    let final_data = String(split_data[0]) + "." + validate_decimal
+    return final_data;
 };
 </script>
 
@@ -97,7 +97,8 @@ const number_format2 = (data) => {
                         </button>
                     </div>
                     <div class="mt-7">
-                        <a class="bg-orange-500 hover:bg-orange-400 rounded-lg p-1 mt-3 text-white " :href="route('evaluation_result.comparison')">Comparison Results</a>
+                        <a class="bg-orange-500 hover:bg-orange-400 rounded-lg p-1 mt-3 text-white "
+                            :href="route('evaluation_result.comparison')">Comparison Results</a>
                     </div>
                 </div>
 
@@ -132,7 +133,8 @@ const number_format2 = (data) => {
                                     <li>
                                         <div class="grid grid-cols-2 gap-2">
                                             <div class="col-span-1">{{ key }}</div>
-                                            <div class="col-span-1">= {{ number_format2(mean) }}</div>
+                                            <div class="col-span-1">= {{ mean == 0 ?
+                                                "Not enough samples" : number_format2(mean) }}</div>
                                         </div>
                                     </li>
                                 </template>
@@ -202,7 +204,8 @@ const number_format2 = (data) => {
                                         <li>
                                             <div class="grid grid-cols-2 gap-2">
                                                 <div class="col-span-1">{{ key }}</div>
-                                                <div class="col-span-1">= {{ number_format2(mean.result) }}</div>
+                                                <div class="col-span-1">= {{ mean.result == 0 ?
+                                                "Not enough samples" :number_format2(mean.result) }}</div>
                                             </div>
                                         </li>
                                     </template>

@@ -371,18 +371,15 @@ class EvaluationController extends Controller
             }
             foreach ($revalued_data2 as $key => $q) {
                 $array_clean = array_filter($q);
-                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
-
+                $temp_mean = $array_clean == [] ? 0 : array_sum($array_clean) / (int)count($array_clean);
                 $sum_q[$office_name][$key] = $temp_mean;
-
             }
-
             $temp_data = [];
             $temp_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    $array_clean_standard_diviation = array_filter($answer);
-                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    $array_clean_standard_diviation = $answer;
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1 : 0;
                     if ($array_clean_standard_diviation != []) {
                         $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q[$office_name][$choice]), 2);
                     }
@@ -395,9 +392,9 @@ class EvaluationController extends Controller
 
             $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
             $standard_per_q[$office_name] = $temp_standard;
-
         }
         foreach ($sum_q as $key => $office) {
+            // dd($standard_per_q);
             for ($i = 0; $i < count($office); $i++) {
                 $result_per_question[$questions_label[$i]]["mean_label"][$key]["result"] = $office[$i];
                 $result_per_question[$questions_label[$i]]["mean_label"][$key]["adjectival_result"] = (($office[$i]) <= 1.80) ? "Very Poor" : ((($office[$i]) >= 1.81 && ($office[$i]) <= 2.6) ? "Poor" : ((($office[$i]) >= 2.61) && (($office[$i]) <= 3.40) ? "Average" : ((($office[$i]) >= 3.41) && (($office[$i]) <= 4.20) ? "Above Average" : "Excellent")));
@@ -562,10 +559,9 @@ class EvaluationController extends Controller
             }
             foreach ($revalued_data2 as $key => $q) {
                 $array_clean = array_filter($q);
-                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
+                $temp_mean = $array_clean == [] ? 0 : array_sum($array_clean) / (int)count($array_clean);
 
                 $sum_q[$office_name][$key] = $temp_mean;
-
             }
 
             $temp_data = [];
@@ -573,7 +569,7 @@ class EvaluationController extends Controller
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
                     $array_clean_standard_diviation = array_filter($answer);
-                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1 : 0;
                     if ($array_clean_standard_diviation != []) {
                         $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q[$office_name][$choice]), 2);
                     }
@@ -585,7 +581,6 @@ class EvaluationController extends Controller
             }
 
             $standard_deviation[$office_name] = array_sum($temp_standard) / 8;
-
         }
         foreach ($sum_q as $key => $office) {
 
@@ -705,10 +700,9 @@ class EvaluationController extends Controller
             }
             foreach ($revalued_data2 as $key => $q) {
                 $array_clean = array_filter($q);
-                $temp_mean = array_sum($array_clean) / (int)count($array_clean);
+                $temp_mean = $array_clean == [] ? 0 : array_sum($array_clean) / (int)count($array_clean);
 
                 $sum_q2[$office_name2][$key] = $temp_mean;
-
             }
 
             $temp_data = [];
@@ -716,7 +710,7 @@ class EvaluationController extends Controller
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
                     $array_clean_standard_diviation = array_filter($answer);
-                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1:0;
+                    $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1 : 0;
                     if ($array_clean_standard_diviation != []) {
                         $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q2[$office_name2][$choice]), 2);
                     }
@@ -728,7 +722,6 @@ class EvaluationController extends Controller
             }
 
             $standard_deviation2[$office_name2] = array_sum($temp_standard) / 8;
-
         }
         foreach ($sum_q2 as $key90 => $office2) {
             $mean_overall2 = array_sum($office2) / count($office2);
