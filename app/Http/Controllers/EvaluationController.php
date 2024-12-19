@@ -378,7 +378,7 @@ class EvaluationController extends Controller
             $temp_data2 = [];
             foreach ($revalued_data as $respondent => $questions) {
                 foreach ($questions as $choice => $answer) {
-                    $array_clean_standard_diviation = $answer;
+                    $array_clean_standard_diviation = array_filter($answer);
                     $temp_data2[$choice][] = $array_clean_standard_diviation == [] ? 1 : 0;
                     if ($array_clean_standard_diviation != []) {
                         $temp_data[$choice][] = pow((array_sum($array_clean_standard_diviation) - $sum_q[$office_name][$choice]), 2);
